@@ -2,9 +2,7 @@ package parser
 
 import (
 	"bytes"
-	"encoding/binary"
 	"fmt"
-	"io"
 
 	"github.com/s5i/tcam/enum"
 	"github.com/s5i/tcam/network"
@@ -24,23 +22,17 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 	r := bytes.NewReader(p.Data)
 
 	// Skip opcode (1 byte), channel statement GUID (4 bytes).
-	if _, err := r.Seek(5, io.SeekCurrent); err != nil {
+	if err := skip(r, 5); err != nil {
 		return nil, nil, err
 	}
 
-	var nameLen uint16
-	if err := binary.Read(r, binary.LittleEndian, &nameLen); err != nil {
-		return nil, nil, err
-	}
-
-	name := make([]byte, nameLen)
-	if _, err := io.ReadFull(r, name); err != nil {
-		Logger.Printf("Failed to read name: %v", err)
+	name, err := str(r)
+	if err != nil {
 		return nil, nil, err
 	}
 
 	var mode enum.MessageMode
-	if err := binary.Read(r, binary.LittleEndian, &mode); err != nil {
+	if err := read(r, &mode); err != nil {
 		return nil, nil, err
 	}
 
@@ -55,7 +47,7 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 		enum.MessageModeMessageBarkLoud,
 		enum.MessageModeMessageNpcFromStartBlock:
 		// Position, 5 bytes.
-		if _, err := r.Seek(5, io.SeekCurrent); err != nil {
+		if err := skip(r, 5); err != nil {
 			return nil, nil, err
 		}
 	case
@@ -64,7 +56,7 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 		enum.MessageModeMessageChannelHighlight,
 		enum.MessageModeMessageGamemasterChannel:
 		// Channel ID, 2 bytes.
-		if _, err := r.Seek(2, io.SeekCurrent); err != nil {
+		if err := skip(r, 2); err != nil {
 			return nil, nil, err
 		}
 	case
@@ -77,27 +69,19 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 		return nil, nil, fmt.Errorf("unknown message mode %s", mode)
 	}
 
-	var msgLen uint16
-	if err := binary.Read(r, binary.LittleEndian, &msgLen); err != nil {
-		return nil, nil, err
-	}
-
-	msg := make([]byte, msgLen)
-	if _, err := io.ReadFull(r, msg); err != nil {
-		Logger.Printf("Failed to read message: %v", err)
+	msg, err := str(r)
+	if err != nil {
 		return nil, nil, err
 	}
 
 	ret := &Talk{
-		Name: string(name),
+		Name: name,
 		Mode: mode,
-		Msg:  string(msg),
+		Msg:  msg,
 	}
 
-	cur, _ := r.Seek(0, io.SeekCurrent)
-
 	var next *network.Packet
-	if int(cur) != len(p.Data) {
+	if cur := cur(r); cur != len(p.Data) {
 		next = &network.Packet{
 			Offset: p.Offset,
 			Data:   p.Data[cur:],
