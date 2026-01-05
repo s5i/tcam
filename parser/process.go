@@ -42,6 +42,8 @@ func ParsePackets(ctx context.Context, packetsCh <-chan network.Packet) (<-chan 
 			switch pkt.OpCode() {
 			case enum.OpCodeTalk:
 				ret, pkt, err = parseTalk(pkt)
+			case enum.OpCodeMoveCreature:
+				ret, pkt, err = parseMoveCreature(pkt)
 			default:
 				ret, pkt, err = nil, nil, nil
 			}
