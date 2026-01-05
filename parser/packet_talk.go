@@ -21,8 +21,12 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 
 	r := bytes.NewReader(p.Data)
 
-	// Skip opcode (1 byte), channel statement GUID (4 bytes).
-	if err := skip(r, 5); err != nil {
+	if err := opcode(r); err != nil {
+		return nil, nil, err
+	}
+
+	// Channel statement GUID (4 bytes).
+	if err := skip(r, 4); err != nil {
 		return nil, nil, err
 	}
 
@@ -46,25 +50,29 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 		enum.MessageModeMessageBarkLow,
 		enum.MessageModeMessageBarkLoud,
 		enum.MessageModeMessageNpcFromStartBlock:
-		// Position, 5 bytes.
-		if err := skip(r, 5); err != nil {
+
+		if err := position(r); err != nil {
 			return nil, nil, err
 		}
+
 	case
 		enum.MessageModeMessageChannel,
 		enum.MessageModeMessageChannelManagement,
 		enum.MessageModeMessageChannelHighlight,
 		enum.MessageModeMessageGamemasterChannel:
+
 		// Channel ID, 2 bytes.
 		if err := skip(r, 2); err != nil {
 			return nil, nil, err
 		}
+
 	case
 		enum.MessageModeMessagePrivateFrom,
 		enum.MessageModeMessageGamemasterBroadcast,
 		enum.MessageModeMessageGamemasterPrivateFrom,
 		enum.MessageModeMessageRVRAnswer,
 		enum.MessageModeMessageRVRContinue:
+
 	default:
 		return nil, nil, fmt.Errorf("unknown message mode %s", mode)
 	}

@@ -8,11 +8,11 @@ import (
 	"github.com/s5i/tcam/network"
 )
 
-type MoveCreature struct{}
+type ChangeOnMap struct{}
 
-func parseMoveCreature(p *network.Packet) (*MoveCreature, *network.Packet, error) {
-	if p.OpCode() != enum.OpCodeMoveCreature {
-		return nil, nil, fmt.Errorf("expected op code %s, got %s", enum.OpCodeMoveCreature, p.OpCode())
+func parseChangeOnMap(p *network.Packet) (*ChangeOnMap, *network.Packet, error) {
+	if p.OpCode() != enum.OpCodeChangeOnMap {
+		return nil, nil, fmt.Errorf("expected op code %s, got %s", enum.OpCodeChangeOnMap, p.OpCode())
 	}
 
 	r := bytes.NewReader(p.Data)
@@ -25,11 +25,11 @@ func parseMoveCreature(p *network.Packet) (*MoveCreature, *network.Packet, error
 		return nil, nil, err
 	}
 
-	if err := position(r); err != nil {
+	if err := thing(r); err != nil {
 		return nil, nil, err
 	}
 
-	ret := &MoveCreature{}
+	ret := &ChangeOnMap{}
 
 	var next *network.Packet
 	if cur := cur(r); cur != len(p.Data) {

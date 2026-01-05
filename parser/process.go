@@ -44,8 +44,11 @@ func ParsePackets(ctx context.Context, packetsCh <-chan network.Packet) (<-chan 
 				ret, pkt, err = parseTalk(pkt)
 			case enum.OpCodeMoveCreature:
 				ret, pkt, err = parseMoveCreature(pkt)
+			case enum.OpCodeChangeOnMap:
+				ret, pkt, err = parseChangeOnMap(pkt)
+
 			default:
-				ret, pkt, err = nil, nil, nil
+				ret, pkt, err = pkt.OpCode(), nil, nil
 			}
 
 			if err != nil {
