@@ -3,6 +3,7 @@
 
 !.gitignore
 !Dockerfile
+!example.txt
 !*.go
 !*/
 

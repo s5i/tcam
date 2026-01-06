@@ -1,0 +1,409 @@
+"./tcam" "--dir=./testdata/" "--player=Shy Teddy" "--npcs=Gabel,Fa'hradin,Umar,Melchior,Bo'ques,Rata'mari,Djema" "--output=./example.txt"
+Timestamp: 2026-01-06 21:37:13 CET
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Melchior: Greetings, Shy Teddy. I do not see your face, but I can read a thousand things in your voice!
+Shy Teddy: djanni'hah
+Melchior: You know the traditional djinn word of greeting DJANNI'HAH. Use it wisely!
+Melchior: May the light be with you.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Melchior: Greetings, Shy Teddy. I do not see your face, but I can read a thousand things in your voice!
+Shy Teddy: word of greeting
+Melchior: The djinns have an ancient code of honour. This code includes a special concept of hospitality. Anybody who utters the word of greeting must not be attacked even if he is an enemy. Well, at least that is what the code says. ...
+Melchior: I have found out, though, that this does not work at all times. There is no point to say the word of greeting to an enraged djinn. ...
+Melchior: I can tell you the word of greeting if you're interested. It is DJANNI'HAH. Remember this word well, stranger. It might save your life one day. ...
+Melchior: And keep in mind that you must choose sides in this conflict. You can only follow the Efreet or the Marid - once you have made your choice there is no way back. I know from experience that djinn do not tolerate double-crossing.
+Shy Teddy: bye
+Melchior: Farewell, stranger. May Uman the Wise guide your steps in this treacherous land.
+--------------------------------------------------------------------------------
+Shy Teddy: djanni'hah
+Umar: Whoa? You know the word! Amazing, Shy Teddy! ...
+Umar: I should go and tell Fa'hradin. ...
+Umar: Well. Why are you here anyway, Shy Teddy?
+Shy Teddy: passage
+Umar: If you want to enter our fortress you have to become one of us and fight the Efreet. ...
+Umar: So, are you willing to do so?
+Shy Teddy: yes
+Umar: Are you sure? You pledge loyalty to king Gabel, who is... you know. And you are willing to never ever set foot on Efreets' territory, unless you want to kill them? Yes?
+Shy Teddy: yes
+Umar: Oh. Ok. Welcome then. You may pass. ...
+Umar: And don't forget to kill some Efreets, now and then.
+Shy Teddy: bye
+Umar: <salutes>Aaaa -tention!.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Bo'ques: Hey! A human! What are you doing in my kitchen, Shy Teddy?
+Shy Teddy: mission
+Bo'ques: My collection of recipes is almost complete. There are only but a few that are missing. ...
+Bo'ques: Hmmm... now that we talk about it. There is something you could help me with. Are you interested?
+Shy Teddy: yes
+Bo'ques: Fine! Even though I know so many recipes, I'm looking for the description of some dwarven meals. ...
+Bo'ques: So, if you could bring me a cookbook of the dwarven kitchen I will reward you well.
+Bo'ques: Now, where was I?
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Bo'ques: Hey! A human! What are you doing in my kitchen, Shy Teddy?
+Shy Teddy: cookbook
+Bo'ques: Do you have the cookbook of the dwarven kitchen with you? Can I have it?
+Shy Teddy: yes
+Bo'ques: The book! You have it! Let me see! <browses the book> ...
+Bo'ques: Dragon Egg Omelette, Dwarven beer sauce... it's all there. This is great! Here is your well-deserved reward.
+Shy Teddy: mission
+Bo'ques: I am eternally greatful to you for that book. There is yet one more thing that you could do for me though. Are you interested?
+Shy Teddy: yes
+Bo'ques: There is this girl that I... fancy... I'm doing my utmost cooking the best of meals for her. Unavailing efforts, it would seem. ...
+Bo'ques: She eats but one or two courses, and tells me she's full! But I already have another idea. I thought I could make her the most beautiful of all dresses! ...
+Bo'ques: To do that, however, I need materials of the highest quality! I can already picture it - the most wondrous red-and-blue dress! Bring me something I can work with, and I shall reward you richly!
+Shy Teddy: dress
+Bo'ques: Do you have the materials I asked for?
+Shy Teddy: yes
+Bo'ques: Superb! Exquisite fabrics! So soft, so shiny! And yet so delicate! Excellent job, indeed. Here is your well-deserved reward! ...
+Bo'ques: Incidentally, I have talked to Fa'hradin about you during dinner. I think he might have some work for you. Why don't you talk to him about it?
+Shy Teddy: mission
+Bo'ques: It's going to be the most marvellous gown that has ever been made! I cannot rush it though - excellence requires time and patience. Just like hunter's stew!
+Shy Teddy: bye
+Bo'ques: Goodbye. I am sure you will come back for more. They all do.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Fa'hradin: Aaaah... what have we here. A human - interesting. And such an ugly specimen, too... All right, human Shy Teddy. How can I help you?
+Shy Teddy: mission
+Fa'hradin: I have heard some good things about you from Bo'ques. But I don't know. ...
+Fa'hradin: Well, all right. I do have a job for you. ...
+Fa'hradin: As you might know, the ruins of Ankrahmun were completely abandoned after the war. And for centuries they attracted but few treasure hunters. ...
+Fa'hradin: And even though these accursed ruins caused anomalies and increased undead activity, they were never a subject of such interest to the necromants. Mostly because right after we destroyed their city they fretted to venture that far. ...
+Fa'hradin: The Efreet, on the other hand, have lacked strong leadership and would not dare take any action. Even though the Marid too are not as strong as they used to be. But now, having returned, Malor wants to take advantage of our brief weakness. ...
+Fa'hradin: He renewed the alliance with the necromants and together they've infested the ruins. We must find out to what end! Normally, I would not entrust such an important mission to a human. ...
+Fa'hradin: But I suppose you could dress up as one of them mercenaries who hang out in the oasis camp and get to the ruins undetected. The necromants have been using their services for some time now. ...
+Fa'hradin: We know that this is also of concern to your caliph, who ordered the mountain pass be sealed off. But if you need to visit Darashia for equipment, you can use our back door. ...
+Fa'hradin: Haroun may have something useful for you too, go talk to him. Just try not to bother the djinns on the other floors, they might take you for an intruder! ...
+Fa'hradin: Go, and try to learn what they're after in these damned ruins. Good luck, human!
+Shy Teddy: bye
+Fa'hradin: Farewell, human. I will always remember you. Unless I forget you, of course.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Fa'hradin: Aaaah... what have we here. A human - interesting. And such an ugly specimen, too... All right, human Shy Teddy. How can I help you?
+Shy Teddy: mission
+Fa'hradin: Have you learnt what Malor and those accursed necromants are plotting?
+Shy Teddy: yes
+Fa'hradin: Excellent! Pray tell, what are they doing in the ruins?
+Shy Teddy: excavations
+Fa'hradin: Excavations?! As we suspected. So it is true. Tell me, did they discover anything?
+Shy Teddy: aqueducts
+Fa'hradin: An underground aqueduct?! That is very strange and disconcerting. Have you found out what they're after?
+Shy Teddy: transportation
+Fa'hradin: I'm sorry, I must have misheard that... They're looking for what?
+Shy Teddy: goo
+Fa'hradin: I'm sorry, I must have misheard that... They're looking for what?
+Shy Teddy: structures
+Fa'hradin: I'm sorry, I must have misheard that... They're looking for what?
+Shy Teddy: mysterious structures
+Fa'hradin: I'm sorry, I must have misheard that... They're looking for what?
+Shy Teddy: transportation system for the goo
+Fa'hradin: I'm sorry, I must have misheard that... They're looking for what?
+Shy Teddy: It might have been used as a transportation system for the goo.
+Fa'hradin: I'm sorry, I must have misheard that... They're looking for what?
+Shy Teddy: Should we manage to drain it, we might be able to use this system to finally find a way inside the mysterious structures
+Fa'hradin: Drat! If they really are close to finding the entrance to the antique edifices, then it is indeed worse that I thought ...
+Fa'hradin: Daraman never revealed how he managed to get inside for a reason ...
+Fa'hradin: He believed that the knowledge contained inside should never see the light of day. ...
+Fa'hradin: If that knowledge is truly that powerful, we cannot allow for it to fall in the hands of the efreets! We must find out what they know! ...
+Fa'hradin: I'll be honest - you did better than I expected. Therefore, I might have another mission for you. Interested?
+Shy Teddy: yes
+Fa'hradin: Good! Listen, In order to stay informed about our enemy's doings, we have managed to plant a spy in Mal'ouquah. ...
+Fa'hradin: He has kept the Efreet and Malor under surveillance for quite some time. ...
+Fa'hradin: But unfortunately, I have lost contact with him months ago. ...
+Fa'hradin: I do not fear for his safety because his cover is foolproof, but I cannot contact him either. This is where you come in. ...
+Fa'hradin: I need you to infiltrate Mal'ouqhah, contact our man there and get his latest spyreport. The password is PIEDPIPER. Remember it well! ...
+Fa'hradin: I do not have to add that this is a dangerous mission, do I? If you are discovered expect to be attacked! So good luck, human!
+Fa'hradin: Farewell, human.
+--------------------------------------------------------------------------------
+Shy Teddy: PIEDPIPER
+Rata'mari: Meep? I mean - hello! Sorry, Shy Teddy... Being a rat has kind of grown on me.
+Shy Teddy: spy report
+Rata'mari: You have come for the report? Great! I have been working hard on it during the last months. And nobody came to pick it up. I thought everybody had forgotten about me! ...
+Rata'mari: Do you have any idea how difficult it is to hold a pen when you have claws instead of hands? ...
+Rata'mari: But - you know - now I have worked so hard on this report I somehow don't want to part with it. At least not without some decent payment. ...
+Rata'mari: All right - listen - I know Fa'hradin would not approve of this, but I can't help it. I need some cheese! I need it now! ...
+Rata'mari: And I will not give the report to you until you get me some! Meep!
+Shy Teddy: spy report
+Rata'mari: Ok, have you brought me the cheese, I've asked for?
+Shy Teddy: yes
+Rata'mari: Meep! Meep! Great! Here is the spyreport for you!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Fa'hradin: Aaaah... what have we here. A human - interesting. And such an ugly specimen, too... All right, human Shy Teddy. How can I help you?
+Shy Teddy: mission
+Fa'hradin: Did you already retrieve the spyreport?
+Shy Teddy: yes
+Fa'hradin: You really have made it? You have the report? How come you did not get slaughtered? I must say I'm impressed. Your race will never cease to surprise me. ...
+Fa'hradin: Well, let's see. ...
+Fa'hradin: I think I need to talk to Gabel about this. I am sure he will know what to do. Perhaps you should have a word with him, too.
+Shy Teddy: bye
+Fa'hradin: Farewell, human. I will always remember you. Unless I forget you, of course.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: mission
+Gabel: Sooo. Fa'hradin has told me about your extraordinary exploit, and I must say I am impressed. ...
+Gabel: Your fragile human form belies your courage and your fighting spirit. ...
+Gabel: I hardly dare to ask you because you have already done so much for us, but there is a task to be done, and I cannot think of anybody else who would be better suited to fulfill it than you. ...
+Gabel: Think carefully, human, for this mission will bring you into real danger. Are you prepared?
+Shy Teddy: yes
+Gabel: Rata'mari's report that you managed to obtain revealed news far worse than we expected. ...
+Gabel: One of our brothers, Izar, has been captured by the Efreets and locked in the underground dungeon of Mal'ouquah where he is being tortured by Malor himself. ...
+Gabel: We're lucky though - the report also says that Malor and his most trusted entourage have recently left the stronghold. ...
+Gabel: We have to act quickly. This might be the only chance to free our brother. You succeeded in entering Mal'ouquah once. May I ask of you to do it once again and free Izar?
+Shy Teddy: yes
+Gabel: Great! Go then without delay! We know not when Malor and his entourage will retrun to Mal'ouquah, there's no time to waste!
+Shy Teddy: bye
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: mission
+Gabel: You've been to Mal'ouquah? Where's Izar? What happened to him?
+Shy Teddy: dead
+Gabel: So we are late... Bloody Malor! I'll make sure that he's severly punished for all our suffering! ...
+Gabel: Nonetheless, you deserve many thanks, Shy Teddy. You entered the enemy's strongholed to save a stranger - hardly anyone would undertake such a heroic act, I imagine. ...
+Gabel: Know, that from now on you are considered one of us and are welcome to trade with Nah'bob whenever you want to! ...
+Gabel: Please leave now. I need time to consider our next steps and devise a plan.
+Shy Teddy: bye
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: mission
+Gabel: I'm glad you're here, Shy Teddy. I finally figured out what our next move should be. ...
+Gabel: Thanks to Rata'mari's report we now know that Malor is not in possession of Fa'hradin's lamp which means it is still where he left it. We need that lamp! If we get it back we can imprison him again! ...
+Gabel: From all we know the lamp is still in the Orc King's possession! Therefore I want to ask you to enter the well guarded halls over at Ulderek's Rock and find the lamp. ...
+Gabel: Once you have acquired the lamp you must enter Mal'ouquah again. Sneak into Malor's personal chambers and exchange his sleeping lamp with Fa'hradin's lamp! ...
+Gabel: If you succeed, the war could be over one night later! I and all djinn will be in your debt forever! May Daraman watch over you!
+Shy Teddy: bye
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: mission
+Gabel: Have you succeeded in retrieving Fa'hradin's lamp?
+Shy Teddy: gone
+Gabel: So where's the lamp now?
+Shy Teddy: gone
+Gabel: You mean to tell me that that stupid-as-a-brick orc first freed Malor and then threw away Fa'hradin's lamp? How one can be so stupid is beyond me! ...
+Gabel: Now, we have no way of imprisoning Malor. Moreover, he could be close to entering the ancient edifices. His success may turn out tragic not only for the marids but for the whole of humanity. ...
+Gabel: This means we have no other option but to prepare ourselves for an open fight. Unfortunately, over the years, when the conflict remained frozen due to Malor's absence, our armament has become a little rusty. ...
+Gabel: We need to find a supplier of weapons and melting metal. Go see our friend Kazzan, maybe he'll be able to make a suggestion. ...
+Gabel: For starters, we'll need some samples from the new supplier, so that we can assess the quality of their merchandise. Let's say, 5 giant swords will do.
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: mission
+Gabel: Did you manage to arrange the armament deliveries? Have you got the samples? 5 giant swords, remember?
+Shy Teddy: yes
+Gabel: They look very sturdy. You did a great job yet again. Tell your supplier that we have a deal. I've already tasked Nah'bob with the purchase of large amounts of weaponry. ...
+Gabel: When you bring more, you can go straight to him. In the meantime, accept this lamp as a token of our gratitude for your brokering in this transaction.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Djema: Wow! A human? Here? Hey? Where do you come from, Shy Teddy? Oh, I'm so excited!
+Shy Teddy: mission
+Djema: There is something you could do for me. The suns are so hot in here that I cannot leave this library and go out into the fresh air but for few minutes.My delicate skin goes all red right away and, oh, how it burns! ...
+Djema: I used to apply Ab'Dendriel earth poultices, they helped a great deal. There was this travelling merchant, you know, from whom I used to buy the earth. But he hasn't been to Ashta'daramai in a long time. ...
+Djema: He told me that he procured it somewhere by the marsh in the elven city. Apparently, the earth there has healing properties. That's probably why the elves are so soft and fair of skin! ...
+Djema: If you ever find yourself in Ab'Dendriel, please bring me back some of the local earth in this vial, would you? And don't you lose it! I paid dearly for it! That merchant said it had magical properties that maintain the quality of the earth.
+Shy Teddy: bye
+Djema: Aww - you really have to leave so soon? You must come and visit me again. Please - promise me!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Fa'hradin: Aaaah... what have we here. A human - interesting. And such an ugly specimen, too... All right, human Shy Teddy. How can I help you?
+Shy Teddy: mission
+Fa'hradin: Did you already talk to Gabel about the report? I think he will have further instructions for you.
+Shy Teddy: bye
+Fa'hradin: Farewell, human. I will always remember you. Unless I forget you, of course.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: mission
+Gabel: I don't have new tasks for you at the moment. I need to plan our next moves, and you can proceed with the deliveries for Nah'bob.
+Shy Teddy: bye
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Djema: Wow! A human? Here? Hey? Where do you come from, Shy Teddy? Oh, I'm so excited!
+Shy Teddy: mission
+Djema: Did you manage to acquire some earth from Ab'Dendriel?
+Shy Teddy: yes
+Djema: Delightful! That is exaclty what I needed! I cannot wait to make a poultice out of it and apply it to my poor skin! I used to pay the merchant 600 gold pieces, and I should think you'll be satisfied with the same amount. I surely intend not to overpay!
+Shy Teddy: mission
+Djema: I am truly thankful to you for that soil. Look! My skin's looking so much better already!
+Shy Teddy: bye
+Djema: Aww - you really have to leave so soon? You must come and visit me again. Please - promise me!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: mission
+Gabel: It's good to see you, Shy Teddy. Bad news, I'm afraid. We've just learnt that the efreets and the necromancers are making progress with their discoveries. ...
+Gabel: It's difficult to say really, since we don't know how to get inside these structures. The greater the risk that they will figure it out any moment  now. ...
+Gabel: Daraman never told me what he'd learnt. I do believe though that he had a good reason to keep it secret. ...
+Gabel: The only thing he left me is a sealed message that I was to open only in case of the most serious emergency. I believe this is now. ...
+Gabel: I've spent the last few days and nights trying to decipher that message, but this seems to be beyond my depth. And it is probably our last resort. ...
+Gabel: That is why I will pass that message on to you. Although you are a mere human, you've proven yourself time and again, shown exceptional cunning, and helped us a great deal - as far as we're concerned, you're one of us. ...
+Gabel: Besides, the only one who ever  succeeded in finding a way into the mysterious structures was likewise a human. So, the message goes as follows: ...
+Gabel: 'When you gaze into infinity, look back, and a dead branch will show you the way. Among great boulders you can rest, you're halfway through. Sometimes little by little drops wear away a stone, but so can you.' That is all. ...
+Gabel: I truly hope that you'll be more successful with it.
+Shy Teddy: mission
+Gabel: You want me to pass Daraman's message on to you?
+Shy Teddy: yes
+Gabel: 'When you gaze into infinity, look back, and a dead branch will show you the way. Among great boulders you can rest, you're halfway through. Sometimes little by little drops wear away a stone, but so can you.' That's all. ...
+Shy Teddy: bye
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Bo'ques: Hey! A human! What are you doing in my kitchen, Shy Teddy?
+Shy Teddy: mission
+Bo'ques: It's going to be the most marvellous gown that has ever been made! I cannot rush it though - excellence requires time and patience. Just like hunter's stew!
+Shy Teddy: bye
+Bo'ques: Goodbye. I am sure you will come back for more. They all do.
+--------------------------------------------------------------------------------
+Shy Teddy: djanni'hah
+Umar: Shy Teddy! How's it going these days?
+Shy Teddy: bye
+Umar: <salutes>Aaaa -tention!.
+Shy Teddy: hi
+Umar: Shy Teddy! How's it going these days?
+Shy Teddy: bye
+Umar: <salutes>Aaaa -tention!.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: mission
+Gabel: You probably want me to repeat Daraman's message, do you? Or maybe you've found the entrance?
+Shy Teddy: entrance
+Gabel: It seems you pondered on that riddle for a little too long and you've lost touch with reality.
+Shy Teddy: daraman hideout
+Gabel: Hmm... So you have found Daraman's hideout? I hoped for more, but apparently Daraman saw some purpose in directing us to his hideout. Let's keep looking. I do believe we're not done yet!
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: daraman
+Gabel: Daraman may have been just a human, but he bore in him the spark of the divine. We have paid a heavy price for following his teachings, but I have never felt any regret for my decision.
+Shy Teddy: scarab amulet
+Gabel: The scarabs are ancient beings, as ancient as ourselves. We djinns feel a lot of respect for them.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Djema: Wow! A human? Here? Hey? Where do you come from, Shy Teddy? Oh, I'm so excited!
+Shy Teddy: mission
+Djema: I am truly thankful to you for that soil. Look! My skin's looking so much better already!
+Shy Teddy: scarab amulet
+Djema: Ah, those nasty critters. They give me the creeps!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Bo'ques: Hey! A human! What are you doing in my kitchen, Shy Teddy?
+Shy Teddy: mission
+Bo'ques: It's going to be the most marvellous gown that has ever been made! I cannot rush it though - excellence requires time and patience. Just like hunter's stew!
+Shy Teddy: bye
+Bo'ques: Goodbye. I am sure you will come back for more. They all do.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Fa'hradin: Aaaah... what have we here. A human - interesting. And such an ugly specimen, too... All right, human Shy Teddy. How can I help you?
+Shy Teddy: mission
+Fa'hradin: Did you already talk to Gabel about the report? I think he will have further instructions for you.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Djema: Wow! A human? Here? Hey? Where do you come from, Shy Teddy? Oh, I'm so excited!
+Shy Teddy: mission
+Djema: I am truly thankful to you for that soil. Look! My skin's looking so much better already!
+Djema: Please don't go!
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: mission
+Gabel: You've made much progress with the search. I am certain that you're yet to deliver us some good news. Just don't forget the armament delivery.
+Shy Teddy: daraman hideout
+Gabel: Daraman may have been just a human, but he bore in him the spark of the divine. We have paid a heavy price for following his teachings, but I have never felt any regret for my decision.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: secret message
+Gabel: You want me to pass Daraman's message on to you?
+Shy Teddy: daraman
+Gabel: Daraman may have been just a human, but he bore in him the spark of the divine. We have paid a heavy price for following his teachings, but I have never felt any regret for my decision.
+Shy Teddy: daraman
+Gabel: Daraman may have been just a human, but he bore in him the spark of the divine. We have paid a heavy price for following his teachings, but I have never felt any regret for my decision.
+Shy Teddy: secret message
+Gabel: You want me to pass Daraman's message on to you?
+Shy Teddy: yes
+Gabel: 'When you gaze into infinity, look back, and a dead branch will show you the way. Among great boulders you can rest, you're halfway through. Sometimes little by little drops wear away a stone, but so can you.' That's all. ...
+Gabel: I surmise these are hints on finding the location of the entrance to the ancient structures. But I cannot unravel this.
+Shy Teddy: If the reports are true those events were of an unknown magic. It may turn out to be what we are seeking.
+Gabel: Did you manage to find the entrance to the ancient structures?
+Shy Teddy: yes
+Gabel: Great! Where is it? Tell me the location!
+Shy Teddy: ankrahmun
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: bye
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+Gabel: Welcome, human Padalecc, to our humble abode.
+Gabel: Hmm... So you have found Daraman's hideout? I hoped for more, but apparently Daraman saw some purpose in directing us to his hideout. Let's keep looking. I do believe we're not done yet!
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: report
+Gabel: Did you manage to find the entrance to the ancient structures?
+Shy Teddy: yes
+Gabel: Great! Where is it? Tell me the location!
+Shy Teddy: tower
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: under a stone in the desert
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: report
+Gabel: Did you manage to find the entrance to the ancient structures?
+Shy Teddy: yes
+Gabel: Great! Where is it? Tell me the location!
+Shy Teddy: the centre beneath the palace
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: After the initial analysis of the force around the ancient structures, I decided to use a sensing wand to see how it correlates. My hunch turned out right. I think I localized the centre beneath the palace. The wand nearly stuck to a wall in the basament.
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: A very narrow passage behind it led me to a previously undiscovered room.
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: narrow passage behind the wall
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: narrow passage behind the wall beneath the palace
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: After the initial analysis of the force around the ancient structures, I decided to use a sensing wand to see how it correlates. My hunch turned out right. I think I localized the centre beneath the palace. The wand nearly stuck to a wall in the basament.
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: Nevertheless, it's not the magic we know. For safety reasons I decided to use conventional methods rather than spells to break through the wall. A very narrow passage behind it led me to a previously undiscovered room.
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: Probably built by those, or that, which had also built the other strange structures around. The room has a portal that emits powerful energy, although it seems to be inactive. If this could be the door to the magic web, it might come in very handy.
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: I tried to apply the completed Honemina's formula but it doesn't seem accurate. We're either still missing a thing or that portal isn't connected to the web. Could there be another separate magic web? This could completly change all our previous cognizanc
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: Or is it a portal at all? I don't know yet since so far I've been unable to activate it. I have yet a few things to try, it can be dangerous but the research may prove groundbreaking.
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: The clock behaves weirdly. When I'm watching - its hands move forward, but when I look away... I could swear they move backwards. The sand in the hourglass stopped flowing. I keep turning it upside down and nohting happens. Maybe I'm forgetting how to use
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: For a moment there I thought I made it but then something happened. I had a dream of falling down a hole to a complete emptiness, only hearing voices from all around. I don't know for how long I slept. I could swear it was a short while but when I woke up
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: report
+Gabel: Did you manage to find the entrance to the ancient structures?
+Shy Teddy: yes
+Gabel: Great! Where is it? Tell me the location!
+Shy Teddy: beneath ankrahmun palace, there's a narrow passage behind the wall
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Shy Teddy: bye
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!
+Shy Teddy: hi
+Gabel: Welcome, human Shy Teddy, to our humble abode.
+Shy Teddy: report
+Gabel: Did you manage to find the entrance to the ancient structures?
+Shy Teddy: yes
+Gabel: Great! Where is it? Tell me the location!
+Shy Teddy: beneath ankrahmun palace, there's a narrow passage behind the wall, you need to use a portable hole
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+Gabel: Farewell, stranger. May Uman open your minds and your hearts to Daraman's wisdom!

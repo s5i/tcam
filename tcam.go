@@ -22,12 +22,16 @@ import (
 
 var (
 	inputDir = flag.String("dir", ".", "Directory to process.")
-	loggers  = flag.String("loggers", "", "Comma-separated list of loggers to enable (main, loader, parser).")
-	tibiaDat = flag.String("dat", "", "Path to Tibia.dat.")
+	loggers  = flag.String("loggers", "", "Comma-separated list of loggers to enable (main, loader, parser, msg, nooutput).")
+	// tibiaDat = flag.String("dat", "", "Path to Tibia.dat.")
+	output = flag.String("output", "", "Output file.")
+	player = flag.String("player", "", "Player name.")
+	npcs   = flag.String("npcs", "", "Comma-separated list of NPCs to process.")
 )
 
 var Logger = log.New(io.Discard, "[MAIN] ", 0)
 var MsgLogger = log.New(io.Discard, "[MSG] ", 0)
+var OutputLogger = log.New(os.Stdout, "", 0)
 
 func main() {
 	ctx := context.Background()
@@ -47,32 +51,64 @@ func main() {
 			gamedata.Logger.SetOutput(os.Stderr)
 		case "msg":
 			MsgLogger.SetOutput(os.Stderr)
+		case "nooutput":
+			OutputLogger.SetOutput(io.Discard)
 		default:
 			fmt.Fprintf(os.Stderr, "Unknown logger: %q\n", l)
 			os.Exit(1)
 		}
 	}
 
-	f, err := os.Open(*tibiaDat)
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to open Tibia.dat: %v\n", err)
-		os.Exit(1)
-	}
-	defer f.Close()
+	// f, err := os.Open(*tibiaDat)
+	// if err != nil {
+	// 	fmt.Fprintf(os.Stderr, "Failed to open Tibia.dat: %v\n", err)
+	// 	os.Exit(1)
+	// }
+	// defer f.Close()
 
-	if err := gamedata.ReadFile(ctx, *tibiaDat); err != nil {
-		fmt.Fprintf(os.Stderr, "Failed to load %q: %v\n", *tibiaDat, err)
-		os.Exit(1)
+	// if err := gamedata.ReadFile(ctx, *tibiaDat); err != nil {
+	// 	fmt.Fprintf(os.Stderr, "Failed to load %q: %v\n", *tibiaDat, err)
+	// 	os.Exit(1)
+	// }
+
+	if *output != "" {
+		f, err := os.Create(*output)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "Failed to create %q: %v\n", *output, err)
+			os.Exit(1)
+		}
+		defer f.Close()
+
+		OutputLogger.SetOutput(f)
+		var args []string
+		for _, arg := range os.Args {
+			args = append(args, fmt.Sprintf("%q", arg))
+		}
+		OutputLogger.Printf("%s", strings.Join(args, " "))
+		OutputLogger.Printf("Timestamp: %s", time.Now().Format("2006-01-02 15:04:05 MST"))
 	}
 
-	if err := processDir(ctx, *inputDir); err != nil {
+	if err := processDir(ctx, *inputDir, *player, *npcs); err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
 }
 
-func processDir(ctx context.Context, dirPath string) error {
+func processDir(ctx context.Context, dirPath string, player string, npcs string) error {
+	npc := map[string]bool{}
+	for n := range strings.SplitSeq(npcs, ",") {
+		if n != "" {
+			npc[strings.ToLower(n)] = true
+		}
+	}
+	player = strings.ToLower(player)
+
+	dialogueCamSep := true
+	var lastDialogueOffset time.Duration
+	var lastDialogueNPC string
 	return filepath.WalkDir(dirPath, func(path string, d fs.DirEntry, err error) error {
+		defer func() { dialogueCamSep = true; lastDialogueOffset = 0 }()
+
 		t := time.Now()
 		if err != nil {
 			return err
@@ -122,6 +158,7 @@ func processDir(ctx context.Context, dirPath string) error {
 		})
 
 		eg.Go(func() error {
+			var playerMsg string
 			for {
 				select {
 				case <-ctx.Done():
@@ -141,6 +178,33 @@ func processDir(ctx context.Context, dirPath string) error {
 					case *parser.Talk:
 						if x.Mode == enum.MessageModeMessageSay {
 							MsgLogger.Printf("[%10v] %s %s: %s", x.TimeOffset.Truncate(time.Second), x.Offset(), x.Name, x.Msg)
+
+							n := strings.ToLower(x.Name)
+
+							dialogueOffsetSep := x.TimeOffset-lastDialogueOffset > 5*time.Minute
+							dialogueNPCSep := lastDialogueNPC != n
+
+							if npc[n] {
+								// OutputLogger.Printf("Last dialogue NPC: %q, n: %q", lastDialogueNPC, n)
+								if dialogueCamSep || dialogueOffsetSep || dialogueNPCSep {
+									OutputLogger.Printf("--------------------------------------------------------------------------------")
+									dialogueCamSep = false
+								}
+
+								lastDialogueOffset = x.TimeOffset
+								lastDialogueNPC = n
+
+								if playerMsg != "" {
+									OutputLogger.Printf("%s", playerMsg)
+									playerMsg = ""
+								}
+
+								OutputLogger.Printf("%s: %s", x.Name, x.Msg)
+							}
+
+							if n == player {
+								playerMsg = fmt.Sprintf("%s: %s", x.Name, x.Msg)
+							}
 						}
 					}
 				}

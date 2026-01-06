@@ -11,7 +11,7 @@ import (
 )
 
 var (
-	naiveTalkSearch = flag.Bool("naive_talk_search", false, "Whether to perform a naive talk search in unparsed packets trailings.")
+	naiveTalkSearch = flag.Bool("naive_talk_search", true, "Whether to perform a naive talk search in unparsed packets trailings.")
 )
 
 type UnhandledPacket struct {
