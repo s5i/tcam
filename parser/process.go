@@ -71,7 +71,7 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 			// case enum.OpCodeChangeOnMap:
 			// 	ret, pkt, err = parseChangeOnMap(pkt)
 			// case enum.OpCodeMapLeftRow:
-			// ret, pkt, err = parseMapLeftRow(pkt)
+			// 	ret, pkt, err = parseMapLeftRow(pkt)
 			default:
 				if *naiveTalkSearch {
 					for {

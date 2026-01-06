@@ -201,8 +201,43 @@ func item(r *bytes.Reader, t enum.Item) error {
 	return nil
 }
 
+func mapDescription(r *bytes.Reader) error {
+	var x uint16
+	for {
+		cur := cur(r)
+		if func() error {
+			for stackPos := 0; stackPos < 256; stackPos++ {
+				if err := read(r, &x); err != nil {
+					return err
+				}
+
+				if x >= 0xff00 {
+					return nil
+				}
+
+				if err := skip(r, -2); err != nil {
+					return err
+				}
+
+				if err := thing(r); err != nil {
+					return err
+				}
+			}
+			return nil
+		}() != nil {
+			if _, err := r.Seek(int64(cur), io.SeekStart); err != nil {
+				return err
+			}
+			return nil
+		}
+	}
+}
+
 var itemSkipOverrides = map[enum.Item]bool{
 	1644: false,
+	2524: true,
+	2874: true,
+	2882: true,
 	2887: true,
 	2888: true,
 	3031: true,
