@@ -44,8 +44,6 @@ func ReadFile(ctx context.Context, path string) (<-chan *network.Packet, <-chan 
 		}
 
 		for {
-			cur, _ := f.Seek(0, io.SeekCurrent)
-
 			var ticks uint64
 			if err := binary.Read(f, binary.LittleEndian, &ticks); err != nil {
 				return err
@@ -55,6 +53,8 @@ func ReadFile(ctx context.Context, path string) (<-chan *network.Packet, <-chan 
 			if err := binary.Read(f, binary.LittleEndian, &pktLen); err != nil {
 				return err
 			}
+
+			cur, _ := f.Seek(0, io.SeekCurrent)
 
 			packetData := make([]byte, pktLen)
 			if _, err := io.ReadFull(f, packetData); err != nil {

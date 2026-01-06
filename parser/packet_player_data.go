@@ -23,7 +23,6 @@ func parsePlayerData(p *network.Packet) (*PlayerData, *network.Packet, error) {
 
 	// Health (2 bytes), max health (2 bytes), free cap (2 bytes), exp (4 bytes), level (2 bytes), level percent (1 byte), mana (2 bytes), max mana (2 bytes).
 	// Mlvl (1 byte), mlvl pct (1 byte), soul (1 byte),
-
 	if err := skip(r, 20); err != nil {
 		return nil, nil, err
 	}

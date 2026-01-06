@@ -37,5 +37,5 @@ func (p *Packet) Next(offset int) *Packet {
 
 func (p Packet) String() string {
 	pos := p.GlobalOffset + p.LocalOffset
-	return fmt.Sprintf("[%8x+%x] - %s - %s - %v", pos/16, pos%16, p.TimeOffset.Truncate(time.Second), p.OpCode(), p.Data)
+	return fmt.Sprintf("[%8x +%2d] - %s - %s - %03d", pos-pos%16, pos%16, p.TimeOffset.Truncate(time.Second), p.OpCode(), p.Data)
 }

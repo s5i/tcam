@@ -14,7 +14,7 @@ type Talk struct {
 	Msg  string
 }
 
-func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
+func parseTalk(p *network.Packet, checkIntegrity bool) (*Talk, *network.Packet, error) {
 	if p.OpCode() != enum.OpCodeTalk {
 		return nil, nil, fmt.Errorf("expected op code %s, got %s", enum.OpCodeTalk, p.OpCode())
 	}
@@ -33,6 +33,14 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 	name, err := str(r)
 	if err != nil {
 		return nil, nil, err
+	}
+
+	if checkIntegrity {
+		for _, c := range []byte(name) {
+			if c < 32 || c > 126 {
+				return nil, nil, fmt.Errorf("invalid name %q", name)
+			}
+		}
 	}
 
 	var mode enum.MessageMode
@@ -71,16 +79,26 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 		enum.MessageModeMessageGamemasterBroadcast,
 		enum.MessageModeMessageGamemasterPrivateFrom,
 		enum.MessageModeMessageRVRAnswer,
-		enum.MessageModeMessageRVRContinue:
+		enum.MessageModeMessageRVRContinue,
+		enum.MessageMode14: // ??
 
 	default:
-		// WTF is message mode 14?
-		// return nil, nil, fmt.Errorf("unknown message mode %s", mode)
+		if checkIntegrity {
+			return nil, nil, fmt.Errorf("unknown message mode %s", mode)
+		}
 	}
 
 	msg, err := str(r)
 	if err != nil {
 		return nil, nil, err
+	}
+
+	if checkIntegrity {
+		for _, c := range []byte(msg) {
+			if c < 32 || c > 126 {
+				return nil, nil, fmt.Errorf("invalid message %q", msg)
+			}
+		}
 	}
 
 	ret := &Talk{

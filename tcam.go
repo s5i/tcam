@@ -10,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/s5i/tcam/enum"
 	"github.com/s5i/tcam/gamedata"
@@ -69,8 +70,8 @@ func main() {
 
 func processDir(ctx context.Context, dirPath string) error {
 	return filepath.WalkDir(dirPath, func(path string, d fs.DirEntry, err error) error {
+		t := time.Now()
 		if err != nil {
-			Logger.Printf("Skipping %q due to an error: %v", path, err)
 			return err
 		}
 
@@ -79,11 +80,12 @@ func processDir(ctx context.Context, dirPath string) error {
 		}
 
 		if strings.ToLower(filepath.Ext(path)) != ".cam" {
-			Logger.Printf("Skipping %q: non-cam file", path)
 			return nil
 		}
 
-		Logger.Printf("Processing: %s", path)
+		defer func() {
+			Logger.Printf("Processed %q in %s", path, time.Since(t))
+		}()
 
 		eg, ctx := errgroup.WithContext(ctx)
 
@@ -132,10 +134,10 @@ func processDir(ctx context.Context, dirPath string) error {
 
 					switch x := x.(type) {
 					case enum.OpCode:
-						Logger.Printf("%s", x)
+						Logger.Printf("[OPCODE] %s", x)
 					case *parser.Talk:
 						if x.Mode == enum.MessageModeMessageSay {
-							Logger.Printf("%s: %s", x.Name, x.Msg)
+							Logger.Printf("[MSG] %s: %s", x.Name, x.Msg)
 						}
 					}
 				}

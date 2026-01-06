@@ -25,6 +25,7 @@ const (
 	MessageModeMessageGamemasterChannel     MessageMode = 10
 	MessageModeMessageGamemasterPrivateFrom MessageMode = 11
 	MessageModeMessageChannelHighlight      MessageMode = 12
+	MessageMode14                           MessageMode = 14 // To be checked.
 	MessageModeMessageMonsterSay            MessageMode = 16
 	MessageModeMessageMonsterYell           MessageMode = 17
 	MessageModeMessageWarning               MessageMode = 18
@@ -71,6 +72,7 @@ var messageModeMap = map[MessageMode]string{
 	MessageModeMessageGamemasterChannel:     "MessageGamemasterChannel",
 	MessageModeMessageGamemasterPrivateFrom: "MessageGamemasterPrivateFrom",
 	MessageModeMessageChannelHighlight:      "MessageChannelHighlight",
+	MessageMode14:                           "Weird-14",
 	MessageModeMessageMonsterSay:            "MessageMonsterSay",
 	MessageModeMessageMonsterYell:           "MessageMonsterYell",
 	MessageModeMessageWarning:               "MessageWarning",
