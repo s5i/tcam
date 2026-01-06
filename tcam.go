@@ -136,8 +136,8 @@ func processDir(ctx context.Context, dirPath string) error {
 					}
 
 					switch x := x.(type) {
-					case enum.OpCode:
-						Logger.Printf("unhandled opcode: %s", x)
+					case *parser.UnhandledPacket:
+						Logger.Printf("unhandled packet: %s", x.Packet)
 					case *parser.Talk:
 						if x.Mode == enum.MessageModeMessageSay {
 							MsgLogger.Printf("[%10v] %s %s: %s", x.TimeOffset.Truncate(time.Second), x.Offset(), x.Name, x.Msg)

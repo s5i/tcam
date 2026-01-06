@@ -14,6 +14,11 @@ var (
 	naiveTalkSearch = flag.Bool("naive_talk_search", false, "Whether to perform a naive talk search in unparsed packets trailings.")
 )
 
+type UnhandledPacket struct {
+	OpCode enum.OpCode
+	Packet *network.Packet
+}
+
 func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan any, <-chan error) {
 	retCh := make(chan any)
 	errCh := make(chan error, 1)
@@ -88,7 +93,6 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 							continue
 						}
 
-						nRet.Name = "[NAIVE] " + nRet.Name
 						ret, pkt, err = nRet, nPkt, nErr
 						break
 					}
@@ -100,7 +104,7 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 					}
 				}
 
-				ret, pkt, err = pkt.OpCode(), nil, nil
+				ret, pkt, err = &UnhandledPacket{OpCode: pkt.OpCode(), Packet: pkt}, nil, nil
 			}
 
 			if pkt != nil && strings.HasPrefix(pkt.OpCode().String(), "Unknown") {
