@@ -85,10 +85,10 @@ func thing(r *bytes.Reader) error {
 	case enum.ItemInvalid:
 		return fmt.Errorf("invalid item id: %s", enum.ItemInvalid)
 	case enum.ItemUnknownCreature, enum.ItemOutdatedCreature, enum.ItemCreature:
-		Logger.Printf("\t\thasCreature = true")
+		// Logger.Printf("\t\thasCreature = true")
 		return creature(r, id)
 	default:
-		Logger.Printf("\t\thasItem = true")
+		// Logger.Printf("\t\thasItem = true")
 		return item(r, id)
 	}
 }
@@ -181,11 +181,11 @@ func item(r *bytes.Reader, t enum.Item) error {
 	}
 
 	attr := gamedata.Attrs[gamedata.DATKey{Category: enum.DatCategoryItem, ID: int(t)}]
-	Logger.Printf("\t\t%d: %v", t, attr.Present)
+	// Logger.Printf("\t\t%d: %v", t, attr.Present)
 
 	if forcedSkip, ok := itemSkipOverrides[t]; ok {
 		if forcedSkip {
-			Logger.Printf("\tForce skipping for %d", t)
+			// Logger.Printf("\tForce skipping for %d", t)
 			return skip(r, 1)
 		}
 		return nil
@@ -198,7 +198,7 @@ func item(r *bytes.Reader, t enum.Item) error {
 		attr.Present[enum.DatAttributeFluidContainer],
 		attr.Present[enum.DatAttributeSplash]:
 
-		Logger.Printf("\tSkipping for %d", t)
+		// Logger.Printf("\tSkipping for %d", t)
 		if err := skip(r, 1); err != nil {
 			return err
 		}

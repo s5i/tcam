@@ -131,6 +131,8 @@ func processDir(ctx context.Context, dirPath string) error {
 					}
 
 					switch x := x.(type) {
+					case enum.OpCode:
+						Logger.Printf("%s", x)
 					case *parser.Talk:
 						if x.Mode == enum.MessageModeMessageSay {
 							Logger.Printf("%s: %s", x.Name, x.Msg)

@@ -48,13 +48,14 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 				ret, pkt, err = parseMoveCreature(pkt)
 			case enum.OpCodeChangeOnMap:
 				ret, pkt, err = parseChangeOnMap(pkt)
-				if pkt != nil {
-					if strings.HasPrefix(pkt.OpCode().String(), "Unknown") {
-						Logger.Printf("BAD PACKET - %v", oldPkt)
-					}
-				}
+			case enum.OpCodePlayerData:
+				ret, pkt, err = parsePlayerData(pkt)
 			default:
 				ret, pkt, err = pkt.OpCode(), nil, nil
+			}
+
+			if pkt != nil && strings.HasPrefix(pkt.OpCode().String(), "Unknown") {
+				Logger.Printf("BAD PACKET - %v", oldPkt)
 			}
 
 			if err != nil {
