@@ -5,6 +5,7 @@
 !Dockerfile
 !example.txt
 !*.go
+!*.yaml
 !*/
 
 !/go.sum

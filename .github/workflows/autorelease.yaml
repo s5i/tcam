@@ -1,0 +1,60 @@
+name: Autorelease
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Go
+        uses: actions/setup-go@v6.1.0
+        with:
+          check-latest: true
+          go-version: 'go1.25.3'
+          cache: false
+
+      - name: Fetch dependencies
+        run: go get -u github.com/s5i/tcam
+
+      - name: Fetch Gox
+        run: go install github.com/mitchellh/gox@latest
+
+      - name: Build
+        run: gox -osarch="linux/amd64 windows/amd64" -verbose ./...
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset (windows/amd64)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./tcam_windows_amd64.exe
+          asset_name: tcam_windows_amd64.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Release Asset (eu4autosave_linux_amd64)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./tcam_linux_amd64
+          asset_name: tcam_linux_amd64
+          asset_content_type: application/octet-stream

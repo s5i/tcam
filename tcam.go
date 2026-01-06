@@ -23,15 +23,10 @@ import (
 var (
 	inputDir = flag.String("dir", ".", "Directory to process.")
 	loggers  = flag.String("loggers", "", "Comma-separated list of loggers to enable (main, loader, parser, msg, nooutput).")
-	// tibiaDat = flag.String("dat", "", "Path to Tibia.dat.")
-	output = flag.String("output", "", "Output file.")
-	player = flag.String("player", "", "Player name.")
-	npcs   = flag.String("npcs", "", "Comma-separated list of NPCs to process.")
+	output   = flag.String("output", "", "Output file.")
+	player   = flag.String("player", "", "Player name.")
+	npcs     = flag.String("npcs", "", "Comma-separated list of NPCs to process.")
 )
-
-var Logger = log.New(io.Discard, "[MAIN] ", 0)
-var MsgLogger = log.New(io.Discard, "[MSG] ", 0)
-var OutputLogger = log.New(os.Stdout, "", 0)
 
 func main() {
 	ctx := context.Background()
@@ -59,13 +54,7 @@ func main() {
 		}
 	}
 
-	// f, err := os.Open(*tibiaDat)
-	// if err != nil {
-	// 	fmt.Fprintf(os.Stderr, "Failed to open Tibia.dat: %v\n", err)
-	// 	os.Exit(1)
-	// }
-	// defer f.Close()
-
+	// TODO(s5i): restore this once fixed.
 	// if err := gamedata.ReadFile(ctx, *tibiaDat); err != nil {
 	// 	fmt.Fprintf(os.Stderr, "Failed to load %q: %v\n", *tibiaDat, err)
 	// 	os.Exit(1)
@@ -176,36 +165,38 @@ func processDir(ctx context.Context, dirPath string, player string, npcs string)
 					case *parser.UnhandledPacket:
 						Logger.Printf("unhandled packet: %s", x.Packet)
 					case *parser.Talk:
-						if x.Mode == enum.MessageModeMessageSay {
-							MsgLogger.Printf("[%10v] %s %s: %s", x.TimeOffset.Truncate(time.Second), x.Offset(), x.Name, x.Msg)
-
-							n := strings.ToLower(x.Name)
-
-							dialogueOffsetSep := x.TimeOffset-lastDialogueOffset > 5*time.Minute
-							dialogueNPCSep := lastDialogueNPC != n
-
-							if npc[n] {
-								// OutputLogger.Printf("Last dialogue NPC: %q, n: %q", lastDialogueNPC, n)
-								if dialogueCamSep || dialogueOffsetSep || dialogueNPCSep {
-									OutputLogger.Printf("--------------------------------------------------------------------------------")
-									dialogueCamSep = false
-								}
-
-								lastDialogueOffset = x.TimeOffset
-								lastDialogueNPC = n
-
-								if playerMsg != "" {
-									OutputLogger.Printf("%s", playerMsg)
-									playerMsg = ""
-								}
-
-								OutputLogger.Printf("%s: %s", x.Name, x.Msg)
-							}
-
-							if n == player {
-								playerMsg = fmt.Sprintf("%s: %s", x.Name, x.Msg)
-							}
+						if x.Mode != enum.MessageModeMessageSay {
+							continue
 						}
+
+						MsgLogger.Printf("[%10v] %s %s: %s", x.TimeOffset.Truncate(time.Second), x.Offset(), x.Name, x.Msg)
+
+						n := strings.ToLower(x.Name)
+
+						dialogueOffsetSep := x.TimeOffset-lastDialogueOffset > 5*time.Minute
+						dialogueNPCSep := lastDialogueNPC != n
+
+						if npc[n] {
+							if dialogueCamSep || dialogueOffsetSep || dialogueNPCSep {
+								OutputLogger.Printf("--------------------------------------------------------------------------------")
+								dialogueCamSep = false
+							}
+
+							lastDialogueOffset = x.TimeOffset
+							lastDialogueNPC = n
+
+							if playerMsg != "" {
+								OutputLogger.Printf("%s", playerMsg)
+								playerMsg = ""
+							}
+
+							OutputLogger.Printf("%s: %s", x.Name, x.Msg)
+						}
+
+						if n == player {
+							playerMsg = fmt.Sprintf("%s: %s", x.Name, x.Msg)
+						}
+
 					}
 				}
 			}
@@ -218,3 +209,7 @@ func processDir(ctx context.Context, dirPath string, player string, npcs string)
 		return nil
 	})
 }
+
+var Logger = log.New(io.Discard, "[MAIN] ", 0)
+var MsgLogger = log.New(io.Discard, "[MSG] ", 0)
+var OutputLogger = log.New(os.Stdout, "", 0)
