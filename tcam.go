@@ -27,6 +27,7 @@ var (
 )
 
 var Logger = log.New(io.Discard, "[MAIN] ", 0)
+var MsgLogger = log.New(io.Discard, "[MSG] ", 0)
 
 func main() {
 	ctx := context.Background()
@@ -44,6 +45,8 @@ func main() {
 			parser.Logger.SetOutput(os.Stderr)
 		case "gamedata":
 			gamedata.Logger.SetOutput(os.Stderr)
+		case "msg":
+			MsgLogger.SetOutput(os.Stderr)
 		default:
 			fmt.Fprintf(os.Stderr, "Unknown logger: %q\n", l)
 			os.Exit(1)
@@ -63,7 +66,7 @@ func main() {
 	}
 
 	if err := processDir(ctx, *inputDir); err != nil {
-		fmt.Fprintf(os.Stderr, "Error processing directory: %v\n", err)
+		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
 	}
 }
@@ -134,10 +137,10 @@ func processDir(ctx context.Context, dirPath string) error {
 
 					switch x := x.(type) {
 					case enum.OpCode:
-						Logger.Printf("[OPCODE] %s", x)
+						Logger.Printf("unhandled opcode: %s", x)
 					case *parser.Talk:
 						if x.Mode == enum.MessageModeMessageSay {
-							Logger.Printf("[MSG] %s: %s", x.Name, x.Msg)
+							MsgLogger.Printf("[%v] %s: %s", x.TimeOffset.Truncate(time.Second), x.Name, x.Msg)
 						}
 					}
 				}

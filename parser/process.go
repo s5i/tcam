@@ -65,26 +65,37 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 			// ret, pkt, err = parseMapLeftRow(pkt)
 			default:
 				if *naiveTalkSearch {
-					basePkt := pkt
 					for {
-						basePkt = basePkt.Next(1)
-						pkt = basePkt
-
+						pkt = pkt.Next(1)
 						if pkt == nil {
 							break
 						}
-						if pkt.OpCode() == enum.OpCodeTalk {
-							ret, pkt, err = parseTalk(pkt, true)
-							if err != nil {
-								ret, pkt, err = nil, oldPkt.Next(1), nil
-							} else {
-								Logger.Printf("Found talk: %v", ret)
-							}
+
+						if pkt.OpCode() != enum.OpCodeTalk {
+							continue
 						}
+
+						nRet, nPkt, nErr := parseTalk(pkt, true)
+						if nErr != nil {
+							continue
+						}
+						if nPkt != nil && strings.HasPrefix(pkt.OpCode().String(), "Unknown") {
+							continue
+						}
+
+						// nRet.Name = "[NAIVE] " + nRet.Name
+						ret, pkt, err = nRet, nPkt, nErr
+						break
 					}
-				} else {
-					ret, pkt, err = pkt.OpCode(), nil, nil
+
+					if ret != nil {
+						break
+					} else {
+						pkt = oldPkt
+					}
 				}
+
+				ret, pkt, err = pkt.OpCode(), nil, nil
 			}
 
 			if pkt != nil && strings.HasPrefix(pkt.OpCode().String(), "Unknown") {

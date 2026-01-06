@@ -3,15 +3,17 @@ package parser
 import (
 	"bytes"
 	"fmt"
+	"time"
 
 	"github.com/s5i/tcam/enum"
 	"github.com/s5i/tcam/network"
 )
 
 type Talk struct {
-	Name string
-	Mode enum.MessageMode
-	Msg  string
+	Name       string
+	Mode       enum.MessageMode
+	Msg        string
+	TimeOffset time.Duration
 }
 
 func parseTalk(p *network.Packet, checkIntegrity bool) (*Talk, *network.Packet, error) {
@@ -102,9 +104,10 @@ func parseTalk(p *network.Packet, checkIntegrity bool) (*Talk, *network.Packet, 
 	}
 
 	ret := &Talk{
-		Name: name,
-		Mode: mode,
-		Msg:  msg,
+		Name:       name,
+		Mode:       mode,
+		Msg:        msg,
+		TimeOffset: p.TimeOffset,
 	}
 
 	return ret, p.Next(cur(r)), nil
