@@ -88,13 +88,5 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 		Msg:  msg,
 	}
 
-	var next *network.Packet
-	if cur := cur(r); cur != len(p.Data) {
-		next = &network.Packet{
-			Offset: p.Offset,
-			Data:   p.Data[cur:],
-		}
-	}
-
-	return ret, next, nil
+	return ret, p.Next(cur(r)), nil
 }

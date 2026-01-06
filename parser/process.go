@@ -3,12 +3,13 @@ package parser
 import (
 	"context"
 	"io"
+	"strings"
 
 	"github.com/s5i/tcam/enum"
 	"github.com/s5i/tcam/network"
 )
 
-func ParsePackets(ctx context.Context, packetsCh <-chan network.Packet) (<-chan any, <-chan error) {
+func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan any, <-chan error) {
 	retCh := make(chan any)
 	errCh := make(chan error, 1)
 
@@ -35,10 +36,11 @@ func ParsePackets(ctx context.Context, packetsCh <-chan network.Packet) (<-chan 
 						return nil
 					}
 
-					pkt = &p
+					pkt = p
 				}
 			}
 
+			oldPkt := pkt
 			switch pkt.OpCode() {
 			case enum.OpCodeTalk:
 				ret, pkt, err = parseTalk(pkt)
@@ -46,7 +48,11 @@ func ParsePackets(ctx context.Context, packetsCh <-chan network.Packet) (<-chan 
 				ret, pkt, err = parseMoveCreature(pkt)
 			case enum.OpCodeChangeOnMap:
 				ret, pkt, err = parseChangeOnMap(pkt)
-
+				if pkt != nil {
+					if strings.HasPrefix(pkt.OpCode().String(), "Unknown") {
+						Logger.Printf("BAD PACKET - %v", oldPkt)
+					}
+				}
 			default:
 				ret, pkt, err = pkt.OpCode(), nil, nil
 			}

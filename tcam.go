@@ -11,6 +11,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/s5i/tcam/enum"
+	"github.com/s5i/tcam/gamedata"
 	"github.com/s5i/tcam/loader"
 	"github.com/s5i/tcam/network"
 	"github.com/s5i/tcam/parser"
@@ -20,6 +22,7 @@ import (
 var (
 	inputDir = flag.String("dir", ".", "Directory to process.")
 	loggers  = flag.String("loggers", "", "Comma-separated list of loggers to enable (main, loader, parser).")
+	tibiaDat = flag.String("dat", "", "Path to Tibia.dat.")
 )
 
 var Logger = log.New(io.Discard, "[MAIN] ", 0)
@@ -38,14 +41,27 @@ func main() {
 			loader.Logger.SetOutput(os.Stderr)
 		case "parser":
 			parser.Logger.SetOutput(os.Stderr)
+		case "gamedata":
+			gamedata.Logger.SetOutput(os.Stderr)
 		default:
 			fmt.Fprintf(os.Stderr, "Unknown logger: %q\n", l)
 			os.Exit(1)
 		}
 	}
 
-	err := processDir(ctx, *inputDir)
+	f, err := os.Open(*tibiaDat)
 	if err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to open Tibia.dat: %v\n", err)
+		os.Exit(1)
+	}
+	defer f.Close()
+
+	if err := gamedata.ReadFile(ctx, *tibiaDat); err != nil {
+		fmt.Fprintf(os.Stderr, "Failed to load %q: %v\n", *tibiaDat, err)
+		os.Exit(1)
+	}
+
+	if err := processDir(ctx, *inputDir); err != nil {
 		fmt.Fprintf(os.Stderr, "Error processing directory: %v\n", err)
 		os.Exit(1)
 	}
@@ -72,7 +88,7 @@ func processDir(ctx context.Context, dirPath string) error {
 		eg, ctx := errgroup.WithContext(ctx)
 
 		loaderOutCh, loaderErrCh := loader.ReadFile(ctx, path)
-		parserInCh := make(chan network.Packet)
+		parserInCh := make(chan *network.Packet)
 		parserOutCh, parserErrCh := parser.ParsePackets(ctx, parserInCh)
 
 		eg.Go(func() error {
@@ -116,7 +132,9 @@ func processDir(ctx context.Context, dirPath string) error {
 
 					switch x := x.(type) {
 					case *parser.Talk:
-						Logger.Printf("%s: %s", x.Name, x.Msg)
+						if x.Mode == enum.MessageModeMessageSay {
+							Logger.Printf("%s: %s", x.Name, x.Msg)
+						}
 					}
 				}
 			}

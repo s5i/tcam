@@ -7,12 +7,8 @@ import (
 	"io"
 
 	"github.com/s5i/tcam/enum"
+	"github.com/s5i/tcam/gamedata"
 )
-
-type Position struct{}
-type MappedThing struct{}
-type Creature struct{}
-type Item struct{}
 
 func read(r io.Reader, data any) error {
 	return binary.Read(r, binary.LittleEndian, data)
@@ -89,8 +85,10 @@ func thing(r *bytes.Reader) error {
 	case enum.ItemInvalid:
 		return fmt.Errorf("invalid item id: %s", enum.ItemInvalid)
 	case enum.ItemUnknownCreature, enum.ItemOutdatedCreature, enum.ItemCreature:
+		Logger.Printf("\t\thasCreature = true")
 		return creature(r, id)
 	default:
+		Logger.Printf("\t\thasItem = true")
 		return item(r, id)
 	}
 }
@@ -182,11 +180,14 @@ func item(r *bytes.Reader, t enum.Item) error {
 		}
 	}
 
-	// TODO: skip 1 byte if:
-	// - isStackable
-	// - isChargeable
-	// - isFluidContainer
-	// - isSplash
-
+	attr := gamedata.Attrs[gamedata.DATKey{Category: enum.DatCategoryItem, ID: int(t)}]
+	Logger.Printf("\t\t%d: %v", t, attr.Present)
+	switch {
+	case attr.Present[enum.DatAttributeStackable], attr.Present[enum.DatAttributeChargeable], attr.Present[enum.DatAttributeFluidContainer], attr.Present[enum.DatAttributeSplash]:
+		Logger.Printf("\tSkipping for %d", t)
+		if err := skip(r, 1); err != nil {
+			return err
+		}
+	}
 	return nil
 }

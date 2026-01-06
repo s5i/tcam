@@ -3,17 +3,15 @@ package loader
 import (
 	"context"
 	"encoding/binary"
-	"fmt"
 	"io"
 	"os"
 	"time"
 
-	"github.com/s5i/tcam/enum"
 	"github.com/s5i/tcam/network"
 )
 
-func ReadFile(ctx context.Context, path string) (<-chan network.Packet, <-chan error) {
-	retCh := make(chan network.Packet)
+func ReadFile(ctx context.Context, path string) (<-chan *network.Packet, <-chan error) {
+	retCh := make(chan *network.Packet)
 	errCh := make(chan error, 1)
 
 	go func() (retErr error) {
@@ -47,7 +45,6 @@ func ReadFile(ctx context.Context, path string) (<-chan network.Packet, <-chan e
 
 		for {
 			cur, _ := f.Seek(0, io.SeekCurrent)
-			pos := fmt.Sprintf("%8X+%2d", cur-cur%16, cur%16)
 
 			var ticks uint64
 			if err := binary.Read(f, binary.LittleEndian, &ticks); err != nil {
@@ -64,18 +61,18 @@ func ReadFile(ctx context.Context, path string) (<-chan network.Packet, <-chan e
 				return err
 			}
 
-			opCode := enum.OpCode(packetData[0])
-
-			Logger.Printf("%s | OP = %s | LEN = %d | T = %v", pos, opCode, pktLen, time.Duration(ticks-startTick)*time.Millisecond)
+			pkt := &network.Packet{
+				GlobalOffset: int(cur),
+				TimeOffset:   time.Duration(ticks-startTick) * time.Millisecond,
+				Data:         packetData,
+			}
+			Logger.Printf("%v", pkt)
 
 			select {
 			case <-ctx.Done():
 				return ctx.Err()
 
-			case retCh <- network.Packet{
-				Offset: time.Duration(ticks-startTick) * time.Millisecond,
-				Data:   packetData,
-			}:
+			case retCh <- pkt:
 			}
 
 		}

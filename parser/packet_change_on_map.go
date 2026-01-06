@@ -30,14 +30,5 @@ func parseChangeOnMap(p *network.Packet) (*ChangeOnMap, *network.Packet, error) 
 	}
 
 	ret := &ChangeOnMap{}
-
-	var next *network.Packet
-	if cur := cur(r); cur != len(p.Data) {
-		next = &network.Packet{
-			Offset: p.Offset,
-			Data:   p.Data[cur:],
-		}
-	}
-
-	return ret, next, nil
+	return ret, p.Next(cur(r)), nil
 }
