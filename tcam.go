@@ -140,7 +140,7 @@ func processDir(ctx context.Context, dirPath string) error {
 						Logger.Printf("unhandled opcode: %s", x)
 					case *parser.Talk:
 						if x.Mode == enum.MessageModeMessageSay {
-							MsgLogger.Printf("[%v] %s: %s", x.TimeOffset.Truncate(time.Second), x.Name, x.Msg)
+							MsgLogger.Printf("[%10v] %s %s: %s", x.TimeOffset.Truncate(time.Second), x.Offset(), x.Name, x.Msg)
 						}
 					}
 				}

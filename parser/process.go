@@ -28,9 +28,11 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 		}()
 
 		var pkt *network.Packet
-		var ret any
-		var err error
+
 		for {
+			var ret any
+			var err error
+
 			if pkt == nil {
 				select {
 				case <-ctx.Done():
@@ -46,7 +48,8 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 			}
 
 			oldPkt := pkt
-			switch pkt.OpCode() {
+
+			switch opcode := pkt.OpCode(); opcode {
 			case enum.OpCodeTalk:
 				ret, pkt, err = parseTalk(pkt, false)
 			case enum.OpCodeMoveCreature:
@@ -67,6 +70,7 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 				if *naiveTalkSearch {
 					for {
 						pkt = pkt.Next(1)
+
 						if pkt == nil {
 							break
 						}
@@ -83,7 +87,7 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 							continue
 						}
 
-						// nRet.Name = "[NAIVE] " + nRet.Name
+						nRet.Name = "[NAIVE] " + nRet.Name
 						ret, pkt, err = nRet, nPkt, nErr
 						break
 					}

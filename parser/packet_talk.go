@@ -10,10 +10,15 @@ import (
 )
 
 type Talk struct {
-	Name       string
-	Mode       enum.MessageMode
-	Msg        string
-	TimeOffset time.Duration
+	Name         string
+	Mode         enum.MessageMode
+	Msg          string
+	TimeOffset   time.Duration
+	PacketOffset int
+}
+
+func (t Talk) Offset() string {
+	return fmt.Sprintf("[%8x +%2d]", t.PacketOffset-t.PacketOffset%16, t.PacketOffset%16)
 }
 
 func parseTalk(p *network.Packet, checkIntegrity bool) (*Talk, *network.Packet, error) {
@@ -104,10 +109,11 @@ func parseTalk(p *network.Packet, checkIntegrity bool) (*Talk, *network.Packet, 
 	}
 
 	ret := &Talk{
-		Name:       name,
-		Mode:       mode,
-		Msg:        msg,
-		TimeOffset: p.TimeOffset,
+		Name:         name,
+		Mode:         mode,
+		Msg:          msg,
+		TimeOffset:   p.TimeOffset,
+		PacketOffset: p.GlobalOffset + p.LocalOffset,
 	}
 
 	return ret, p.Next(cur(r)), nil
