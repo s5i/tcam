@@ -74,7 +74,8 @@ func parseTalk(p *network.Packet) (*Talk, *network.Packet, error) {
 		enum.MessageModeMessageRVRContinue:
 
 	default:
-		return nil, nil, fmt.Errorf("unknown message mode %s", mode)
+		// WTF is message mode 14?
+		// return nil, nil, fmt.Errorf("unknown message mode %s", mode)
 	}
 
 	msg, err := str(r)

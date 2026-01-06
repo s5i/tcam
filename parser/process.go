@@ -50,6 +50,8 @@ func ParsePackets(ctx context.Context, packetsCh <-chan *network.Packet) (<-chan
 				ret, pkt, err = parseChangeOnMap(pkt)
 			case enum.OpCodePlayerData:
 				ret, pkt, err = parsePlayerData(pkt)
+			case enum.OpCodeMarkCreature:
+				ret, pkt, err = parseMarkCreature(pkt)
 			default:
 				ret, pkt, err = pkt.OpCode(), nil, nil
 			}

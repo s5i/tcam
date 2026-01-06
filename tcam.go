@@ -142,6 +142,10 @@ func processDir(ctx context.Context, dirPath string) error {
 			}
 		})
 
-		return eg.Wait()
+		if err := eg.Wait(); err != nil {
+			return fmt.Errorf("error processing %q: %v", path, err)
+		}
+
+		return nil
 	})
 }
