@@ -15,17 +15,21 @@ import (
 	"github.com/s5i/tcam/enum"
 	"github.com/s5i/tcam/gamedata"
 	"github.com/s5i/tcam/loader"
+	"github.com/s5i/tcam/msgcontext"
 	"github.com/s5i/tcam/network"
+	"github.com/s5i/tcam/npc"
 	"github.com/s5i/tcam/parser"
 	"golang.org/x/sync/errgroup"
 )
 
 var (
-	inputDir = flag.String("dir", ".", "Directory to process.")
-	loggers  = flag.String("loggers", "", "Comma-separated list of loggers to enable (main, loader, parser, msg, nooutput).")
-	output   = flag.String("output", "", "Output file.")
-	player   = flag.String("player", "", "Player name.")
-	npcs     = flag.String("npcs", "", "Comma-separated list of NPCs to process.")
+	inputDir    = flag.String("dir", ".", "Directory to process.")
+	loggers     = flag.String("loggers", "", "Comma-separated list of loggers to enable (debug, loader, parser, msg, nooutput).")
+	output      = flag.String("output", "", "Output file.")
+	player      = flag.String("player", "", "[manual-interaction] Player name.")
+	npcs        = flag.String("npcs", "", "[manual-interaction] Comma-separated list of NPCs to process.")
+	contextSize = flag.Int("context_size", 1, "[non-retail] Conversation context length.")
+	mode        = flag.String("mode", "non-retail", "Mode to use (non-retail, manual-interaction).")
 )
 
 func main() {
@@ -36,16 +40,16 @@ func main() {
 	for l := range strings.SplitSeq(*loggers, ",") {
 		switch l {
 		case "":
-		case "main":
+		case "debug":
 			Logger.SetOutput(os.Stderr)
 		case "loader":
-			loader.Logger.SetOutput(os.Stderr)
+			loader.Logger.SetOutput(os.Stdout)
 		case "parser":
-			parser.Logger.SetOutput(os.Stderr)
+			parser.Logger.SetOutput(os.Stdout)
 		case "gamedata":
-			gamedata.Logger.SetOutput(os.Stderr)
+			gamedata.Logger.SetOutput(os.Stdout)
 		case "msg":
-			MsgLogger.SetOutput(os.Stderr)
+			MsgLogger.SetOutput(os.Stdout)
 		case "nooutput":
 			OutputLogger.SetOutput(io.Discard)
 		default:
@@ -77,13 +81,24 @@ func main() {
 		OutputLogger.Printf("Timestamp: %s", time.Now().Format("2006-01-02 15:04:05 MST"))
 	}
 
-	if err := processDir(ctx, *inputDir, *player, *npcs); err != nil {
-		fmt.Fprintf(os.Stderr, "%v\n", err)
+	switch *mode {
+	case "non-retail":
+		if err := nonRetail(ctx, *inputDir, *contextSize); err != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err)
+			os.Exit(1)
+		}
+	case "manual-interaction":
+		if err := manualInteraction(ctx, *inputDir, *player, *npcs); err != nil {
+			fmt.Fprintf(os.Stderr, "%v\n", err)
+			os.Exit(1)
+		}
+	default:
+		fmt.Fprintf(os.Stderr, "Unknown mode: %q\n", *mode)
 		os.Exit(1)
 	}
 }
 
-func processDir(ctx context.Context, dirPath string, player string, npcs string) error {
+func manualInteraction(ctx context.Context, dirPath string, player string, npcs string) error {
 	npc := map[string]bool{}
 	for n := range strings.SplitSeq(npcs, ",") {
 		if n != "" {
@@ -96,6 +111,7 @@ func processDir(ctx context.Context, dirPath string, player string, npcs string)
 	var lastDialogueOffset time.Duration
 	var lastDialogueNPC string
 	return filepath.WalkDir(dirPath, func(path string, d fs.DirEntry, err error) error {
+		Logger.Printf("Processing %q\n", path)
 		defer func() { dialogueCamSep = true; lastDialogueOffset = 0 }()
 
 		t := time.Now()
@@ -112,7 +128,7 @@ func processDir(ctx context.Context, dirPath string, player string, npcs string)
 		}
 
 		defer func() {
-			Logger.Printf("Processed %q in %s", path, time.Since(t))
+			Logger.Printf("Processed %q in %s\n", path, time.Since(t))
 		}()
 
 		eg, ctx := errgroup.WithContext(ctx)
@@ -163,7 +179,6 @@ func processDir(ctx context.Context, dirPath string, player string, npcs string)
 
 					switch x := x.(type) {
 					case *parser.UnhandledPacket:
-						Logger.Printf("unhandled packet: %s", x.Packet)
 					case *parser.Talk:
 						if x.Mode != enum.MessageModeMessageSay {
 							continue
@@ -197,6 +212,108 @@ func processDir(ctx context.Context, dirPath string, player string, npcs string)
 							playerMsg = fmt.Sprintf("%s: %s", x.Name, x.Msg)
 						}
 
+					}
+				}
+			}
+		})
+
+		if err := eg.Wait(); err != nil {
+			return fmt.Errorf("error processing %q: %v", path, err)
+		}
+
+		return nil
+	})
+}
+
+func nonRetail(ctx context.Context, dirPath string, contextSize int) error {
+	seen := map[string]bool{}
+
+	return filepath.WalkDir(dirPath, func(path string, d fs.DirEntry, err error) error {
+		Logger.Printf("Processing %q\n", path)
+		t := time.Now()
+		if err != nil {
+			return err
+		}
+
+		if d.IsDir() {
+			return nil
+		}
+
+		if strings.ToLower(filepath.Ext(path)) != ".cam" {
+			return nil
+		}
+
+		defer func() {
+			Logger.Printf("Processed %q in %s\n", path, time.Since(t))
+		}()
+
+		eg, ctx := errgroup.WithContext(ctx)
+
+		loaderOutCh, loaderErrCh := loader.ReadFile(ctx, path)
+		parserInCh := make(chan *network.Packet)
+		parserOutCh, parserErrCh := parser.ParsePackets(ctx, parserInCh)
+
+		eg.Go(func() error {
+			for {
+				select {
+				case <-ctx.Done():
+					return ctx.Err()
+
+				case err := <-loaderErrCh:
+					return err
+
+				case pkt, ok := <-loaderOutCh:
+					if !ok {
+						close(parserInCh)
+						return nil
+					}
+
+					select {
+					case <-ctx.Done():
+						return ctx.Err()
+
+					case parserInCh <- pkt:
+					}
+				}
+			}
+		})
+
+		eg.Go(func() error {
+			msgCtx := msgcontext.NewContext(contextSize)
+			for {
+				select {
+				case <-ctx.Done():
+					return ctx.Err()
+
+				case err := <-parserErrCh:
+					return err
+
+				case x, ok := <-parserOutCh:
+					if !ok {
+						return nil
+					}
+
+					switch x := x.(type) {
+					case *parser.Talk:
+						if x.Mode != enum.MessageModeMessageSay {
+							continue
+						}
+
+						if npc.IsNPC(x.Name) && !npc.IsRetailResponse(x.Name, x.Msg) {
+							resp := fmt.Sprintf("%s: %s", x.Name, x.Msg)
+							if seen[resp] {
+								continue
+							}
+							seen[resp] = true
+
+							OutputLogger.Printf("--------------------------------------------------------------------------------")
+							for _, msg := range msgCtx.Pop() {
+								OutputLogger.Printf("%s: %s", msg.Name, msg.Message)
+							}
+							OutputLogger.Printf("%s: %s", x.Name, x.Msg)
+						}
+
+						msgCtx.Put(x.Name, x.Msg)
 					}
 				}
 			}

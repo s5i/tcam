@@ -1,0 +1,758 @@
+"./tcam" "--dir=./testdata/" "--output=./example_nonretail.txt"
+Timestamp: 2026-01-20 03:04:07 CET
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Elane: You must be magic level 1 to learn this spell.
+--------------------------------------------------------------------------------
+Shy Teddy: spells
+Elane: I can teach you rune spells and instant spells. What kind of spell do you wish to learn? You can also tell me for which magic level you would like to learn a spell, if you prefer that.
+--------------------------------------------------------------------------------
+Shy Teddy: magic level 1
+Elane: For which magic level would you like to learn a spell?
+--------------------------------------------------------------------------------
+Shy Teddy: 1
+Elane: For magic level 1 I have 'Light Healing' and 'Light Magic Missile'.
+--------------------------------------------------------------------------------
+Shy Teddy: 0
+Elane: For magic level 0 I have 'Find Person', 'Light' and 'Food'.
+--------------------------------------------------------------------------------
+Shy Teddy: 2
+Elane: For magic level 2 I have 'Antidote', 'Intense Healing' and 'Conjure Arrow'.
+--------------------------------------------------------------------------------
+Shy Teddy: spell
+Puffels: I have 'Magic Rope', 'Levitate', 'Haste', 'Berserk', 'Force Strike', 'Energy Strike', 'Flame Strike', 'Discharge', 'Extinguish' and 'Desintegrate Spell'.
+--------------------------------------------------------------------------------
+Shy Teddy: offer
+Alexander: I'm selling blank runes, life rings and crystal balls.
+--------------------------------------------------------------------------------
+Shy Teddy: offer
+Halif: I sell shovels, picks, scythes, bags, ropes, backpacks, plates, cups, scrolls, documents, parchments, watches and fishing rods. Of course, I sell lightsources, too.
+--------------------------------------------------------------------------------
+Shy Teddy: spell
+Asrak: I can teach you rune spells and instant spells. What kind of spell do you wish to learn? You can also tell me for which magic level you would like to learn a spell, if you prefer that.
+--------------------------------------------------------------------------------
+Shy Teddy: 20 blank rune
+Shalmar: Do you want to buy 20 blank runes for 200 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Shalmar: Here you are.
+--------------------------------------------------------------------------------
+Shy Teddy: premium
+Chrystal: Do you want to give me a premium piggy bank in order to receive 30 premium days?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Chrystal: Hmm, you do not have one.
+--------------------------------------------------------------------------------
+Shy Teddy: passage
+Kazzan: You want to cross the mountains? Yet you give me no reason to let you pass the guard. Besides, that's for your own safety too.
+--------------------------------------------------------------------------------
+Shy Teddy: abbas
+Kazzan: He makes sure the bandits don't dare to roam around.
+--------------------------------------------------------------------------------
+Shy Teddy: bandits
+Kazzan: Cemetery hyenas! They try to blame Daraman for our tragedy but it's only an excuse for their wickedness.
+--------------------------------------------------------------------------------
+Shy Teddy: edoch bandit
+Kazzan: So you claim that Edoch collaborates with bandits?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Kazzan: Do you have any proof to corroborate your allegations?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Kazzan: You should not make unfounded accusations, unless you have evidence.
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Ursula: I'm sorry, but you need magic level 6 to learn this spell.
+--------------------------------------------------------------------------------
+Tosho Teddy: ~ Hail Teddy Family! ~
+Shalmar: Do you want to buy 60 potions of mana fluid for 6000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Kazzan: Hmm... this letter looks suspicious, indeed. I will order a full handwriting analysis, and in the meantime my guards will put him under surveillance.
+--------------------------------------------------------------------------------
+Shy Teddy: permit
+Kazzan: Mayhap your information will turn out expedient. Very well then, you will be given permission to cross the mountains. However, you're doing so at your own discretion and risk. And you will be obligated to report on everything you learn there.
+--------------------------------------------------------------------------------
+Shy Teddy: 20 mana fluid
+Shalmar: Do you want to buy 20 potions of mana fluid for 2000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Shalmar: Here you are. There is a deposit of 5 gold on the vial.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Petros: Greetings, Shy Teddy. I can take you to Venore if you like.
+--------------------------------------------------------------------------------
+Shy Teddy: 19 blank rune
+Shalmar: Do you want to buy 19 blank runes for 190 gold?
+--------------------------------------------------------------------------------
+Gosu Teddy: 3 mana fluid
+Shalmar: Do you want to buy 3 potions of mana fluid for 300 gold?
+--------------------------------------------------------------------------------
+Brazylijczyku oddawaj baga: premium
+Dove: Do you want to give me a premium piggy bank in order to receive 30 premium days?
+--------------------------------------------------------------------------------
+Brazylijczyku oddawaj baga: yes'
+Dove: Here you are! Wait a moment for our service to proceed your premium and remember you will have to do a relog.
+--------------------------------------------------------------------------------
+Shy Teddy: aruthang
+Captain Fearless: Going on vacation or doing business deals? Anyway, the Royal Tibia Line don't serve the route to Aruthang, but I can take you there on my own for an extra fee. The price is 370 gold. Are you interested?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Shalmar: Here you are ... 115 gold.
+--------------------------------------------------------------------------------
+Shy Teddy: spell
+Razan: I can teach you rune spells and instant spells. What kind of spell do you wish to learn? You can also tell me for which magic level you would like to learn a spell, if you prefer that.
+--------------------------------------------------------------------------------
+Shy Teddy: blank rune
+Shalmar: Do you want to buy a blank rune for 10 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: 6
+Shalmar: Hmm, but next time.
+--------------------------------------------------------------------------------
+Shy Teddy: 6 blank rune
+Shalmar: Do you want to buy 6 blank runes for 60 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: 60 blank rune
+Shalmar: Do you want to buy 60 blank runes for 600 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: 40 blank rune
+Shalmar: Do you want to buy 40 blank runes for 400 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: 6 mana fluid
+Shalmar: Do you want to buy 6 potions of mana fluid for 600 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Petros: Laddie, are you making fun of me? I'm not sailing there! Ask in Venore.
+--------------------------------------------------------------------------------
+Typek: hi
+Petros: Greetings, Typek. I can take you to Venore if you like.
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Shalmar: Here you are ... 10 gold.
+--------------------------------------------------------------------------------
+Shy Teddy: ab'dendriel
+Captain Fearless: Going on vacation or doing business? Anyway, the Royal Tibia Line doesn't serve the route to Aruthang, but I can take you there on my own for an extra fee. The price is 370 gold. Are you interested?
+--------------------------------------------------------------------------------
+Divoth: sell vial
+Shalmar: I will pay you 5 gold for every empty vial. Ok?
+--------------------------------------------------------------------------------
+Divoth: yes
+Shalmar: Here you are ... 265 gold.
+--------------------------------------------------------------------------------
+Divoth: buy 50 mana fluids
+Shalmar: Do you want to buy 50 potions of mana fluid for 5000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Tulf: Ah, it's you, the 'taller dwarf'. The stories have already reached Kazordoon. I usually don't trust rumors, but if you bring me the head of the Horned Fox - I may begin to and pay you well.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Tulf: You were supposed to bring the head of the Horned Fox. What are you doing here again?
+--------------------------------------------------------------------------------
+Shy Teddy: Looks like the fox is out! 
+Tulf: That's interesting, do you have any proof of what you're saying?
+--------------------------------------------------------------------------------
+Shy Teddy: scroll
+Tulf: That's one cunning fox! He must have sensed something to run away from his hideout. Our deal was about his head, so I can't reward you, sorry, hehe! But I admire the fact you were brave enough to go there and steal from his bedside drawer ...
+--------------------------------------------------------------------------------
+Tulf: That's one cunning fox! He must have sensed something to run away from his hideout. Our deal was about his head, so I can't reward you, sorry, hehe! But I admire the fact you were brave enough to go there and steal from his bedside drawer ...
+Tulf: I did not expect that at all! The story of your heroic deed has already spread all over Kazordoon. Some dwarfs think you might even be as strong as we are!
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Tulf: I don't have anything to do for you. Unless you want to visit the Horned Fox bedroom in search for his head again. Do it anytime, you have my blessing, jawoll!
+--------------------------------------------------------------------------------
+Shy Teddy: dwacatra
+Jimbin: The most amazing prison in Tibia. Wonderful dwarven fortification, sealed by four gates, guarded by two towers and a pool of lava all around ...
+--------------------------------------------------------------------------------
+Jimbin: The most amazing prison in Tibia. Wonderful dwarven fortification, sealed by four gates, guarded by two towers and a pool of lava all around ...
+Jimbin: Some miners like to tell the story of the three prisoners who allegedly managed to escape and were never found again ...
+--------------------------------------------------------------------------------
+Jimbin: Some miners like to tell the story of the three prisoners who allegedly managed to escape and were never found again ...
+Jimbin: Don't buy these stories. Even if they'd tried, they would have surely burned in the pool of lava. There is no way to escape such a marvel!
+--------------------------------------------------------------------------------
+Shy Teddy: dwacatra
+Budrik: That old Jimbin is still acting like the escape from Dwacatra is a fairy tale? You want to know the truth, then ask Hergom!
+--------------------------------------------------------------------------------
+Shy Teddy: hergom
+Budrik: Hergom works in a nearby mine, he'll tell you the real story.
+--------------------------------------------------------------------------------
+Shy Teddy: hergom
+Budrik: I recognize that helmet! It surely belonged to Hergom! What happened?
+--------------------------------------------------------------------------------
+Shy Teddy: dead
+Budrik: Ohh, poor old Hergom, at least he died a glorious death - inside a mine.
+--------------------------------------------------------------------------------
+Shy Teddy: dwacatra
+Budrik: Ehh... Since poor Hergom is no more, I'll tell you what I heard from him. Three dwarves had escaped from Dwacatra - Okhar, Burnad, and Firumir. Hergom said he hadn't heard anything of the other two, but one he knew personally ...
+--------------------------------------------------------------------------------
+Budrik: Ehh... Since poor Hergom is no more, I'll tell you what I heard from him. Three dwarves had escaped from Dwacatra - Okhar, Burnad, and Firumir. Hergom said he hadn't heard anything of the other two, but one he knew personally ...
+Budrik: He supposedly fled from Kazordoon and never came back lest he be caught. Hergom didn't mention which one of the three that was or where he'd been hiding.
+--------------------------------------------------------------------------------
+Shy Teddy: firumir
+Nelliem: So you know about my father... Most of all, he wasn't guilty! He was wrongly convicted, I swear he never conspired with any cyclopses. Some other dwarf falsely reported him because they competed for beautiful Baribrebo ...
+--------------------------------------------------------------------------------
+Nelliem: So you know about my father... Most of all, he wasn't guilty! He was wrongly convicted, I swear he never conspired with any cyclopses. Some other dwarf falsely reported him because they competed for beautiful Baribrebo ...
+Nelliem: And my father, being the finest carpenter in Kazordoon, was to win! If it hadn't been for these bastards who put him in the prison. But he outsmarted them and escaped. With the help of two other dwarves, he dug a tunnel ...
+--------------------------------------------------------------------------------
+Nelliem: And my father, being the finest carpenter in Kazordoon, was to win! If it hadn't been for these bastards who put him in the prison. But he outsmarted them and escaped. With the help of two other dwarves, he dug a tunnel ...
+Nelliem: He then fled to Venore on a steamboat and lived on, havin taken on the name of a long forgotten miner.
+--------------------------------------------------------------------------------
+Shy Teddy: dwacatra
+Nelliem: You're wondering how they were even able to dig a tunnel that was never found? Haha! You won't believe it, the part of the tunnel was flooded, and they had to dive to get further ...
+--------------------------------------------------------------------------------
+Nelliem: You're wondering how they were even able to dig a tunnel that was never found? Haha! You won't believe it, the part of the tunnel was flooded, and they had to dive to get further ...
+Nelliem: My father remembered that till his last days. He kept saying they had to be very careful, diving in the dark, forced to push forward until they could reach the dry part. It had all been calculated, because one wrong turn would make you drown ...
+--------------------------------------------------------------------------------
+Nelliem: My father remembered that till his last days. He kept saying they had to be very careful, diving in the dark, forced to push forward until they could reach the dry part. It had all been calculated, because one wrong turn would make you drown ...
+Nelliem: But that's nothing yet. Digging further in the dry tunnel, they found themselves very close to the basilisk! He said they'd been able to hear the beast hiss ominously right behind the wall! Luckily enough, for some reason, it couldn't hear them ...
+--------------------------------------------------------------------------------
+Nelliem: But that's nothing yet. Digging further in the dry tunnel, they found themselves very close to the basilisk! He said they'd been able to hear the beast hiss ominously right behind the wall! Luckily enough, for some reason, it couldn't hear them ...
+Nelliem: Even though rumors have it that the basilisk is a very cunning monster. Either way, you may consider that a miracle, but they made it! I give it all to my father, the smartest of all dwarves.
+--------------------------------------------------------------------------------
+Shy Teddy: basilisk
+Nelliem: If my father had hit the wrong spot, he would have crashed the wall between them, and he would've been a stone pillar now! And I would never have been born.
+--------------------------------------------------------------------------------
+Shy Teddy: tunnel
+Nelliem: The tunnel that my father dug might still be there undiscovered. But who knows, it's been so long. I hope I will never have to find out.
+--------------------------------------------------------------------------------
+Shy Teddy: firumir
+Nelliem: Now you know everything. I hope you're not the gossiping type.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Basilisk: My eyesssss ... put thisssss light out, fool ... Who sssssent you?
+--------------------------------------------------------------------------------
+Shy Teddy: mountain
+Basilisk: My kind hassss lived here ever sssssince we crept into thissss world ... I have sssseeen the greed come and build itssss fortressss brick after brick...
+--------------------------------------------------------------------------------
+Shy Teddy: emperor
+Basilisk: That little basssstard ... ssso he is ssstill alive ... and will outlive me ... he and hisss minionssss came to thisss mountain centuries ago like it wasss theirsss ... and turned it into one indusssstry.
+--------------------------------------------------------------------------------
+Shy Teddy: soul of the mountain
+Basilisk: The celesssstial of the greedy onessss ... he tamed the ssssoul of thisss mountain ... and wassss then buried in itsss heart himsssself.
+--------------------------------------------------------------------------------
+Shy Teddy: kind
+Basilisk: I am the lasssst of my kind ... the masssstersss of ssssnakesss...
+--------------------------------------------------------------------------------
+Shy Teddy: last
+Basilisk: I am nearly assss old assss thissss mountain ... and I will live my lasssst dayssss with it...
+--------------------------------------------------------------------------------
+Shy Teddy: heart of the mountain
+Basilisk: It issss not here ... it isss where the ssssunlight shinessss ... ssssealed and hidden from mortalssss.
+--------------------------------------------------------------------------------
+Ferius: yes
+Shalmar: Here you are ... 100 gold.
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Shalmar: Here you are ... 300 gold.
+--------------------------------------------------------------------------------
+Khamzat Chimaev: PREMIUM
+Chemar: Do you want to give me a premium piggy bank in order to receive 30 premium days?
+--------------------------------------------------------------------------------
+Khamzat Chimaev: YES
+Chemar: Here you are! Wait a moment for our service to proceed your premium and remember you will have to do a relog.
+--------------------------------------------------------------------------------
+Shy Teddy: hi
+Brodrosch: Ah, it's you. Welcome, Shy Teddy! May Earth protect you, even whilst sailing!
+--------------------------------------------------------------------------------
+Shy Teddy: riddle
+A Prisoner: Great riddle, isn�t it? If you can tell me the correct answer, I will give you something. Hehehe!
+--------------------------------------------------------------------------------
+Shy Teddy: something
+A Prisoner: No! I won�t tell you. Shame coz it would be useful for you - hehehe.
+--------------------------------------------------------------------------------
+Shy Teddy: escape
+A Prisoner: How could I escape? They only give me rotten food here. I can�t regain my powers because I have no mana!
+--------------------------------------------------------------------------------
+Shy Teddy: labyrinth
+A Prisoner: It�s easy to find your way through it! Just follow the pools of mud. Hehe - useful hint, isn�t it?
+--------------------------------------------------------------------------------
+Shy Teddy: dp-d-ks-p-dp
+A Prisoner: Hurray! For that I will give you my key for - hmm - let�s say ... some apples. Interested?
+--------------------------------------------------------------------------------
+Shy Teddy: aruthang
+Brodrosch: So you want to travel to Aruthang? 350 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Shalmar: Here you are ... 50 gold.
+--------------------------------------------------------------------------------
+Melchior: The djinns have an ancient code of honour. This code includes a special concept of hospitality. Anybody who utters the word of greeting must not be attacked even if he is an enemy. Well, at least that is what the code says. ...
+Melchior: I have found out, though, that this does not work at all times. There is no point to say the word of greeting to an enraged djinn. ...
+--------------------------------------------------------------------------------
+Melchior: I have found out, though, that this does not work at all times. There is no point to say the word of greeting to an enraged djinn. ...
+Melchior: I can tell you the word of greeting if you're interested. It is DJANNI'HAH. Remember this word well, stranger. It might save your life one day. ...
+--------------------------------------------------------------------------------
+Melchior: I can tell you the word of greeting if you're interested. It is DJANNI'HAH. Remember this word well, stranger. It might save your life one day. ...
+Melchior: And keep in mind that you must choose sides in this conflict. You can only follow the Efreet or the Marid - once you have made your choice there is no way back. I know from experience that djinn do not tolerate double-crossing.
+--------------------------------------------------------------------------------
+Umar: Whoa? You know the word! Amazing, Shy Teddy! ...
+Umar: I should go and tell Fa'hradin. ...
+--------------------------------------------------------------------------------
+Umar: I should go and tell Fa'hradin. ...
+Umar: Well. Why are you here anyway, Shy Teddy?
+--------------------------------------------------------------------------------
+Umar: If you want to enter our fortress you have to become one of us and fight the Efreet. ...
+Umar: So, are you willing to do so?
+--------------------------------------------------------------------------------
+Umar: Oh. Ok. Welcome then. You may pass. ...
+Umar: And don't forget to kill some Efreets, now and then.
+--------------------------------------------------------------------------------
+Bo'ques: My collection of recipes is almost complete. There are only but a few that are missing. ...
+Bo'ques: Hmmm... now that we talk about it. There is something you could help me with. Are you interested?
+--------------------------------------------------------------------------------
+Bo'ques: Fine! Even though I know so many recipes, I'm looking for the description of some dwarven meals. ...
+Bo'ques: So, if you could bring me a cookbook of the dwarven kitchen I will reward you well.
+--------------------------------------------------------------------------------
+Bo'ques: The book! You have it! Let me see! <browses the book> ...
+Bo'ques: Dragon Egg Omelette, Dwarven beer sauce... it's all there. This is great! Here is your well-deserved reward.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Bo'ques: I am eternally greatful to you for that book. There is yet one more thing that you could do for me though. Are you interested?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Bo'ques: There is this girl that I... fancy... I'm doing my utmost cooking the best of meals for her. Unavailing efforts, it would seem. ...
+--------------------------------------------------------------------------------
+Bo'ques: There is this girl that I... fancy... I'm doing my utmost cooking the best of meals for her. Unavailing efforts, it would seem. ...
+Bo'ques: She eats but one or two courses, and tells me she's full! But I already have another idea. I thought I could make her the most beautiful of all dresses! ...
+--------------------------------------------------------------------------------
+Bo'ques: She eats but one or two courses, and tells me she's full! But I already have another idea. I thought I could make her the most beautiful of all dresses! ...
+Bo'ques: To do that, however, I need materials of the highest quality! I can already picture it - the most wondrous red-and-blue dress! Bring me something I can work with, and I shall reward you richly!
+--------------------------------------------------------------------------------
+Shy Teddy: dress
+Bo'ques: Do you have the materials I asked for?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Bo'ques: Superb! Exquisite fabrics! So soft, so shiny! And yet so delicate! Excellent job, indeed. Here is your well-deserved reward! ...
+--------------------------------------------------------------------------------
+Bo'ques: Superb! Exquisite fabrics! So soft, so shiny! And yet so delicate! Excellent job, indeed. Here is your well-deserved reward! ...
+Bo'ques: Incidentally, I have talked to Fa'hradin about you during dinner. I think he might have some work for you. Why don't you talk to him about it?
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Bo'ques: It's going to be the most marvellous gown that has ever been made! I cannot rush it though - excellence requires time and patience. Just like hunter's stew!
+--------------------------------------------------------------------------------
+Fa'hradin: I have heard some good things about you from Bo'ques. But I don't know. ...
+Fa'hradin: Well, all right. I do have a job for you. ...
+--------------------------------------------------------------------------------
+Fa'hradin: Well, all right. I do have a job for you. ...
+Fa'hradin: As you might know, the ruins of Ankrahmun were completely abandoned after the war. And for centuries they attracted but few treasure hunters. ...
+--------------------------------------------------------------------------------
+Fa'hradin: As you might know, the ruins of Ankrahmun were completely abandoned after the war. And for centuries they attracted but few treasure hunters. ...
+Fa'hradin: And even though these accursed ruins caused anomalies and increased undead activity, they were never a subject of such interest to the necromants. Mostly because right after we destroyed their city they fretted to venture that far. ...
+--------------------------------------------------------------------------------
+Fa'hradin: And even though these accursed ruins caused anomalies and increased undead activity, they were never a subject of such interest to the necromants. Mostly because right after we destroyed their city they fretted to venture that far. ...
+Fa'hradin: The Efreet, on the other hand, have lacked strong leadership and would not dare take any action. Even though the Marid too are not as strong as they used to be. But now, having returned, Malor wants to take advantage of our brief weakness. ...
+--------------------------------------------------------------------------------
+Fa'hradin: The Efreet, on the other hand, have lacked strong leadership and would not dare take any action. Even though the Marid too are not as strong as they used to be. But now, having returned, Malor wants to take advantage of our brief weakness. ...
+Fa'hradin: He renewed the alliance with the necromants and together they've infested the ruins. We must find out to what end! Normally, I would not entrust such an important mission to a human. ...
+--------------------------------------------------------------------------------
+Fa'hradin: He renewed the alliance with the necromants and together they've infested the ruins. We must find out to what end! Normally, I would not entrust such an important mission to a human. ...
+Fa'hradin: But I suppose you could dress up as one of them mercenaries who hang out in the oasis camp and get to the ruins undetected. The necromants have been using their services for some time now. ...
+--------------------------------------------------------------------------------
+Fa'hradin: But I suppose you could dress up as one of them mercenaries who hang out in the oasis camp and get to the ruins undetected. The necromants have been using their services for some time now. ...
+Fa'hradin: We know that this is also of concern to your caliph, who ordered the mountain pass be sealed off. But if you need to visit Darashia for equipment, you can use our back door. ...
+--------------------------------------------------------------------------------
+Fa'hradin: We know that this is also of concern to your caliph, who ordered the mountain pass be sealed off. But if you need to visit Darashia for equipment, you can use our back door. ...
+Fa'hradin: Haroun may have something useful for you too, go talk to him. Just try not to bother the djinns on the other floors, they might take you for an intruder! ...
+--------------------------------------------------------------------------------
+Fa'hradin: Haroun may have something useful for you too, go talk to him. Just try not to bother the djinns on the other floors, they might take you for an intruder! ...
+Fa'hradin: Go, and try to learn what they're after in these damned ruins. Good luck, human!
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Fa'hradin: Have you learnt what Malor and those accursed necromants are plotting?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Fa'hradin: Excellent! Pray tell, what are they doing in the ruins?
+--------------------------------------------------------------------------------
+Shy Teddy: excavations
+Fa'hradin: Excavations?! As we suspected. So it is true. Tell me, did they discover anything?
+--------------------------------------------------------------------------------
+Shy Teddy: aqueducts
+Fa'hradin: An underground aqueduct?! That is very strange and disconcerting. Have you found out what they're after?
+--------------------------------------------------------------------------------
+Shy Teddy: transportation
+Fa'hradin: I'm sorry, I must have misheard that... They're looking for what?
+--------------------------------------------------------------------------------
+Shy Teddy: Should we manage to drain it, we might be able to use this system to finally find a way inside the mysterious structures
+Fa'hradin: Drat! If they really are close to finding the entrance to the antique edifices, then it is indeed worse that I thought ...
+--------------------------------------------------------------------------------
+Fa'hradin: Drat! If they really are close to finding the entrance to the antique edifices, then it is indeed worse that I thought ...
+Fa'hradin: Daraman never revealed how he managed to get inside for a reason ...
+--------------------------------------------------------------------------------
+Fa'hradin: Daraman never revealed how he managed to get inside for a reason ...
+Fa'hradin: He believed that the knowledge contained inside should never see the light of day. ...
+--------------------------------------------------------------------------------
+Fa'hradin: He believed that the knowledge contained inside should never see the light of day. ...
+Fa'hradin: If that knowledge is truly that powerful, we cannot allow for it to fall in the hands of the efreets! We must find out what they know! ...
+--------------------------------------------------------------------------------
+Fa'hradin: If that knowledge is truly that powerful, we cannot allow for it to fall in the hands of the efreets! We must find out what they know! ...
+Fa'hradin: I'll be honest - you did better than I expected. Therefore, I might have another mission for you. Interested?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Fa'hradin: Good! Listen, In order to stay informed about our enemy's doings, we have managed to plant a spy in Mal'ouquah. ...
+--------------------------------------------------------------------------------
+Fa'hradin: Good! Listen, In order to stay informed about our enemy's doings, we have managed to plant a spy in Mal'ouquah. ...
+Fa'hradin: He has kept the Efreet and Malor under surveillance for quite some time. ...
+--------------------------------------------------------------------------------
+Fa'hradin: He has kept the Efreet and Malor under surveillance for quite some time. ...
+Fa'hradin: But unfortunately, I have lost contact with him months ago. ...
+--------------------------------------------------------------------------------
+Fa'hradin: But unfortunately, I have lost contact with him months ago. ...
+Fa'hradin: I do not fear for his safety because his cover is foolproof, but I cannot contact him either. This is where you come in. ...
+--------------------------------------------------------------------------------
+Fa'hradin: I do not fear for his safety because his cover is foolproof, but I cannot contact him either. This is where you come in. ...
+Fa'hradin: I need you to infiltrate Mal'ouqhah, contact our man there and get his latest spyreport. The password is PIEDPIPER. Remember it well! ...
+--------------------------------------------------------------------------------
+Fa'hradin: I need you to infiltrate Mal'ouqhah, contact our man there and get his latest spyreport. The password is PIEDPIPER. Remember it well! ...
+Fa'hradin: I do not have to add that this is a dangerous mission, do I? If you are discovered expect to be attacked! So good luck, human!
+--------------------------------------------------------------------------------
+Rata'mari: You have come for the report? Great! I have been working hard on it during the last months. And nobody came to pick it up. I thought everybody had forgotten about me! ...
+Rata'mari: Do you have any idea how difficult it is to hold a pen when you have claws instead of hands? ...
+--------------------------------------------------------------------------------
+Rata'mari: Do you have any idea how difficult it is to hold a pen when you have claws instead of hands? ...
+Rata'mari: But - you know - now I have worked so hard on this report I somehow don't want to part with it. At least not without some decent payment. ...
+--------------------------------------------------------------------------------
+Rata'mari: But - you know - now I have worked so hard on this report I somehow don't want to part with it. At least not without some decent payment. ...
+Rata'mari: All right - listen - I know Fa'hradin would not approve of this, but I can't help it. I need some cheese! I need it now! ...
+--------------------------------------------------------------------------------
+Rata'mari: All right - listen - I know Fa'hradin would not approve of this, but I can't help it. I need some cheese! I need it now! ...
+Rata'mari: And I will not give the report to you until you get me some! Meep!
+--------------------------------------------------------------------------------
+Fa'hradin: You really have made it? You have the report? How come you did not get slaughtered? I must say I'm impressed. Your race will never cease to surprise me. ...
+Fa'hradin: Well, let's see. ...
+--------------------------------------------------------------------------------
+Fa'hradin: Well, let's see. ...
+Fa'hradin: I think I need to talk to Gabel about this. I am sure he will know what to do. Perhaps you should have a word with him, too.
+--------------------------------------------------------------------------------
+Gabel: Sooo. Fa'hradin has told me about your extraordinary exploit, and I must say I am impressed. ...
+Gabel: Your fragile human form belies your courage and your fighting spirit. ...
+--------------------------------------------------------------------------------
+Gabel: Your fragile human form belies your courage and your fighting spirit. ...
+Gabel: I hardly dare to ask you because you have already done so much for us, but there is a task to be done, and I cannot think of anybody else who would be better suited to fulfill it than you. ...
+--------------------------------------------------------------------------------
+Gabel: I hardly dare to ask you because you have already done so much for us, but there is a task to be done, and I cannot think of anybody else who would be better suited to fulfill it than you. ...
+Gabel: Think carefully, human, for this mission will bring you into real danger. Are you prepared?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Gabel: Rata'mari's report that you managed to obtain revealed news far worse than we expected. ...
+--------------------------------------------------------------------------------
+Gabel: Rata'mari's report that you managed to obtain revealed news far worse than we expected. ...
+Gabel: One of our brothers, Izar, has been captured by the Efreets and locked in the underground dungeon of Mal'ouquah where he is being tortured by Malor himself. ...
+--------------------------------------------------------------------------------
+Gabel: One of our brothers, Izar, has been captured by the Efreets and locked in the underground dungeon of Mal'ouquah where he is being tortured by Malor himself. ...
+Gabel: We're lucky though - the report also says that Malor and his most trusted entourage have recently left the stronghold. ...
+--------------------------------------------------------------------------------
+Gabel: We're lucky though - the report also says that Malor and his most trusted entourage have recently left the stronghold. ...
+Gabel: We have to act quickly. This might be the only chance to free our brother. You succeeded in entering Mal'ouquah once. May I ask of you to do it once again and free Izar?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Gabel: Great! Go then without delay! We know not when Malor and his entourage will retrun to Mal'ouquah, there's no time to waste!
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Gabel: You've been to Mal'ouquah? Where's Izar? What happened to him?
+--------------------------------------------------------------------------------
+Shy Teddy: dead
+Gabel: So we are late... Bloody Malor! I'll make sure that he's severly punished for all our suffering! ...
+--------------------------------------------------------------------------------
+Gabel: So we are late... Bloody Malor! I'll make sure that he's severly punished for all our suffering! ...
+Gabel: Nonetheless, you deserve many thanks, Shy Teddy. You entered the enemy's strongholed to save a stranger - hardly anyone would undertake such a heroic act, I imagine. ...
+--------------------------------------------------------------------------------
+Gabel: Nonetheless, you deserve many thanks, Shy Teddy. You entered the enemy's strongholed to save a stranger - hardly anyone would undertake such a heroic act, I imagine. ...
+Gabel: Know, that from now on you are considered one of us and are welcome to trade with Nah'bob whenever you want to! ...
+--------------------------------------------------------------------------------
+Gabel: Know, that from now on you are considered one of us and are welcome to trade with Nah'bob whenever you want to! ...
+Gabel: Please leave now. I need time to consider our next steps and devise a plan.
+--------------------------------------------------------------------------------
+Shy Teddy: sell scimitar
+Nah'bob: Do you want to sell a scimitar for 150 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: sell ancient shield
+Nah'bob: Do you want to sell an ancient shield for 900 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: sell guardian shield
+Nah'bob: I'm just selling and buying beholder shields and ancient shields. But I'm also buying black shields.
+--------------------------------------------------------------------------------
+Shy Teddy: armors
+Nah'bob: I'm just selling and buying noble armors.
+--------------------------------------------------------------------------------
+Shy Teddy: helmet
+Nah'bob: At this time I'm not selling any helmets. I'm only buying mystic turbans.
+--------------------------------------------------------------------------------
+Shy Teddy: sell 20 scimitar
+Nah'bob: Do you want to sell 20 scimitars for 3000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Nah'bob: Fancy you asking me that, because I actually have a little task for you. ...
+--------------------------------------------------------------------------------
+Nah'bob: Fancy you asking me that, because I actually have a little task for you. ...
+Nah'bob: Bo'ques is showing around that cookbook you got him. Honestly, I couldn't care less for those disgusting recipes. It's the illustrations that have caught my attention. ...
+--------------------------------------------------------------------------------
+Nah'bob: Bo'ques is showing around that cookbook you got him. Honestly, I couldn't care less for those disgusting recipes. It's the illustrations that have caught my attention. ...
+Nah'bob: One of them pictures a dwarf wearing a very interesting helmet. I'm planning on expanding my product range, and I'd be obliged if you could bring me such a helmet, so that I can study it.
+--------------------------------------------------------------------------------
+Shy Teddy: dwarven helmet
+Nah'bob: Have you obtained that dwarven helmet for me?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Nah'bob: Is this a miniature or something? Why is it so tiny? Ah, what the heck, I'll take it. Maybe someone will purchase it for a kid. Here's 500 gold pieces. ...
+--------------------------------------------------------------------------------
+Nah'bob: Is this a miniature or something? Why is it so tiny? Ah, what the heck, I'll take it. Maybe someone will purchase it for a kid. Here's 500 gold pieces. ...
+Nah'bob: By the way, I'm also looking for suppliers of certain other objects. Perchance, you'll find my new offer of interest?
+--------------------------------------------------------------------------------
+Shy Teddy: weapons
+Nah'bob: I'm selling and buying serpent swords, spike swords, ice rapiers, war hammers. Furthermore I would buy poison daggers, scimitars, broad swords, knight axes and fire swords from you, if you have any.
+--------------------------------------------------------------------------------
+Shy Teddy: armors
+Nah'bob: I'm selling and buying noble armors. I'm also buying knight armors.
+--------------------------------------------------------------------------------
+Shy Teddy: helmets
+Nah'bob: At this time I'm not selling any helmets. But I'm buying mystic turbans, crown helmets, warrior helmets and crusader helmets.
+--------------------------------------------------------------------------------
+Shy Teddy: legs
+Nah'bob: At this time I'm not selling any legs. I'm only buying knight legs.
+--------------------------------------------------------------------------------
+Shy Teddy: shields
+Nah'bob: I'm selling and buying ancient shields and beholder shields. I'm also buying guardian shields.
+--------------------------------------------------------------------------------
+Shy Teddy: sell warrior helmet
+Nah'bob: Do you want to sell a warrior helmet for 5000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Gabel: I'm glad you're here, Shy Teddy. I finally figured out what our next move should be. ...
+--------------------------------------------------------------------------------
+Gabel: I'm glad you're here, Shy Teddy. I finally figured out what our next move should be. ...
+Gabel: Thanks to Rata'mari's report we now know that Malor is not in possession of Fa'hradin's lamp which means it is still where he left it. We need that lamp! If we get it back we can imprison him again! ...
+--------------------------------------------------------------------------------
+Gabel: Thanks to Rata'mari's report we now know that Malor is not in possession of Fa'hradin's lamp which means it is still where he left it. We need that lamp! If we get it back we can imprison him again! ...
+Gabel: From all we know the lamp is still in the Orc King's possession! Therefore I want to ask you to enter the well guarded halls over at Ulderek's Rock and find the lamp. ...
+--------------------------------------------------------------------------------
+Gabel: From all we know the lamp is still in the Orc King's possession! Therefore I want to ask you to enter the well guarded halls over at Ulderek's Rock and find the lamp. ...
+Gabel: Once you have acquired the lamp you must enter Mal'ouquah again. Sneak into Malor's personal chambers and exchange his sleeping lamp with Fa'hradin's lamp! ...
+--------------------------------------------------------------------------------
+Gabel: Once you have acquired the lamp you must enter Mal'ouquah again. Sneak into Malor's personal chambers and exchange his sleeping lamp with Fa'hradin's lamp! ...
+Gabel: If you succeed, the war could be over one night later! I and all djinn will be in your debt forever! May Daraman watch over you!
+--------------------------------------------------------------------------------
+Shy Teddy: lamp
+The Orc King: I can sense your evil intentions to imprison a djinn! You are longing for the lamp... I have to disappoint you - I don't have it. And no one ever will! ...
+--------------------------------------------------------------------------------
+The Orc King: I can sense your evil intentions to imprison a djinn! You are longing for the lamp... I have to disappoint you - I don't have it. And no one ever will! ...
+The Orc King: After what that nasty djinn did to me, I threw it into the sea, so that I would never have to lay my eyes on it.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Gabel: Have you succeeded in retrieving Fa'hradin's lamp?
+--------------------------------------------------------------------------------
+Shy Teddy: gone
+Gabel: So where's the lamp now?
+--------------------------------------------------------------------------------
+Shy Teddy: gone
+Gabel: You mean to tell me that that stupid-as-a-brick orc first freed Malor and then threw away Fa'hradin's lamp? How one can be so stupid is beyond me! ...
+--------------------------------------------------------------------------------
+Gabel: You mean to tell me that that stupid-as-a-brick orc first freed Malor and then threw away Fa'hradin's lamp? How one can be so stupid is beyond me! ...
+Gabel: Now, we have no way of imprisoning Malor. Moreover, he could be close to entering the ancient edifices. His success may turn out tragic not only for the marids but for the whole of humanity. ...
+--------------------------------------------------------------------------------
+Gabel: Now, we have no way of imprisoning Malor. Moreover, he could be close to entering the ancient edifices. His success may turn out tragic not only for the marids but for the whole of humanity. ...
+Gabel: This means we have no other option but to prepare ourselves for an open fight. Unfortunately, over the years, when the conflict remained frozen due to Malor's absence, our armament has become a little rusty. ...
+--------------------------------------------------------------------------------
+Gabel: This means we have no other option but to prepare ourselves for an open fight. Unfortunately, over the years, when the conflict remained frozen due to Malor's absence, our armament has become a little rusty. ...
+Gabel: We need to find a supplier of weapons and melting metal. Go see our friend Kazzan, maybe he'll be able to make a suggestion. ...
+--------------------------------------------------------------------------------
+Gabel: We need to find a supplier of weapons and melting metal. Go see our friend Kazzan, maybe he'll be able to make a suggestion. ...
+Gabel: For starters, we'll need some samples from the new supplier, so that we can assess the quality of their merchandise. Let's say, 5 giant swords will do.
+--------------------------------------------------------------------------------
+Shy Teddy: sell 8 scimitar
+Nah'bob: Do you want to sell 8 scimitars for 1200 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: sell knight axe
+Nah'bob: Do you want to sell a knight axe for 2000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: offer
+Haroun: I only deal with magical equipment, that is amulets, rings and some special items.
+--------------------------------------------------------------------------------
+Shy Teddy: amulets
+Haroun: I'm buying bronze amulets, stone skin amulets, elven amulets, silver amulets, protection amulets, strange talismans, dragon and garlic necklaces.
+--------------------------------------------------------------------------------
+Shy Teddy: rings
+Haroun: I'm buying stealth rings, power rings, sword rings, axe rings, club rings, life rings, might rings, energy rings, dwarven rings, time rings, and rings of healing.
+--------------------------------------------------------------------------------
+Shy Teddy: sell life ring
+Haroun: Do you want to sell a life ring for 50 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: special items
+Haroun: I'm selling and buying magic light wands. I'm currently also looking for mind stones, life crystals, mysterious fetishes, ankhs, and orbs.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Gabel: Did you manage to arrange the armament deliveries? Have you got the samples? 5 giant swords, remember?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Gabel: They look very sturdy. You did a great job yet again. Tell your supplier that we have a deal. I've already tasked Nah'bob with the purchase of large amounts of weaponry. ...
+--------------------------------------------------------------------------------
+Gabel: They look very sturdy. You did a great job yet again. Tell your supplier that we have a deal. I've already tasked Nah'bob with the purchase of large amounts of weaponry. ...
+Gabel: When you bring more, you can go straight to him. In the meantime, accept this lamp as a token of our gratitude for your brokering in this transaction.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Nah'bob: I got an order from Gabel to buy armaments for our army from you. This is now both your mission and mine. ...
+--------------------------------------------------------------------------------
+Nah'bob: I got an order from Gabel to buy armaments for our army from you. This is now both your mission and mine. ...
+Nah'bob: By the way, you can take that pot back. Doesn't fit on anyone's head and only takes up space on my stand.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Djema: There is something you could do for me. The suns are so hot in here that I cannot leave this library and go out into the fresh air but for few minutes.My delicate skin goes all red right away and, oh, how it burns! ...
+--------------------------------------------------------------------------------
+Djema: There is something you could do for me. The suns are so hot in here that I cannot leave this library and go out into the fresh air but for few minutes.My delicate skin goes all red right away and, oh, how it burns! ...
+Djema: I used to apply Ab'Dendriel earth poultices, they helped a great deal. There was this travelling merchant, you know, from whom I used to buy the earth. But he hasn't been to Ashta'daramai in a long time. ...
+--------------------------------------------------------------------------------
+Djema: I used to apply Ab'Dendriel earth poultices, they helped a great deal. There was this travelling merchant, you know, from whom I used to buy the earth. But he hasn't been to Ashta'daramai in a long time. ...
+Djema: He told me that he procured it somewhere by the marsh in the elven city. Apparently, the earth there has healing properties. That's probably why the elves are so soft and fair of skin! ...
+--------------------------------------------------------------------------------
+Djema: He told me that he procured it somewhere by the marsh in the elven city. Apparently, the earth there has healing properties. That's probably why the elves are so soft and fair of skin! ...
+Djema: If you ever find yourself in Ab'Dendriel, please bring me back some of the local earth in this vial, would you? And don't you lose it! I paid dearly for it! That merchant said it had magical properties that maintain the quality of the earth.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Haroun: Well, I had a chance to study books on magic metals the other day. And I'm very intrigued by one in particular - ancient magic metal called Za'Kalortith. I would very much like to know more about that metal and where it can be procured.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Gabel: I don't have new tasks for you at the moment. I need to plan our next moves, and you can proceed with the deliveries for Nah'bob.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Haroun: What have you learnt about Za'Kalortith?
+--------------------------------------------------------------------------------
+Shy Teddy: metal of evil
+Haroun: You're not making any sense. But well, my expectations weren't high anyway.
+--------------------------------------------------------------------------------
+Shy Teddy: hell forged iron
+Haroun: That hardly sounds optimistic. I really hope the efreets won't get to it. Anyways, thank you for the information.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Djema: Did you manage to acquire some earth from Ab'Dendriel?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Djema: Delightful! That is exaclty what I needed! I cannot wait to make a poultice out of it and apply it to my poor skin! I used to pay the merchant 600 gold pieces, and I should think you'll be satisfied with the same amount. I surely intend not to overpay!
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Djema: I am truly thankful to you for that soil. Look! My skin's looking so much better already!
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Gabel: It's good to see you, Shy Teddy. Bad news, I'm afraid. We've just learnt that the efreets and the necromancers are making progress with their discoveries. ...
+--------------------------------------------------------------------------------
+Gabel: It's good to see you, Shy Teddy. Bad news, I'm afraid. We've just learnt that the efreets and the necromancers are making progress with their discoveries. ...
+Gabel: It's difficult to say really, since we don't know how to get inside these structures. The greater the risk that they will figure it out any moment  now. ...
+--------------------------------------------------------------------------------
+Gabel: It's difficult to say really, since we don't know how to get inside these structures. The greater the risk that they will figure it out any moment  now. ...
+Gabel: Daraman never told me what he'd learnt. I do believe though that he had a good reason to keep it secret. ...
+--------------------------------------------------------------------------------
+Gabel: Daraman never told me what he'd learnt. I do believe though that he had a good reason to keep it secret. ...
+Gabel: The only thing he left me is a sealed message that I was to open only in case of the most serious emergency. I believe this is now. ...
+--------------------------------------------------------------------------------
+Gabel: The only thing he left me is a sealed message that I was to open only in case of the most serious emergency. I believe this is now. ...
+Gabel: I've spent the last few days and nights trying to decipher that message, but this seems to be beyond my depth. And it is probably our last resort. ...
+--------------------------------------------------------------------------------
+Gabel: I've spent the last few days and nights trying to decipher that message, but this seems to be beyond my depth. And it is probably our last resort. ...
+Gabel: That is why I will pass that message on to you. Although you are a mere human, you've proven yourself time and again, shown exceptional cunning, and helped us a great deal - as far as we're concerned, you're one of us. ...
+--------------------------------------------------------------------------------
+Gabel: That is why I will pass that message on to you. Although you are a mere human, you've proven yourself time and again, shown exceptional cunning, and helped us a great deal - as far as we're concerned, you're one of us. ...
+Gabel: Besides, the only one who ever  succeeded in finding a way into the mysterious structures was likewise a human. So, the message goes as follows: ...
+--------------------------------------------------------------------------------
+Gabel: Besides, the only one who ever  succeeded in finding a way into the mysterious structures was likewise a human. So, the message goes as follows: ...
+Gabel: 'When you gaze into infinity, look back, and a dead branch will show you the way. Among great boulders you can rest, you're halfway through. Sometimes little by little drops wear away a stone, but so can you.' That is all. ...
+--------------------------------------------------------------------------------
+Gabel: 'When you gaze into infinity, look back, and a dead branch will show you the way. Among great boulders you can rest, you're halfway through. Sometimes little by little drops wear away a stone, but so can you.' That is all. ...
+Gabel: I truly hope that you'll be more successful with it.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Gabel: You want me to pass Daraman's message on to you?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Gabel: 'When you gaze into infinity, look back, and a dead branch will show you the way. Among great boulders you can rest, you're halfway through. Sometimes little by little drops wear away a stone, but so can you.' That's all. ...
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Gabel: You probably want me to repeat Daraman's message, do you? Or maybe you've found the entrance?
+--------------------------------------------------------------------------------
+Shy Teddy: entrance
+Gabel: It seems you pondered on that riddle for a little too long and you've lost touch with reality.
+--------------------------------------------------------------------------------
+Shy Teddy: daraman hideout
+Gabel: Hmm... So you have found Daraman's hideout? I hoped for more, but apparently Daraman saw some purpose in directing us to his hideout. Let's keep looking. I do believe we're not done yet!
+--------------------------------------------------------------------------------
+Shy Teddy: weapons
+Nah'bob: I'm selling and buying serpent swords, spike swords, ice rapiers, war hammers. ...
+--------------------------------------------------------------------------------
+Nah'bob: I'm selling and buying serpent swords, spike swords, ice rapiers, war hammers. ...
+Nah'bob: Furthermore I would buy poison daggers, scimitars, broad swords, knight axes, fire swords, dragon lances, skull staves, giant swords and crystal maces from you, if you have any.
+--------------------------------------------------------------------------------
+Shy Teddy: armors
+Nah'bob: I'm selling and buying noble armors. I'm also buying knight armors, crown armors and blue robes.
+--------------------------------------------------------------------------------
+Shy Teddy: helmets
+Nah'bob: At this time I'm not selling any helmets. But I'm buying mystic turbans, crown helmets, warrior helmets, crusader helmets and royal helmets.
+--------------------------------------------------------------------------------
+Shy Teddy: legs
+Nah'bob: At this time I'm not selling any legs. I'm only buying knight legs and crown legs. Oh, and I'm also looking for boots of haste sometimes!
+--------------------------------------------------------------------------------
+Shy Teddy: shields
+Nah'bob: I'm selling and buying ancient shields and beholder shields. I'm also buying guardian shields, crown shields and vampire shields.
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Haroun: That's kind of you to ask again, but I have no need of your help at the moment.
+--------------------------------------------------------------------------------
+Shy Teddy: amulets
+Haroun: I'm selling and buying bronze amulets, elven amulets, silver amulets, protection amulets, strange talismans, dragon and garlic necklaces. I'm also buying stone skin amulets.
+--------------------------------------------------------------------------------
+Shy Teddy: rings
+Haroun: I'm selling and buying stealth rings, power rings, sword rings, axe rings, club rings, life rings, energy rings, dwarven rings, and time rings. I'm also buying might rings and rings of healing.
+--------------------------------------------------------------------------------
+Shy Teddy: blue robe
+Haroun: Hmm... I could really use a blue robe to further my research - if you have one, we can barter. A might ring for a blue robe, deal?
+--------------------------------------------------------------------------------
+Shy Teddy: energy ring
+Haroun: Do you want to buy an energy ring for 2000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: dwarven ring
+Haroun: Do you want to buy a dwarven ring for 2000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: time ring
+Haroun: Do you want to buy a time ring for 3500 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: dragon necklace
+Haroun: Do you want to buy a dragon necklace for 1000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: mission
+Gabel: You've made much progress with the search. I am certain that you're yet to deliver us some good news. Just don't forget the armament delivery.
+--------------------------------------------------------------------------------
+Shy Teddy: sell 17 scimitar
+Nah'bob: Do you want to sell 17 scimitars for 2550 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: sell 40 scimitar
+Nah'bob: Do you want to sell 40 scimitars for 6000 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: sell 4 mysterious fetish
+Haroun: Do you want to sell 4 mysterious fetishes for 200 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: sell serpent sword
+Nah'bob: Do you want to sell a serpent sword for 900 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: sell ankh
+Haroun: Do you want to sell an ankh for 100 gold?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Shalmar: Here you are ... 400 gold.
+--------------------------------------------------------------------------------
+Shy Teddy: sail cloth
+Velvet: Are you from the shipyard? I already sent a note that we have a little delay. Please come back later.
+--------------------------------------------------------------------------------
+Shy Teddy: sail cloth
+Captain Fearless: Where do you want to go? To Thais, Carlin, Ab'Dendriel, Edron, Darashia or Aruthang?
+--------------------------------------------------------------------------------
+Shy Teddy: sail cloth
+Velvet: Again? One shipyard worker was just here, you need to be more patient. Look, we have barely finished sewing the first sail. You can take it, but for the rest you're going to have to come back later!
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Gabel: I surmise these are hints on finding the location of the entrance to the ancient structures. But I cannot unravel this.
+--------------------------------------------------------------------------------
+Shy Teddy: If the reports are true those events were of an unknown magic. It may turn out to be what we are seeking.
+Gabel: Did you manage to find the entrance to the ancient structures?
+--------------------------------------------------------------------------------
+Shy Teddy: yes
+Gabel: Great! Where is it? Tell me the location!
+--------------------------------------------------------------------------------
+Shy Teddy: ankrahmun
+Gabel: I can barely understand you, please slow down a bit. Where you say that entrance is?
+--------------------------------------------------------------------------------
+Padalecc: sell boots of haste
+Nah'bob: Do you want to sell a pair of boots of haste for 28000 gold?
