@@ -178,17 +178,17 @@ func item(r *bytes.Reader, t enum.Item) error {
 		}
 	}
 
-	if gamedata.Fluids[int(t)] {
+	if gamedata.IsFluid[int(t)] {
 		if err := skip(r, 1); err != nil {
 			return err
 		}
 	}
-	if gamedata.FluidContainers[int(t)] {
+	if gamedata.IsFluidContainer[int(t)] {
 		if err := skip(r, 1); err != nil {
 			return err
 		}
 	}
-	if gamedata.Stackable[int(t)] {
+	if gamedata.IsStackable[int(t)] {
 		if err := skip(r, 1); err != nil {
 			return err
 		}

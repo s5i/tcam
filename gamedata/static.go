@@ -22,7 +22,7 @@ package gamedata
 			if item.Splash {
 				fluids = append(fluids, int(i))
 			}
-			if item.Stackable {
+			if item.IsStackable {
 				stackable = append(stackable, int(i))
 			}
 		}
@@ -33,9 +33,9 @@ package gamedata
 	}
 */
 var (
-	FluidContainers = map[int]bool{}
-	Fluids          = map[int]bool{}
-	Stackable       = map[int]bool{}
+	IsFluidContainer = map[int]bool{}
+	IsFluid          = map[int]bool{}
+	IsStackable       = map[int]bool{}
 
 	sFluidContainers = []int{
 		2524, 2873, 2874, 2875, 2876, 2877, 2879, 2880, 2881, 2882,
@@ -61,12 +61,12 @@ var (
 
 func init() {
 	for _, x := range sFluidContainers {
-		FluidContainers[x] = true
+		IsFluidContainer[x] = true
 	}
 	for _, x := range sFluids {
-		Fluids[x] = true
+		IsFluid[x] = true
 	}
 	for _, x := range sStackable {
-		Stackable[x] = true
+		IsStackable[x] = true
 	}
 }
