@@ -178,26 +178,22 @@ func item(r *bytes.Reader, t enum.Item) error {
 		}
 	}
 
-	attr := gamedata.Attrs[gamedata.DATKey{Category: enum.DatCategoryItem, ID: int(t)}]
-
-	if forcedSkip, ok := itemSkipOverrides[t]; ok {
-		if forcedSkip {
-			return skip(r, 1)
-		}
-		return nil
-	}
-
-	switch {
-	case
-		attr.Present[enum.DatAttributeStackable],
-		attr.Present[enum.DatAttributeChargeable],
-		attr.Present[enum.DatAttributeFluidContainer],
-		attr.Present[enum.DatAttributeSplash]:
-
+	if gamedata.Fluids[int(t)] {
 		if err := skip(r, 1); err != nil {
 			return err
 		}
 	}
+	if gamedata.FluidContainers[int(t)] {
+		if err := skip(r, 1); err != nil {
+			return err
+		}
+	}
+	if gamedata.Stackable[int(t)] {
+		if err := skip(r, 1); err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 
@@ -231,19 +227,4 @@ func mapDescription(r *bytes.Reader) error {
 			return nil
 		}
 	}
-}
-
-var itemSkipOverrides = map[enum.Item]bool{
-	1644: false,
-	2524: true,
-	2874: true,
-	2882: true,
-	2887: true,
-	2888: true,
-	3031: true,
-	3277: true,
-	3577: true,
-	3582: true,
-	3606: true,
-	3725: true,
 }

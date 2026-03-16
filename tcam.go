@@ -13,7 +13,6 @@ import (
 	"time"
 
 	"github.com/s5i/tcam/enum"
-	"github.com/s5i/tcam/gamedata"
 	"github.com/s5i/tcam/loader"
 	"github.com/s5i/tcam/msgcontext"
 	"github.com/s5i/tcam/network"
@@ -46,8 +45,6 @@ func main() {
 			loader.Logger.SetOutput(os.Stdout)
 		case "parser":
 			parser.Logger.SetOutput(os.Stdout)
-		case "gamedata":
-			gamedata.Logger.SetOutput(os.Stdout)
 		case "msg":
 			MsgLogger.SetOutput(os.Stdout)
 		case "nooutput":
@@ -57,12 +54,6 @@ func main() {
 			os.Exit(1)
 		}
 	}
-
-	// TODO(s5i): restore this once fixed.
-	// if err := gamedata.ReadFile(ctx, *tibiaDat); err != nil {
-	// 	fmt.Fprintf(os.Stderr, "Failed to load %q: %v\n", *tibiaDat, err)
-	// 	os.Exit(1)
-	// }
 
 	if *output != "" {
 		f, err := os.Create(*output)
