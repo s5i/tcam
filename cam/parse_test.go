@@ -4,27 +4,27 @@ import (
 	"bytes"
 	"fmt"
 	"os"
+	"reflect"
 	"testing"
-	"time"
 
 	"github.com/google/go-cmp/cmp"
 )
 
-func TestRead(t *testing.T) {
+func TestParse(t *testing.T) {
 	r := bytes.NewReader(input)
 	w := bytes.NewBuffer(nil)
 
-	for packet, err := range Read(r) {
+	for op, err := range Parse(r) {
 		if err != nil {
-			t.Fatalf("Read() error: %v", err)
+			t.Fatalf("Parse() error: %v", err)
 		}
-		fmt.Fprintf(w, "o:%d t:%d l:%d\n", packet.FileOffset, packet.TimeOffset/time.Second, len(packet.Data))
+		fmt.Fprintf(w, "%s\n", reflect.TypeOf(op).Name())
 	}
 
 	out := w.Bytes()
-	if diff := cmp.Diff(string(golden), string(out)); diff != "" {
+	if diff := cmp.Diff(string(parseGolden), string(out)); diff != "" {
 		if *updateGolden {
-			goldenF := "testdata/1.read.golden.txt"
+			goldenF := "testdata/1.parse.golden.txt"
 			if err := os.WriteFile(goldenF, out, 0644); err != nil {
 				t.Fatalf("os.WriteFile(%q) error when updating golden: %v", goldenF, err)
 			}
@@ -35,12 +35,12 @@ func TestRead(t *testing.T) {
 	}
 }
 
-func BenchmarkRead(b *testing.B) {
+func BenchmarkParse(b *testing.B) {
 	for b.Loop() {
 		r := bytes.NewReader(input)
-		for _, err := range Read(r) {
+		for _, err := range Parse(r) {
 			if err != nil {
-				b.Fatalf("Read() error: %v", err)
+				b.Fatalf("Parse() error: %v", err)
 			}
 		}
 	}
