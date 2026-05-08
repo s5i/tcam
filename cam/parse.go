@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"iter"
+	"time"
 
 	"github.com/s5i/tcam/data"
 )
@@ -77,7 +78,7 @@ func Parse(r io.ReadSeeker) iter.Seq2[data.Operation, error] {
 				return
 			}
 
-			ops, err := parsePacket(state, packet.Data)
+			ops, err := parsePacket(state, packet.Data, packet.TimeOffset)
 			if err != nil {
 				yieldErr(fmt.Errorf("at file offset %d: %w", packet.FileOffset, err))
 				return
@@ -91,7 +92,7 @@ func Parse(r io.ReadSeeker) iter.Seq2[data.Operation, error] {
 	}
 }
 
-func parsePacket(state *parseState, buf []byte) ([]data.Operation, error) {
+func parsePacket(state *parseState, buf []byte, timeOffset time.Duration) ([]data.Operation, error) {
 	m := newMessage(buf)
 	var ops []data.Operation
 
@@ -224,7 +225,188 @@ func parsePacket(state *parseState, buf []byte) ([]data.Operation, error) {
 		if err != nil {
 			return ops, fmt.Errorf("parsing 0x%02X: %w", head, err)
 		}
+		op = setTimeOffset(op, timeOffset)
 		ops = append(ops, op)
 	}
 	return ops, nil
+}
+
+func setTimeOffset(op data.Operation, t time.Duration) data.Operation {
+	switch v := op.(type) {
+	case data.Login:
+		v.TimeOffset = t
+		return v
+	case data.DisconnectClient:
+		v.TimeOffset = t
+		return v
+	case data.WaitList:
+		v.TimeOffset = t
+		return v
+	case data.Ping:
+		v.TimeOffset = t
+		return v
+	case data.MapDescription:
+		v.TimeOffset = t
+		return v
+	case data.MoveNorth:
+		v.TimeOffset = t
+		return v
+	case data.MoveEast:
+		v.TimeOffset = t
+		return v
+	case data.MoveSouth:
+		v.TimeOffset = t
+		return v
+	case data.MoveWest:
+		v.TimeOffset = t
+		return v
+	case data.UpdateTile:
+		v.TimeOffset = t
+		return v
+	case data.AddTileItem:
+		v.TimeOffset = t
+		return v
+	case data.UpdateTileItem:
+		v.TimeOffset = t
+		return v
+	case data.RemoveTileItem:
+		v.TimeOffset = t
+		return v
+	case data.MoveCreature:
+		v.TimeOffset = t
+		return v
+	case data.Container:
+		v.TimeOffset = t
+		return v
+	case data.CloseContainer:
+		v.TimeOffset = t
+		return v
+	case data.AddContainerItem:
+		v.TimeOffset = t
+		return v
+	case data.UpdateContainerItem:
+		v.TimeOffset = t
+		return v
+	case data.RemoveContainerItem:
+		v.TimeOffset = t
+		return v
+	case data.InventorySetItem:
+		v.TimeOffset = t
+		return v
+	case data.InventoryClearItem:
+		v.TimeOffset = t
+		return v
+	case data.TradeItemRequest:
+		v.TimeOffset = t
+		return v
+	case data.CloseTrade:
+		v.TimeOffset = t
+		return v
+	case data.WorldLight:
+		v.TimeOffset = t
+		return v
+	case data.MagicEffect:
+		v.TimeOffset = t
+		return v
+	case data.AnimatedText:
+		v.TimeOffset = t
+		return v
+	case data.DistanceShoot:
+		v.TimeOffset = t
+		return v
+	case data.CreatureSquare:
+		v.TimeOffset = t
+		return v
+	case data.CreatureHealth:
+		v.TimeOffset = t
+		return v
+	case data.CreatureLight:
+		v.TimeOffset = t
+		return v
+	case data.CreatureOutfit:
+		v.TimeOffset = t
+		return v
+	case data.ChangeSpeed:
+		v.TimeOffset = t
+		return v
+	case data.CreatureSkull:
+		v.TimeOffset = t
+		return v
+	case data.CreatureShield:
+		v.TimeOffset = t
+		return v
+	case data.TextWindow:
+		v.TimeOffset = t
+		return v
+	case data.HouseWindow:
+		v.TimeOffset = t
+		return v
+	case data.PlayerStats:
+		v.TimeOffset = t
+		return v
+	case data.PlayerSkills:
+		v.TimeOffset = t
+		return v
+	case data.PlayerIcons:
+		v.TimeOffset = t
+		return v
+	case data.CancelTarget:
+		v.TimeOffset = t
+		return v
+	case data.CreatureSpeak:
+		v.TimeOffset = t
+		return v
+	case data.ChannelsDialog:
+		v.TimeOffset = t
+		return v
+	case data.Channel:
+		v.TimeOffset = t
+		return v
+	case data.OpenPrivateChannel:
+		v.TimeOffset = t
+		return v
+	case data.RuleViolationsChannel:
+		v.TimeOffset = t
+		return v
+	case data.RemoveReport:
+		v.TimeOffset = t
+		return v
+	case data.RuleViolationCancel:
+		v.TimeOffset = t
+		return v
+	case data.LockRuleViolation:
+		v.TimeOffset = t
+		return v
+	case data.CreatePrivateChannel:
+		v.TimeOffset = t
+		return v
+	case data.ClosePrivate:
+		v.TimeOffset = t
+		return v
+	case data.TextMessage:
+		v.TimeOffset = t
+		return v
+	case data.CancelWalk:
+		v.TimeOffset = t
+		return v
+	case data.FloorChangeUp:
+		v.TimeOffset = t
+		return v
+	case data.FloorChangeDown:
+		v.TimeOffset = t
+		return v
+	case data.OutfitWindow:
+		v.TimeOffset = t
+		return v
+	case data.VIP:
+		v.TimeOffset = t
+		return v
+	case data.VIPLogin:
+		v.TimeOffset = t
+		return v
+	case data.VIPLogout:
+		v.TimeOffset = t
+		return v
+	}
+	return op
 }

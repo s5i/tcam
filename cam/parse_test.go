@@ -6,6 +6,7 @@ import (
 	"os"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/google/go-cmp/cmp"
 )
@@ -18,7 +19,7 @@ func TestParse(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Parse() error: %v", err)
 		}
-		fmt.Fprintf(w, "%s\n", reflect.TypeOf(op).Name())
+		fmt.Fprintf(w, "%v - %s\n", time.Duration(reflect.ValueOf(op).FieldByName("TimeOffset").Int()).Truncate(time.Second), reflect.TypeOf(op).Name())
 	}
 
 	out := w.Bytes()
