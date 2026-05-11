@@ -48,13 +48,13 @@ func Dialogues(ctx context.Context, dirPath string, w io.Writer, target string, 
 			}
 			defer f.Close()
 
-			var messages []data.CreatureSpeak
+			var messages []data.CreatureMessage
 			for op, err := range cam.Parse(f) {
 				if err != nil {
 					return err
 				}
 
-				if msg, ok := op.(data.CreatureSpeak); ok {
+				if msg, ok := op.(data.CreatureMessage); ok {
 					if msg.Type != 1 {
 						continue
 					}

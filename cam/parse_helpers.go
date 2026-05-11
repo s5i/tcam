@@ -4,6 +4,11 @@ import (
 	"github.com/s5i/tcam/data"
 )
 
+type parseState struct {
+	playerPos data.Location
+	tiles     map[tileKey][]data.Thing
+}
+
 func getMapDescription(m *message, x, y, z, width, height int) ([]data.Tile, error) {
 	startz, endz, zstep := 0, 0, 0
 	if z > 7 {
@@ -198,4 +203,47 @@ func getItem(m *message, itemID uint16) (data.Item, error) {
 		}
 	}
 	return item, nil
+}
+
+type tileKey struct {
+	x, y, z int
+}
+
+func (s *parseState) updateTiles(tiles []data.Tile) {
+	for _, t := range tiles {
+		k := tileKey{t.Location.X, t.Location.Y, t.Location.Z}
+		s.tiles[k] = append([]data.Thing(nil), t.Things...)
+	}
+}
+
+func (s *parseState) getThing(loc data.Location, stack int) *data.Thing {
+	k := tileKey{loc.X, loc.Y, loc.Z}
+	things := s.tiles[k]
+	if stack < 0 || stack >= len(things) {
+		return nil
+	}
+	return &things[stack]
+}
+
+func (s *parseState) addThing(loc data.Location, thing data.Thing) {
+	k := tileKey{loc.X, loc.Y, loc.Z}
+	s.tiles[k] = append(s.tiles[k], thing)
+}
+
+func (s *parseState) removeThing(loc data.Location, stack int) {
+	k := tileKey{loc.X, loc.Y, loc.Z}
+	things := s.tiles[k]
+	if stack < 0 || stack >= len(things) {
+		return
+	}
+	s.tiles[k] = append(things[:stack], things[stack+1:]...)
+}
+
+func (s *parseState) replaceThing(loc data.Location, stack int, thing data.Thing) {
+	k := tileKey{loc.X, loc.Y, loc.Z}
+	things := s.tiles[k]
+	if stack < 0 || stack >= len(things) {
+		return
+	}
+	things[stack] = thing
 }

@@ -8,21 +8,21 @@ type Operation interface {
 	isOperation()
 }
 
-// Login (0x0A).
-type Login struct {
+// LoginPlayerState (0x0A).
+type LoginPlayerState struct {
 	TimeOffset  time.Duration
 	PlayerID    uint32
 	AccessLevel byte
 }
 
-// DisconnectClient (0x14).
-type DisconnectClient struct {
+// LoginError (0x14).
+type LoginError struct {
 	TimeOffset time.Duration
 	Message    string
 }
 
-// WaitList (0x16).
-type WaitList struct {
+// LoginWaitList (0x16).
+type LoginWaitList struct {
 	TimeOffset time.Duration
 	Message    string
 	Time       byte
@@ -33,8 +33,8 @@ type Ping struct {
 	TimeOffset time.Duration
 }
 
-// MapDescription (0x64).
-type MapDescription struct {
+// Map (0x64).
+type Map struct {
 	TimeOffset time.Duration
 	PlayerPos  Location
 	Tiles      []Tile
@@ -64,45 +64,45 @@ type MoveWest struct {
 	Tiles      []Tile
 }
 
-// UpdateTile (0x69).
-type UpdateTile struct {
+// TileUpdate (0x69).
+type TileUpdate struct {
 	TimeOffset time.Duration
 	Location   Location
 	Tile       *Tile // nil if tile was cleared (thingId == 0xFF01)
 }
 
-// AddTileItem (0x6A).
-type AddTileItem struct {
+// TileItemAdd (0x6A).
+type TileItemAdd struct {
 	TimeOffset time.Duration
 	Location   Location
 	Thing      Thing
 }
 
-// UpdateTileItem (0x6B).
-type UpdateTileItem struct {
+// TileItemUpdate (0x6B).
+type TileItemUpdate struct {
 	TimeOffset time.Duration
 	Location   Location
 	StackIndex byte
 	Thing      Thing
 }
 
-// RemoveTileItem (0x6C).
-type RemoveTileItem struct {
+// TileItemRemove (0x6C).
+type TileItemRemove struct {
 	TimeOffset time.Duration
 	Location   Location
 	StackIndex byte
 }
 
-// MoveCreature (0x6D).
-type MoveCreature struct {
+// CreatureMove (0x6D).
+type CreatureMove struct {
 	TimeOffset  time.Duration
 	OldLocation Location
 	OldStack    byte
 	NewLocation Location
 }
 
-// Container (0x6E).
-type Container struct {
+// ContainerOpen (0x6E).
+type ContainerOpen struct {
 	TimeOffset  time.Duration
 	ContainerID byte
 	ItemID      uint16
@@ -112,83 +112,90 @@ type Container struct {
 	Items       []Thing
 }
 
-// CloseContainer (0x6F).
-type CloseContainer struct {
+// ContainerClose (0x6F).
+type ContainerClose struct {
 	TimeOffset  time.Duration
 	ContainerID byte
 }
 
-// AddContainerItem (0x70).
-type AddContainerItem struct {
+// ContainerItemAdd (0x70).
+type ContainerItemAdd struct {
 	TimeOffset  time.Duration
 	ContainerID byte
 	Thing       Thing
 }
 
-// UpdateContainerItem (0x71).
-type UpdateContainerItem struct {
+// ContainerItemUpdate (0x71).
+type ContainerItemUpdate struct {
 	TimeOffset  time.Duration
 	ContainerID byte
 	Slot        byte
 	Thing       Thing
 }
 
-// RemoveContainerItem (0x72).
-type RemoveContainerItem struct {
+// ContainerItemRemove (0x72).
+type ContainerItemRemove struct {
 	TimeOffset  time.Duration
 	ContainerID byte
 	Slot        byte
 }
 
-// InventorySetItem (0x78).
-type InventorySetItem struct {
+// InventoryItemSet (0x78).
+type InventoryItemSet struct {
 	TimeOffset time.Duration
 	Slot       byte
 	Item       Item
 }
 
-// InventoryClearItem (0x79).
-type InventoryClearItem struct {
+// InventoryItemClear (0x79).
+type InventoryItemClear struct {
 	TimeOffset time.Duration
 	Slot       byte
 }
 
-// TradeItemRequest (0x7D/0x7E).
-type TradeItemRequest struct {
+// TradeOwn (0x7D).
+type TradeOwn struct {
 	TimeOffset time.Duration
 	Name       string
 	Items      []Thing
 }
 
-// CloseTrade (0x7F).
-type CloseTrade struct {
+// TradeCounter (0x7E).
+type TradeCounter struct {
+	TimeOffset time.Duration
+	Name       string
+	Items      []Thing
+}
+
+// TradeClose (0x7F).
+type TradeClose struct {
 	TimeOffset time.Duration
 }
 
-// WorldLight (0x82).
-type WorldLight struct {
+// EffectLight (0x82).
+type EffectLight struct {
 	TimeOffset time.Duration
 	Level      byte
 	Color      byte
 }
 
-// MagicEffect (0x83).
-type MagicEffect struct {
+// EffectGraphical (0x83).
+type EffectGraphical struct {
 	TimeOffset time.Duration
 	Location   Location
 	Effect     byte
 }
 
-// AnimatedText (0x84).
-type AnimatedText struct {
+// EffectText (0x84).
+type EffectText struct {
 	TimeOffset time.Duration
 	Location   Location
 	Color      byte
 	Text       string
 }
 
-// DistanceShoot (0x85).
-type DistanceShoot struct {
+// EffectMissile (0x85).
+type EffectMissile struct {
 	TimeOffset time.Duration
 	From       Location
 	To         Location
@@ -224,8 +231,8 @@ type CreatureOutfit struct {
 	Outfit     Outfit
 }
 
-// ChangeSpeed (0x8F).
-type ChangeSpeed struct {
+// CreatureSpeed (0x8F).
+type CreatureSpeed struct {
 	TimeOffset time.Duration
 	CreatureID uint32
 	Speed      uint16
@@ -238,15 +245,15 @@ type CreatureSkull struct {
 	Skull      byte
 }
 
-// CreatureShield (0x91).
-type CreatureShield struct {
+// CreatureParty (0x91).
+type CreatureParty struct {
 	TimeOffset time.Duration
 	CreatureID uint32
 	Shield     byte
 }
 
-// TextWindow (0x96).
-type TextWindow struct {
+// PromptTextUpdate (0x96).
+type PromptTextUpdate struct {
 	TimeOffset time.Duration
 	WindowID   uint32
 	ItemID     uint16
@@ -255,8 +262,8 @@ type TextWindow struct {
 	Author     string
 }
 
-// HouseWindow (0x97).
-type HouseWindow struct {
+// PromptHouseList (0x97).
+type PromptHouseList struct {
 	TimeOffset time.Duration
 	Unknown    byte
 	ID         uint32
@@ -297,13 +304,13 @@ type PlayerIcons struct {
 	Icons      byte
 }
 
-// CancelTarget (0xA3).
-type CancelTarget struct {
+// TargetClear (0xA3).
+type TargetClear struct {
 	TimeOffset time.Duration
 }
 
-// CreatureSpeak (0xAA).
-type CreatureSpeak struct {
+// CreatureMessage (0xAA).
+type CreatureMessage struct {
 	TimeOffset  time.Duration
 	StatementID uint32
 	Name        string
@@ -313,27 +320,27 @@ type CreatureSpeak struct {
 	Text        string
 }
 
-// ChannelEntry represents a single channel in a ChannelsDialog.
+// ChannelEntry represents a single channel in a ChannelList.
 type ChannelEntry struct {
 	ID   uint16
 	Name string
 }
 
-// ChannelsDialog (0xAB).
-type ChannelsDialog struct {
+// ChannelList (0xAB).
+type ChannelList struct {
 	TimeOffset time.Duration
 	Channels   []ChannelEntry
 }
 
-// Channel (0xAC).
-type Channel struct {
+// ChannelOpen (0xAC).
+type ChannelOpen struct {
 	TimeOffset time.Duration
 	ID         uint16
 	Name       string
 }
 
-// OpenPrivateChannel (0xAD).
-type OpenPrivateChannel struct {
+// PrivateChannelOpen (0xAD).
+type PrivateChannelOpen struct {
 	TimeOffset time.Duration
 	Name       string
 }
@@ -344,8 +351,8 @@ type RuleViolationsChannel struct {
 	Size       uint16
 }
 
-// RemoveReport (0xAF).
-type RemoveReport struct {
+// RuleViolationsRemove (0xAF).
+type RuleViolationsRemove struct {
 	TimeOffset time.Duration
 	Name       string
 }
@@ -356,59 +363,59 @@ type RuleViolationCancel struct {
 	Name       string
 }
 
-// LockRuleViolation (0xB1).
-type LockRuleViolation struct {
+// RuleViolationsLock (0xB1).
+type RuleViolationsLock struct {
 	TimeOffset time.Duration
 }
 
-// CreatePrivateChannel (0xB2).
-type CreatePrivateChannel struct {
+// PrivateChannelCreate (0xB2).
+type PrivateChannelCreate struct {
 	TimeOffset time.Duration
 	ID         uint16
 	Name       string
 }
 
-// ClosePrivate (0xB3).
-type ClosePrivate struct {
+// PrivateChannelClose (0xB3).
+type PrivateChannelClose struct {
 	TimeOffset time.Duration
 	ChannelID  uint16
 }
 
-// TextMessage (0xB4).
-type TextMessage struct {
+// Message (0xB4).
+type Message struct {
 	TimeOffset time.Duration
 	Type       byte
 	Text       string
 }
 
-// CancelWalk (0xB5).
-type CancelWalk struct {
+// MoveCancel (0xB5).
+type MoveCancel struct {
 	TimeOffset time.Duration
 	Direction  Direction
 }
 
-// FloorChangeUp (0xBE).
-type FloorChangeUp struct {
+// MoveFloorUp (0xBE).
+type MoveFloorUp struct {
 	TimeOffset time.Duration
 	Tiles      []Tile
 }
 
-// FloorChangeDown (0xBF).
-type FloorChangeDown struct {
+// MoveFloorDown (0xBF).
+type MoveFloorDown struct {
 	TimeOffset time.Duration
 	Tiles      []Tile
 }
 
-// OutfitWindow (0xC8).
-type OutfitWindow struct {
+// PromptChooseOutfit (0xC8).
+type PromptChooseOutfit struct {
 	TimeOffset  time.Duration
 	Outfit      Outfit
 	OutfitStart uint16
 	OutfitEnd   uint16
 }
 
-// VIP (0xD2).
-type VIP struct {
+// VIPState (0xD2).
+type VIPState struct {
 	TimeOffset time.Duration
 	ID         uint32
 	Name       string
@@ -427,63 +434,64 @@ type VIPLogout struct {
 	ID         uint32
 }
 
-func (Login) isOperation()                 {}
-func (DisconnectClient) isOperation()      {}
-func (WaitList) isOperation()              {}
+func (LoginPlayerState) isOperation()      {}
+func (LoginError) isOperation()            {}
+func (LoginWaitList) isOperation()         {}
 func (Ping) isOperation()                  {}
-func (MapDescription) isOperation()        {}
+func (Map) isOperation()                   {}
 func (MoveNorth) isOperation()             {}
 func (MoveEast) isOperation()              {}
 func (MoveSouth) isOperation()             {}
 func (MoveWest) isOperation()              {}
-func (UpdateTile) isOperation()            {}
-func (AddTileItem) isOperation()           {}
-func (UpdateTileItem) isOperation()        {}
-func (RemoveTileItem) isOperation()        {}
-func (MoveCreature) isOperation()          {}
-func (Container) isOperation()             {}
-func (CloseContainer) isOperation()        {}
-func (AddContainerItem) isOperation()      {}
-func (UpdateContainerItem) isOperation()   {}
-func (RemoveContainerItem) isOperation()   {}
-func (InventorySetItem) isOperation()      {}
-func (InventoryClearItem) isOperation()    {}
-func (TradeItemRequest) isOperation()      {}
-func (CloseTrade) isOperation()            {}
-func (WorldLight) isOperation()            {}
-func (MagicEffect) isOperation()           {}
-func (AnimatedText) isOperation()          {}
-func (DistanceShoot) isOperation()         {}
+func (TileUpdate) isOperation()            {}
+func (TileItemAdd) isOperation()           {}
+func (TileItemUpdate) isOperation()        {}
+func (TileItemRemove) isOperation()        {}
+func (CreatureMove) isOperation()          {}
+func (ContainerOpen) isOperation()         {}
+func (ContainerClose) isOperation()        {}
+func (ContainerItemAdd) isOperation()      {}
+func (ContainerItemUpdate) isOperation()   {}
+func (ContainerItemRemove) isOperation()   {}
+func (InventoryItemSet) isOperation()      {}
+func (InventoryItemClear) isOperation()    {}
+func (TradeOwn) isOperation()              {}
+func (TradeCounter) isOperation()          {}
+func (TradeClose) isOperation()            {}
+func (EffectLight) isOperation()           {}
+func (EffectGraphical) isOperation()       {}
+func (EffectText) isOperation()            {}
+func (EffectMissile) isOperation()         {}
 func (CreatureSquare) isOperation()        {}
 func (CreatureHealth) isOperation()        {}
 func (CreatureLight) isOperation()         {}
 func (CreatureOutfit) isOperation()        {}
-func (ChangeSpeed) isOperation()           {}
+func (CreatureSpeed) isOperation()         {}
 func (CreatureSkull) isOperation()         {}
-func (CreatureShield) isOperation()        {}
-func (TextWindow) isOperation()            {}
-func (HouseWindow) isOperation()           {}
+func (CreatureParty) isOperation()         {}
+func (PromptTextUpdate) isOperation()      {}
+func (PromptHouseList) isOperation()       {}
 func (PlayerStats) isOperation()           {}
 func (SkillValue) isOperation()            {}
 func (PlayerSkills) isOperation()          {}
 func (PlayerIcons) isOperation()           {}
-func (CancelTarget) isOperation()          {}
-func (CreatureSpeak) isOperation()         {}
+func (TargetClear) isOperation()           {}
+func (CreatureMessage) isOperation()       {}
 func (ChannelEntry) isOperation()          {}
-func (ChannelsDialog) isOperation()        {}
-func (Channel) isOperation()               {}
-func (OpenPrivateChannel) isOperation()    {}
+func (ChannelList) isOperation()           {}
+func (ChannelOpen) isOperation()           {}
+func (PrivateChannelOpen) isOperation()    {}
 func (RuleViolationsChannel) isOperation() {}
-func (RemoveReport) isOperation()          {}
+func (RuleViolationsRemove) isOperation()  {}
 func (RuleViolationCancel) isOperation()   {}
-func (LockRuleViolation) isOperation()     {}
-func (CreatePrivateChannel) isOperation()  {}
-func (ClosePrivate) isOperation()          {}
-func (TextMessage) isOperation()           {}
-func (CancelWalk) isOperation()            {}
-func (FloorChangeUp) isOperation()         {}
-func (FloorChangeDown) isOperation()       {}
-func (OutfitWindow) isOperation()          {}
-func (VIP) isOperation()                   {}
+func (RuleViolationsLock) isOperation()    {}
+func (PrivateChannelCreate) isOperation()  {}
+func (PrivateChannelClose) isOperation()   {}
+func (Message) isOperation()               {}
+func (MoveCancel) isOperation()            {}
+func (MoveFloorUp) isOperation()           {}
+func (MoveFloorDown) isOperation()         {}
+func (PromptChooseOutfit) isOperation()    {}
+func (VIPState) isOperation()              {}
 func (VIPLogin) isOperation()              {}
 func (VIPLogout) isOperation()             {}
