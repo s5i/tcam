@@ -15,7 +15,7 @@ func TestParse(t *testing.T) {
 	r := bytes.NewReader(input)
 	w := bytes.NewBuffer(nil)
 
-	for op, err := range Parse(r) {
+	for op, err := range Parse(r, nil) {
 		if err != nil {
 			t.Fatalf("Parse() error: %v", err)
 		}
@@ -39,7 +39,7 @@ func TestParse(t *testing.T) {
 func BenchmarkParse(b *testing.B) {
 	for b.Loop() {
 		r := bytes.NewReader(input)
-		for _, err := range Parse(r) {
+		for _, err := range Parse(r, nil) {
 			if err != nil {
 				b.Fatalf("Parse() error: %v", err)
 			}

@@ -49,7 +49,7 @@ func Dialogues(ctx context.Context, dirPath string, w io.Writer, target string, 
 			defer f.Close()
 
 			var messages []data.CreatureMessage
-			for op, err := range cam.Parse(f) {
+			for op, err := range cam.Parse(f, nil) {
 				if err != nil {
 					return err
 				}

@@ -9,9 +9,19 @@ import (
 	"github.com/s5i/tcam/data"
 )
 
+// ParseOpts controls the behavior of Parse.
+type ParseOpts struct {
+	// If set, only yield the specified opcodes.
+	Operations map[Opcode]bool
+}
+
 // Parse returns an iterator over the provided io.ReadSeeker that returns subsequent data.Operations.
-func Parse(r io.ReadSeeker) iter.Seq2[data.Operation, error] {
+func Parse(r io.ReadSeeker, opts *ParseOpts) iter.Seq2[data.Operation, error] {
 	return func(yield func(data.Operation, error) bool) {
+		if opts == nil {
+			opts = &ParseOpts{}
+		}
+
 		yieldVal := func(p data.Operation) bool { return yield(p, nil) }
 		yieldErr := func(err error) {
 			if !errors.Is(err, io.EOF) {
@@ -29,7 +39,7 @@ func Parse(r io.ReadSeeker) iter.Seq2[data.Operation, error] {
 				return
 			}
 
-			ops, err := parsePacket(state, packet.Data, packet.TimeOffset)
+			ops, err := parsePacket(state, packet.Data, packet.TimeOffset, opts)
 			if err != nil {
 				yieldErr(fmt.Errorf("at file offset %d: %w", packet.FileOffset, err))
 				return

@@ -7,7 +7,7 @@ import (
 	"github.com/s5i/tcam/data"
 )
 
-func parsePacket(state *parseState, buf []byte, timeOffset time.Duration) ([]data.Operation, error) {
+func parsePacket(state *parseState, buf []byte, timeOffset time.Duration, opts *ParseOpts) ([]data.Operation, error) {
 	m := newMessage(buf)
 	var ops []data.Operation
 
@@ -18,16 +18,20 @@ func parsePacket(state *parseState, buf []byte, timeOffset time.Duration) ([]dat
 		}
 
 		opcode := Opcode(head)
+		ignore := opts.Operations != nil && !opts.Operations[opcode]
 		f, ok := parseFunc[opcode]
 		if !ok {
 			return ops, fmt.Errorf("unknown packet head: 0x%02X", head)
 		}
 
-		op, err := f(m, state, false, timeOffset)
+		op, err := f(m, state, ignore, timeOffset)
 		if err != nil {
 			return ops, fmt.Errorf("parsing 0x%02X: %w", head, err)
 		}
-		ops = append(ops, op)
+
+		if !ignore {
+			ops = append(ops, op)
+		}
 	}
 
 	return ops, nil
