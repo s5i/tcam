@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
+	"github.com/s5i/tcam/data"
 )
 
 func TestParse(t *testing.T) {
@@ -40,6 +41,19 @@ func BenchmarkParse(b *testing.B) {
 	for b.Loop() {
 		r := bytes.NewReader(input)
 		for _, err := range Parse(r, nil) {
+			if err != nil {
+				b.Fatalf("Parse() error: %v", err)
+			}
+		}
+	}
+}
+
+func BenchmarkParseIgnore(b *testing.B) {
+	for b.Loop() {
+		r := bytes.NewReader(input)
+		for _, err := range Parse(r, &ParseOpts{
+			TFilter: map[data.OpType]bool{},
+		}) {
 			if err != nil {
 				b.Fatalf("Parse() error: %v", err)
 			}

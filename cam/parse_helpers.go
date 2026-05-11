@@ -1,15 +1,137 @@
 package cam
 
 import (
+	"bytes"
+	"encoding/binary"
+	"fmt"
+	"io"
+
 	"github.com/s5i/tcam/data"
 )
+
+const emptyString = ""
+
+type message struct {
+	r   io.ReadSeeker
+	len int64
+}
+
+func newMessage(buf []byte) *message {
+	return &message{
+		r:   bytes.NewReader(buf),
+		len: int64(len(buf)),
+	}
+}
+
+func (m *message) getByte() (byte, error) {
+	var b byte
+	err := binary.Read(m.r, binary.LittleEndian, &b)
+	return b, err
+}
+
+func (m *message) getU16() (uint16, error) {
+	var v uint16
+	err := binary.Read(m.r, binary.LittleEndian, &v)
+	return v, err
+}
+
+func (m *message) getU32() (uint32, error) {
+	var v uint32
+	err := binary.Read(m.r, binary.LittleEndian, &v)
+	return v, err
+}
+
+func (m *message) getString(ret *string, ignore bool) error {
+	length, err := m.getU16()
+	if err != nil {
+		return err
+	}
+	if ignore {
+		if _, err := m.r.Seek(int64(length), io.SeekCurrent); err != nil {
+			return err
+		}
+		return nil
+	}
+	buf := make([]byte, length)
+	if _, err := io.ReadFull(m.r, buf); err != nil {
+		return err
+	}
+	*ret = string(buf)
+	return nil
+}
+
+func (m *message) getLocation() (data.Location, error) {
+	x, err := m.getU16()
+	if err != nil {
+		return data.Location{}, err
+	}
+	y, err := m.getU16()
+	if err != nil {
+		return data.Location{}, err
+	}
+	z, err := m.getByte()
+	if err != nil {
+		return data.Location{}, err
+	}
+	return data.Location{X: int(x), Y: int(y), Z: int(z)}, nil
+}
+
+func (m *message) getOutfit() (data.Outfit, error) {
+	lookType, err := m.getU16()
+	if err != nil {
+		return data.Outfit{}, err
+	}
+	if lookType != 0 {
+		head, err := m.getByte()
+		if err != nil {
+			return data.Outfit{}, err
+		}
+		body, err := m.getByte()
+		if err != nil {
+			return data.Outfit{}, err
+		}
+		legs, err := m.getByte()
+		if err != nil {
+			return data.Outfit{}, err
+		}
+		feet, err := m.getByte()
+		if err != nil {
+			return data.Outfit{}, err
+		}
+		return data.Outfit{LookType: lookType, Head: head, Body: body, Legs: legs, Feet: feet}, nil
+	}
+	lookItem, err := m.getU16()
+	if err != nil {
+		return data.Outfit{}, err
+	}
+	return data.Outfit{LookType: lookType, LookItem: lookItem}, nil
+}
+
+func (m *message) peekU16() (uint16, error) {
+	v, err := m.getU16()
+	if err != nil {
+		return 0, err
+	}
+	if _, err := m.r.Seek(-2, io.SeekCurrent); err != nil {
+		return 0, fmt.Errorf("seek back after peek: %w", err)
+	}
+	return v, nil
+}
+
+func (m *message) remaining() int {
+	cur, err := m.r.Seek(0, io.SeekCurrent)
+	if err != nil {
+		return 0
+	}
+	return int(m.len - cur)
+}
 
 type parseState struct {
 	playerPos data.Location
 	tiles     map[tileKey][]data.Thing
 }
 
-func getMapDescription(m *message, x, y, z, width, height int) ([]data.Tile, error) {
+func (m *message) getMapDescription(ignore bool, x, y, z, width, height int) ([]data.Tile, error) {
 	startz, endz, zstep := 0, 0, 0
 	if z > 7 {
 		startz = z - 2
@@ -24,7 +146,7 @@ func getMapDescription(m *message, x, y, z, width, height int) ([]data.Tile, err
 	var tiles []data.Tile
 	skip := 0
 	for nz := startz; nz != endz+zstep; nz += zstep {
-		t, err := parseFloorDescription(m, x, y, nz, width, height, z-nz, &skip)
+		t, err := m.parseFloorDescription(ignore, x, y, nz, width, height, z-nz, &skip)
 		if err != nil {
 			return nil, err
 		}
@@ -33,7 +155,7 @@ func getMapDescription(m *message, x, y, z, width, height int) ([]data.Tile, err
 	return tiles, nil
 }
 
-func parseFloorDescription(m *message, x, y, z, width, height, offset int, skip *int) ([]data.Tile, error) {
+func (m *message) parseFloorDescription(ignore bool, x, y, z, width, height, offset int, skip *int) ([]data.Tile, error) {
 	var tiles []data.Tile
 	for nx := 0; nx < width; nx++ {
 		for ny := 0; ny < height; ny++ {
@@ -50,7 +172,7 @@ func parseFloorDescription(m *message, x, y, z, width, height, offset int, skip 
 					*skip = int(v & 0xFF)
 				} else {
 					loc := data.Location{X: x + nx + offset, Y: y + ny + offset, Z: z}
-					tile, err := parseTileDescription(m, loc)
+					tile, err := m.parseTileDescription(ignore, loc)
 					if err != nil {
 						return nil, err
 					}
@@ -69,7 +191,7 @@ func parseFloorDescription(m *message, x, y, z, width, height, offset int, skip 
 	return tiles, nil
 }
 
-func parseTileDescription(m *message, loc data.Location) (data.Tile, error) {
+func (m *message) parseTileDescription(ignore bool, loc data.Location) (data.Tile, error) {
 	tile := data.Tile{Location: loc}
 	for {
 		peek, err := m.peekU16()
@@ -79,7 +201,7 @@ func parseTileDescription(m *message, loc data.Location) (data.Tile, error) {
 		if peek >= 0xFF00 {
 			break
 		}
-		thing, err := getThing(m)
+		thing, err := m.getThing(ignore)
 		if err != nil {
 			return data.Tile{}, err
 		}
@@ -88,7 +210,7 @@ func parseTileDescription(m *message, loc data.Location) (data.Tile, error) {
 	return tile, nil
 }
 
-func getThing(m *message) (data.Thing, error) {
+func (m *message) getThing(ignore bool) (data.Thing, error) {
 	thingID, err := m.getU16()
 	if err != nil {
 		return data.Thing{}, err
@@ -116,7 +238,7 @@ func getThing(m *message) (data.Thing, error) {
 			if err != nil {
 				return data.Thing{}, err
 			}
-			c.Name, err = m.getString()
+			err = m.getString(&c.Name, ignore)
 			if err != nil {
 				return data.Thing{}, err
 			}

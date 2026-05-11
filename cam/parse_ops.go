@@ -131,16 +131,16 @@ func parseLoginPlayerState(m *message, s *parseState, ignore bool, offset time.D
 }
 
 func parseLoginError(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
-	msg, err := m.getString()
-	if err != nil {
+	var msg string
+	if err := m.getString(&msg, ignore); err != nil {
 		return nil, err
 	}
 	return data.LoginError{TimeOffset: offset, Message: msg}, nil
 }
 
 func parseLoginWaitList(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
-	msg, err := m.getString()
-	if err != nil {
+	var msg string
+	if err := m.getString(&msg, ignore); err != nil {
 		return nil, err
 	}
 	t, err := m.getByte()
@@ -160,7 +160,7 @@ func parseMap(m *message, s *parseState, ignore bool, offset time.Duration) (dat
 		return nil, err
 	}
 	s.playerPos = loc
-	tiles, err := getMapDescription(m, loc.X-8, loc.Y-6, loc.Z, 18, 14)
+	tiles, err := m.getMapDescription(ignore, loc.X-8, loc.Y-6, loc.Z, 18, 14)
 	if err != nil {
 		return nil, err
 	}
@@ -171,7 +171,7 @@ func parseMap(m *message, s *parseState, ignore bool, offset time.Duration) (dat
 func parseMoveNorth(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
 	s.playerPos.Y--
 	loc := s.playerPos
-	tiles, err := getMapDescription(m, loc.X-8, loc.Y-6, loc.Z, 18, 1)
+	tiles, err := m.getMapDescription(ignore, loc.X-8, loc.Y-6, loc.Z, 18, 1)
 	if err != nil {
 		return nil, err
 	}
@@ -182,7 +182,7 @@ func parseMoveNorth(m *message, s *parseState, ignore bool, offset time.Duration
 func parseMoveEast(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
 	s.playerPos.X++
 	loc := s.playerPos
-	tiles, err := getMapDescription(m, loc.X+9, loc.Y-6, loc.Z, 1, 14)
+	tiles, err := m.getMapDescription(ignore, loc.X+9, loc.Y-6, loc.Z, 1, 14)
 	if err != nil {
 		return nil, err
 	}
@@ -193,7 +193,7 @@ func parseMoveEast(m *message, s *parseState, ignore bool, offset time.Duration)
 func parseMoveSouth(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
 	s.playerPos.Y++
 	loc := s.playerPos
-	tiles, err := getMapDescription(m, loc.X-8, loc.Y+7, loc.Z, 18, 1)
+	tiles, err := m.getMapDescription(ignore, loc.X-8, loc.Y+7, loc.Z, 18, 1)
 	if err != nil {
 		return nil, err
 	}
@@ -204,7 +204,7 @@ func parseMoveSouth(m *message, s *parseState, ignore bool, offset time.Duration
 func parseMoveWest(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
 	s.playerPos.X--
 	loc := s.playerPos
-	tiles, err := getMapDescription(m, loc.X-8, loc.Y-6, loc.Z, 1, 14)
+	tiles, err := m.getMapDescription(ignore, loc.X-8, loc.Y-6, loc.Z, 1, 14)
 	if err != nil {
 		return nil, err
 	}
@@ -227,7 +227,7 @@ func parseTileUpdate(m *message, s *parseState, ignore bool, offset time.Duratio
 		}
 		return data.TileUpdate{TimeOffset: offset, Location: loc}, nil
 	}
-	tile, err := parseTileDescription(m, loc)
+	tile, err := m.parseTileDescription(ignore, loc)
 	if err != nil {
 		return nil, err
 	}
@@ -243,7 +243,7 @@ func parseTileItemAdd(m *message, s *parseState, ignore bool, offset time.Durati
 	if err != nil {
 		return nil, err
 	}
-	thing, err := getThing(m)
+	thing, err := m.getThing(ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -260,7 +260,7 @@ func parseTileItemUpdate(m *message, s *parseState, ignore bool, offset time.Dur
 	if err != nil {
 		return nil, err
 	}
-	thing, err := getThing(m)
+	thing, err := m.getThing(ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -321,7 +321,7 @@ func parseContainerOpen(m *message, s *parseState, ignore bool, offset time.Dura
 	if err != nil {
 		return nil, err
 	}
-	op.Name, err = m.getString()
+	err = m.getString(&op.Name, ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -338,7 +338,7 @@ func parseContainerOpen(m *message, s *parseState, ignore bool, offset time.Dura
 		return nil, err
 	}
 	for i := 0; i < int(size); i++ {
-		thing, err := getThing(m)
+		thing, err := m.getThing(ignore)
 		if err != nil {
 			return nil, err
 		}
@@ -360,7 +360,7 @@ func parseContainerItemAdd(m *message, s *parseState, ignore bool, offset time.D
 	if err != nil {
 		return nil, err
 	}
-	thing, err := getThing(m)
+	thing, err := m.getThing(ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -376,7 +376,7 @@ func parseContainerItemUpdate(m *message, s *parseState, ignore bool, offset tim
 	if err != nil {
 		return nil, err
 	}
-	thing, err := getThing(m)
+	thing, err := m.getThing(ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -417,8 +417,8 @@ func parseInventoryItemClear(m *message, s *parseState, ignore bool, offset time
 }
 
 func parseTradeOwn(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
-	name, err := m.getString()
-	if err != nil {
+	var name string
+	if err := m.getString(&name, ignore); err != nil {
 		return nil, err
 	}
 	size, err := m.getByte()
@@ -427,7 +427,7 @@ func parseTradeOwn(m *message, s *parseState, ignore bool, offset time.Duration)
 	}
 	op := data.TradeOwn{TimeOffset: offset, Name: name}
 	for i := 0; i < int(size); i++ {
-		thing, err := getThing(m)
+		thing, err := m.getThing(ignore)
 		if err != nil {
 			return nil, err
 		}
@@ -437,8 +437,8 @@ func parseTradeOwn(m *message, s *parseState, ignore bool, offset time.Duration)
 }
 
 func parseTradeCounter(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
-	name, err := m.getString()
-	if err != nil {
+	var name string
+	if err := m.getString(&name, ignore); err != nil {
 		return nil, err
 	}
 	size, err := m.getByte()
@@ -447,7 +447,7 @@ func parseTradeCounter(m *message, s *parseState, ignore bool, offset time.Durat
 	}
 	op := data.TradeCounter{TimeOffset: offset, Name: name}
 	for i := 0; i < int(size); i++ {
-		thing, err := getThing(m)
+		thing, err := m.getThing(ignore)
 		if err != nil {
 			return nil, err
 		}
@@ -493,7 +493,8 @@ func parseEffectText(m *message, s *parseState, ignore bool, offset time.Duratio
 	if err != nil {
 		return nil, err
 	}
-	text, err := m.getString()
+	var text string
+	err = m.getString(&text, ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -619,11 +620,11 @@ func parsePromptTextUpdate(m *message, s *parseState, ignore bool, offset time.D
 	if err != nil {
 		return nil, err
 	}
-	op.Text, err = m.getString()
+	err = m.getString(&op.Text, ignore)
 	if err != nil {
 		return nil, err
 	}
-	op.Author, err = m.getString()
+	err = m.getString(&op.Author, ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -641,7 +642,7 @@ func parsePromptHouseList(m *message, s *parseState, ignore bool, offset time.Du
 	if err != nil {
 		return nil, err
 	}
-	op.Text, err = m.getString()
+	err = m.getString(&op.Text, ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -733,7 +734,7 @@ func parseCreatureMessage(m *message, s *parseState, ignore bool, offset time.Du
 	if err != nil {
 		return nil, err
 	}
-	op.Name, err = m.getString()
+	err = m.getString(&op.Name, ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -755,7 +756,7 @@ func parseCreatureMessage(m *message, s *parseState, ignore bool, offset time.Du
 		}
 		op.ChannelID = &ch
 	}
-	op.Text, err = m.getString()
+	err = m.getString(&op.Text, ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -773,7 +774,8 @@ func parseChannelList(m *message, s *parseState, ignore bool, offset time.Durati
 		if err != nil {
 			return nil, err
 		}
-		name, err := m.getString()
+		var name string
+		err = m.getString(&name, ignore)
 		if err != nil {
 			return nil, err
 		}
@@ -787,7 +789,8 @@ func parseChannelOpen(m *message, s *parseState, ignore bool, offset time.Durati
 	if err != nil {
 		return nil, err
 	}
-	name, err := m.getString()
+	var name string
+	err = m.getString(&name, ignore)
 	if err != nil {
 		return nil, err
 	}
@@ -795,8 +798,8 @@ func parseChannelOpen(m *message, s *parseState, ignore bool, offset time.Durati
 }
 
 func parsePrivateChannelOpen(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
-	name, err := m.getString()
-	if err != nil {
+	var name string
+	if err := m.getString(&name, ignore); err != nil {
 		return nil, err
 	}
 	return data.PrivateChannelOpen{TimeOffset: offset, Name: name}, nil
@@ -811,16 +814,16 @@ func parseRuleViolationsChannel(m *message, s *parseState, ignore bool, offset t
 }
 
 func parseRuleViolationsRemove(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
-	name, err := m.getString()
-	if err != nil {
+	var name string
+	if err := m.getString(&name, ignore); err != nil {
 		return nil, err
 	}
 	return data.RuleViolationsRemove{TimeOffset: offset, Name: name}, nil
 }
 
 func parseRuleViolationCancel(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
-	name, err := m.getString()
-	if err != nil {
+	var name string
+	if err := m.getString(&name, ignore); err != nil {
 		return nil, err
 	}
 	return data.RuleViolationCancel{TimeOffset: offset, Name: name}, nil
@@ -835,8 +838,8 @@ func parsePrivateChannelCreate(m *message, s *parseState, ignore bool, offset ti
 	if err != nil {
 		return nil, err
 	}
-	name, err := m.getString()
-	if err != nil {
+	var name string
+	if err := m.getString(&name, ignore); err != nil {
 		return nil, err
 	}
 	return data.PrivateChannelCreate{TimeOffset: offset, ID: id, Name: name}, nil
@@ -855,8 +858,8 @@ func parseMessage(m *message, s *parseState, ignore bool, offset time.Duration) 
 	if err != nil {
 		return nil, err
 	}
-	text, err := m.getString()
-	if err != nil {
+	var text string
+	if err := m.getString(&text, ignore); err != nil {
 		return nil, err
 	}
 	return data.Message{TimeOffset: offset, Type: t, Text: text}, nil
@@ -878,7 +881,7 @@ func parseMoveFloorUp(m *message, s *parseState, ignore bool, offset time.Durati
 	if myPos.Z == 7 {
 		skip := 0
 		for _, floor := range []struct{ z, offset int }{{5, 3}, {4, 4}, {3, 5}, {2, 6}, {1, 7}, {0, 8}} {
-			t, err := parseFloorDescription(m, myPos.X-8, myPos.Y-6, floor.z, 18, 14, floor.offset, &skip)
+			t, err := m.parseFloorDescription(ignore, myPos.X-8, myPos.Y-6, floor.z, 18, 14, floor.offset, &skip)
 			if err != nil {
 				return nil, err
 			}
@@ -886,7 +889,7 @@ func parseMoveFloorUp(m *message, s *parseState, ignore bool, offset time.Durati
 		}
 	} else if myPos.Z > 7 {
 		skip := 0
-		t, err := parseFloorDescription(m, myPos.X-8, myPos.Y-6, myPos.Z-2, 18, 14, 3, &skip)
+		t, err := m.parseFloorDescription(ignore, myPos.X-8, myPos.Y-6, myPos.Z-2, 18, 14, 3, &skip)
 		if err != nil {
 			return nil, err
 		}
@@ -906,14 +909,14 @@ func parseMoveFloorDown(m *message, s *parseState, ignore bool, offset time.Dura
 	skip := 0
 	if myPos.Z == 8 {
 		for i, j := myPos.Z, -1; i < myPos.Z+3; i, j = i+1, j-1 {
-			t, err := parseFloorDescription(m, myPos.X-8, myPos.Y-6, i, 18, 14, j, &skip)
+			t, err := m.parseFloorDescription(ignore, myPos.X-8, myPos.Y-6, i, 18, 14, j, &skip)
 			if err != nil {
 				return nil, err
 			}
 			tiles = append(tiles, t...)
 		}
 	} else if myPos.Z > 8 && myPos.Z < 14 {
-		t, err := parseFloorDescription(m, myPos.X-8, myPos.Y-6, myPos.Z+2, 18, 14, -3, &skip)
+		t, err := m.parseFloorDescription(ignore, myPos.X-8, myPos.Y-6, myPos.Z+2, 18, 14, -3, &skip)
 		if err != nil {
 			return nil, err
 		}
@@ -946,7 +949,8 @@ func parseVIPState(m *message, s *parseState, ignore bool, offset time.Duration)
 	if err != nil {
 		return nil, err
 	}
-	name, err := m.getString()
+	var name string
+	err = m.getString(&name, ignore)
 	if err != nil {
 		return nil, err
 	}
