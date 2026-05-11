@@ -11,8 +11,8 @@ import (
 
 // ParseOpts controls the behavior of Parse.
 type ParseOpts struct {
-	// If set, only yield the specified opcodes.
-	Operations map[Opcode]bool
+	// If set, only yield the specified operation types.
+	TFilter map[data.OpType]bool
 }
 
 // Parse returns an iterator over the provided io.ReadSeeker that returns subsequent data.Operations.
