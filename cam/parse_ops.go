@@ -17,9 +17,16 @@ func parsePacket(state *parseState, buf []byte, timeOffset time.Duration, opts *
 			return ops, fmt.Errorf("reading packet head: %w", err)
 		}
 
+		t := time.Now()
 		opcode := data.OpType(head)
 		ignore := opts.TFilter != nil && !opts.TFilter[opcode]
 		f, ok := parseFunc[opcode]
+
+		if state.stats != nil {
+			state.stats.Count[opcode]++
+			state.stats.Duration[opcode] += time.Since(t)
+		}
+
 		if !ok {
 			return ops, fmt.Errorf("unknown packet head: 0x%02X", head)
 		}

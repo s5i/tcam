@@ -127,6 +127,7 @@ func (m *message) remaining() int {
 }
 
 type parseState struct {
+	stats     *ParseStats
 	playerPos data.Location
 	tiles     map[tileKey][]data.Thing
 }

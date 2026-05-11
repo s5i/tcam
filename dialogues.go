@@ -18,6 +18,7 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
+// Dialogues prints MD-formatted dialogues for a given NPC.
 func Dialogues(ctx context.Context, dirPath string, w io.Writer, target string, ctxSize time.Duration) error {
 	type result struct {
 		path string
@@ -49,7 +50,11 @@ func Dialogues(ctx context.Context, dirPath string, w io.Writer, target string, 
 			defer f.Close()
 
 			var messages []data.CreatureMessage
-			for op, err := range cam.Parse(f, nil) {
+			for op, err := range cam.Parse(f, &cam.ParseOpts{
+				TFilter: map[data.OpType]bool{
+					data.TCreatureMessage: true,
+				},
+			}) {
 				if err != nil {
 					return err
 				}

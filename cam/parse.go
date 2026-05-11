@@ -13,6 +13,9 @@ import (
 type ParseOpts struct {
 	// If set, only yield the specified operation types.
 	TFilter map[data.OpType]bool
+
+	// If set, Parse will populate the maps.
+	Stats *ParseStats
 }
 
 // Parse returns an iterator over the provided io.ReadSeeker that returns subsequent data.Operations.
@@ -31,6 +34,7 @@ func Parse(r io.ReadSeeker, opts *ParseOpts) iter.Seq2[data.Operation, error] {
 
 		state := &parseState{
 			tiles: make(map[tileKey][]data.Thing),
+			stats: opts.Stats,
 		}
 
 		for packet, err := range Read(r) {
