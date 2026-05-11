@@ -1,11 +1,13 @@
 package cam
 
 import (
+	"time"
+
 	"github.com/s5i/tcam/data"
 )
 
-func parseLogin(m *message) (data.Login, error) {
-	op := data.Login{}
+func parseLogin(m *message, ignore bool, offset time.Duration) (data.Login, error) {
+	op := data.Login{TimeOffset: offset}
 	var err error
 	op.PlayerID, err = m.getU32()
 	if err != nil {
@@ -34,21 +36,25 @@ func parseLogin(m *message) (data.Login, error) {
 	return op, nil
 }
 
-func parseDisconnectClient(m *message) (data.DisconnectClient, error) {
+func parseDisconnectClient(m *message, ignore bool, offset time.Duration) (data.DisconnectClient, error) {
 	msg, err := m.getString()
-	return data.DisconnectClient{Message: msg}, err
+	return data.DisconnectClient{TimeOffset: offset, Message: msg}, err
 }
 
-func parseWaitList(m *message) (data.WaitList, error) {
+func parseWaitList(m *message, ignore bool, offset time.Duration) (data.WaitList, error) {
 	msg, err := m.getString()
 	if err != nil {
 		return data.WaitList{}, err
 	}
 	t, err := m.getByte()
-	return data.WaitList{Message: msg, Time: t}, err
+	return data.WaitList{TimeOffset: offset, Message: msg, Time: t}, err
 }
 
-func parseMapDescription(m *message, s *parseState) (data.MapDescription, error) {
+func parsePing(m *message, ignore bool, offset time.Duration) (data.Ping, error) {
+	return data.Ping{TimeOffset: offset}, nil
+}
+
+func parseMapDescription(m *message, s *parseState, ignore bool, offset time.Duration) (data.MapDescription, error) {
 	loc, err := m.getLocation()
 	if err != nil {
 		return data.MapDescription{}, err
@@ -59,10 +65,10 @@ func parseMapDescription(m *message, s *parseState) (data.MapDescription, error)
 		return data.MapDescription{}, err
 	}
 	s.updateTiles(tiles)
-	return data.MapDescription{PlayerPos: loc, Tiles: tiles}, nil
+	return data.MapDescription{TimeOffset: offset, PlayerPos: loc, Tiles: tiles}, nil
 }
 
-func parseMoveNorth(m *message, s *parseState) (data.MoveNorth, error) {
+func parseMoveNorth(m *message, s *parseState, ignore bool, offset time.Duration) (data.MoveNorth, error) {
 	s.playerPos.Y--
 	loc := s.playerPos
 	tiles, err := getMapDescription(m, loc.X-8, loc.Y-6, loc.Z, 18, 1)
@@ -70,10 +76,10 @@ func parseMoveNorth(m *message, s *parseState) (data.MoveNorth, error) {
 		return data.MoveNorth{}, err
 	}
 	s.updateTiles(tiles)
-	return data.MoveNorth{Tiles: tiles}, nil
+	return data.MoveNorth{TimeOffset: offset, Tiles: tiles}, nil
 }
 
-func parseMoveEast(m *message, s *parseState) (data.MoveEast, error) {
+func parseMoveEast(m *message, s *parseState, ignore bool, offset time.Duration) (data.MoveEast, error) {
 	s.playerPos.X++
 	loc := s.playerPos
 	tiles, err := getMapDescription(m, loc.X+9, loc.Y-6, loc.Z, 1, 14)
@@ -81,10 +87,10 @@ func parseMoveEast(m *message, s *parseState) (data.MoveEast, error) {
 		return data.MoveEast{}, err
 	}
 	s.updateTiles(tiles)
-	return data.MoveEast{Tiles: tiles}, nil
+	return data.MoveEast{TimeOffset: offset, Tiles: tiles}, nil
 }
 
-func parseMoveSouth(m *message, s *parseState) (data.MoveSouth, error) {
+func parseMoveSouth(m *message, s *parseState, ignore bool, offset time.Duration) (data.MoveSouth, error) {
 	s.playerPos.Y++
 	loc := s.playerPos
 	tiles, err := getMapDescription(m, loc.X-8, loc.Y+7, loc.Z, 18, 1)
@@ -92,10 +98,10 @@ func parseMoveSouth(m *message, s *parseState) (data.MoveSouth, error) {
 		return data.MoveSouth{}, err
 	}
 	s.updateTiles(tiles)
-	return data.MoveSouth{Tiles: tiles}, nil
+	return data.MoveSouth{TimeOffset: offset, Tiles: tiles}, nil
 }
 
-func parseMoveWest(m *message, s *parseState) (data.MoveWest, error) {
+func parseMoveWest(m *message, s *parseState, ignore bool, offset time.Duration) (data.MoveWest, error) {
 	s.playerPos.X--
 	loc := s.playerPos
 	tiles, err := getMapDescription(m, loc.X-8, loc.Y-6, loc.Z, 1, 14)
@@ -103,10 +109,10 @@ func parseMoveWest(m *message, s *parseState) (data.MoveWest, error) {
 		return data.MoveWest{}, err
 	}
 	s.updateTiles(tiles)
-	return data.MoveWest{Tiles: tiles}, nil
+	return data.MoveWest{TimeOffset: offset, Tiles: tiles}, nil
 }
 
-func parseUpdateTile(m *message, s *parseState) (data.UpdateTile, error) {
+func parseUpdateTile(m *message, s *parseState, ignore bool, offset time.Duration) (data.UpdateTile, error) {
 	loc, err := m.getLocation()
 	if err != nil {
 		return data.UpdateTile{}, err
@@ -119,7 +125,7 @@ func parseUpdateTile(m *message, s *parseState) (data.UpdateTile, error) {
 		if _, err := m.getU16(); err != nil {
 			return data.UpdateTile{}, err
 		}
-		return data.UpdateTile{Location: loc}, nil
+		return data.UpdateTile{TimeOffset: offset, Location: loc}, nil
 	}
 	tile, err := parseTileDescription(m, loc)
 	if err != nil {
@@ -129,10 +135,10 @@ func parseUpdateTile(m *message, s *parseState) (data.UpdateTile, error) {
 		return data.UpdateTile{}, err
 	}
 	s.updateTiles([]data.Tile{tile})
-	return data.UpdateTile{Location: loc, Tile: &tile}, nil
+	return data.UpdateTile{TimeOffset: offset, Location: loc, Tile: &tile}, nil
 }
 
-func parseAddTileItem(m *message, s *parseState) (data.AddTileItem, error) {
+func parseAddTileItem(m *message, s *parseState, ignore bool, offset time.Duration) (data.AddTileItem, error) {
 	loc, err := m.getLocation()
 	if err != nil {
 		return data.AddTileItem{}, err
@@ -142,10 +148,10 @@ func parseAddTileItem(m *message, s *parseState) (data.AddTileItem, error) {
 		return data.AddTileItem{}, err
 	}
 	s.addThing(loc, thing)
-	return data.AddTileItem{Location: loc, Thing: thing}, nil
+	return data.AddTileItem{TimeOffset: offset, Location: loc, Thing: thing}, nil
 }
 
-func parseUpdateTileItem(m *message, s *parseState) (data.UpdateTileItem, error) {
+func parseUpdateTileItem(m *message, s *parseState, ignore bool, offset time.Duration) (data.UpdateTileItem, error) {
 	loc, err := m.getLocation()
 	if err != nil {
 		return data.UpdateTileItem{}, err
@@ -159,10 +165,10 @@ func parseUpdateTileItem(m *message, s *parseState) (data.UpdateTileItem, error)
 		return data.UpdateTileItem{}, err
 	}
 	s.replaceThing(loc, int(stack), thing)
-	return data.UpdateTileItem{Location: loc, StackIndex: stack, Thing: thing}, nil
+	return data.UpdateTileItem{TimeOffset: offset, Location: loc, StackIndex: stack, Thing: thing}, nil
 }
 
-func parseRemoveTileItem(m *message, s *parseState) (data.RemoveTileItem, error) {
+func parseRemoveTileItem(m *message, s *parseState, ignore bool, offset time.Duration) (data.RemoveTileItem, error) {
 	loc, err := m.getLocation()
 	if err != nil {
 		return data.RemoveTileItem{}, err
@@ -174,10 +180,10 @@ func parseRemoveTileItem(m *message, s *parseState) (data.RemoveTileItem, error)
 	if !loc.IsCreature() {
 		s.removeThing(loc, int(stack))
 	}
-	return data.RemoveTileItem{Location: loc, StackIndex: stack}, nil
+	return data.RemoveTileItem{TimeOffset: offset, Location: loc, StackIndex: stack}, nil
 }
 
-func parseMoveCreature(m *message, s *parseState) (data.MoveCreature, error) {
+func parseMoveCreature(m *message, s *parseState, ignore bool, offset time.Duration) (data.MoveCreature, error) {
 	oldLoc, err := m.getLocation()
 	if err != nil {
 		return data.MoveCreature{}, err
@@ -201,11 +207,11 @@ func parseMoveCreature(m *message, s *parseState) (data.MoveCreature, error) {
 			s.addThing(newLoc, *thing)
 		}
 	}
-	return data.MoveCreature{OldLocation: oldLoc, OldStack: oldStack, NewLocation: newLoc}, nil
+	return data.MoveCreature{TimeOffset: offset, OldLocation: oldLoc, OldStack: oldStack, NewLocation: newLoc}, nil
 }
 
-func parseContainer(m *message) (data.Container, error) {
-	op := data.Container{}
+func parseContainer(m *message, ignore bool, offset time.Duration) (data.Container, error) {
+	op := data.Container{TimeOffset: offset}
 	var err error
 	op.ContainerID, err = m.getByte()
 	if err != nil {
@@ -241,21 +247,21 @@ func parseContainer(m *message) (data.Container, error) {
 	return op, nil
 }
 
-func parseCloseContainer(m *message) (data.CloseContainer, error) {
+func parseCloseContainer(m *message, ignore bool, offset time.Duration) (data.CloseContainer, error) {
 	id, err := m.getByte()
-	return data.CloseContainer{ContainerID: id}, err
+	return data.CloseContainer{TimeOffset: offset, ContainerID: id}, err
 }
 
-func parseAddContainerItem(m *message) (data.AddContainerItem, error) {
+func parseAddContainerItem(m *message, ignore bool, offset time.Duration) (data.AddContainerItem, error) {
 	id, err := m.getByte()
 	if err != nil {
 		return data.AddContainerItem{}, err
 	}
 	thing, err := getThing(m)
-	return data.AddContainerItem{ContainerID: id, Thing: thing}, err
+	return data.AddContainerItem{TimeOffset: offset, ContainerID: id, Thing: thing}, err
 }
 
-func parseUpdateContainerItem(m *message) (data.UpdateContainerItem, error) {
+func parseUpdateContainerItem(m *message, ignore bool, offset time.Duration) (data.UpdateContainerItem, error) {
 	id, err := m.getByte()
 	if err != nil {
 		return data.UpdateContainerItem{}, err
@@ -265,19 +271,19 @@ func parseUpdateContainerItem(m *message) (data.UpdateContainerItem, error) {
 		return data.UpdateContainerItem{}, err
 	}
 	thing, err := getThing(m)
-	return data.UpdateContainerItem{ContainerID: id, Slot: slot, Thing: thing}, err
+	return data.UpdateContainerItem{TimeOffset: offset, ContainerID: id, Slot: slot, Thing: thing}, err
 }
 
-func parseRemoveContainerItem(m *message) (data.RemoveContainerItem, error) {
+func parseRemoveContainerItem(m *message, ignore bool, offset time.Duration) (data.RemoveContainerItem, error) {
 	id, err := m.getByte()
 	if err != nil {
 		return data.RemoveContainerItem{}, err
 	}
 	slot, err := m.getByte()
-	return data.RemoveContainerItem{ContainerID: id, Slot: slot}, err
+	return data.RemoveContainerItem{TimeOffset: offset, ContainerID: id, Slot: slot}, err
 }
 
-func parseInventoryItem(m *message, packetHead byte) (data.Operation, error) {
+func parseInventoryItem(m *message, packetHead byte, ignore bool, offset time.Duration) (data.Operation, error) {
 	if packetHead == 0x78 {
 		slot, err := m.getByte()
 		if err != nil {
@@ -287,17 +293,17 @@ func parseInventoryItem(m *message, packetHead byte) (data.Operation, error) {
 		if err != nil {
 			return nil, err
 		}
-		return data.InventorySetItem{Slot: slot, Item: item}, nil
+		return data.InventorySetItem{TimeOffset: offset, Slot: slot, Item: item}, nil
 	}
 	// packetHead == 0x79
 	slot, err := m.getByte()
 	if err != nil {
 		return nil, err
 	}
-	return data.InventoryClearItem{Slot: slot}, nil
+	return data.InventoryClearItem{TimeOffset: offset, Slot: slot}, nil
 }
 
-func parseTradeItemRequest(m *message) (data.TradeItemRequest, error) {
+func parseTradeItemRequest(m *message, ignore bool, offset time.Duration) (data.TradeItemRequest, error) {
 	name, err := m.getString()
 	if err != nil {
 		return data.TradeItemRequest{}, err
@@ -306,7 +312,7 @@ func parseTradeItemRequest(m *message) (data.TradeItemRequest, error) {
 	if err != nil {
 		return data.TradeItemRequest{}, err
 	}
-	op := data.TradeItemRequest{Name: name}
+	op := data.TradeItemRequest{TimeOffset: offset, Name: name}
 	for i := 0; i < int(size); i++ {
 		thing, err := getThing(m)
 		if err != nil {
@@ -317,25 +323,29 @@ func parseTradeItemRequest(m *message) (data.TradeItemRequest, error) {
 	return op, nil
 }
 
-func parseWorldLight(m *message) (data.WorldLight, error) {
+func parseCloseTrade(m *message, ignore bool, offset time.Duration) (data.CloseTrade, error) {
+	return data.CloseTrade{TimeOffset: offset}, nil
+}
+
+func parseWorldLight(m *message, ignore bool, offset time.Duration) (data.WorldLight, error) {
 	level, err := m.getByte()
 	if err != nil {
 		return data.WorldLight{}, err
 	}
 	color, err := m.getByte()
-	return data.WorldLight{Level: level, Color: color}, err
+	return data.WorldLight{TimeOffset: offset, Level: level, Color: color}, err
 }
 
-func parseMagicEffect(m *message) (data.MagicEffect, error) {
+func parseMagicEffect(m *message, ignore bool, offset time.Duration) (data.MagicEffect, error) {
 	loc, err := m.getLocation()
 	if err != nil {
 		return data.MagicEffect{}, err
 	}
 	effect, err := m.getByte()
-	return data.MagicEffect{Location: loc, Effect: effect}, err
+	return data.MagicEffect{TimeOffset: offset, Location: loc, Effect: effect}, err
 }
 
-func parseAnimatedText(m *message) (data.AnimatedText, error) {
+func parseAnimatedText(m *message, ignore bool, offset time.Duration) (data.AnimatedText, error) {
 	loc, err := m.getLocation()
 	if err != nil {
 		return data.AnimatedText{}, err
@@ -345,10 +355,10 @@ func parseAnimatedText(m *message) (data.AnimatedText, error) {
 		return data.AnimatedText{}, err
 	}
 	text, err := m.getString()
-	return data.AnimatedText{Location: loc, Color: color, Text: text}, err
+	return data.AnimatedText{TimeOffset: offset, Location: loc, Color: color, Text: text}, err
 }
 
-func parseDistanceShoot(m *message) (data.DistanceShoot, error) {
+func parseDistanceShoot(m *message, ignore bool, offset time.Duration) (data.DistanceShoot, error) {
 	from, err := m.getLocation()
 	if err != nil {
 		return data.DistanceShoot{}, err
@@ -358,28 +368,28 @@ func parseDistanceShoot(m *message) (data.DistanceShoot, error) {
 		return data.DistanceShoot{}, err
 	}
 	effect, err := m.getByte()
-	return data.DistanceShoot{From: from, To: to, Effect: effect}, err
+	return data.DistanceShoot{TimeOffset: offset, From: from, To: to, Effect: effect}, err
 }
 
-func parseCreatureSquare(m *message) (data.CreatureSquare, error) {
+func parseCreatureSquare(m *message, ignore bool, offset time.Duration) (data.CreatureSquare, error) {
 	id, err := m.getU32()
 	if err != nil {
 		return data.CreatureSquare{}, err
 	}
 	color, err := m.getByte()
-	return data.CreatureSquare{CreatureID: id, Color: color}, err
+	return data.CreatureSquare{TimeOffset: offset, CreatureID: id, Color: color}, err
 }
 
-func parseCreatureHealth(m *message) (data.CreatureHealth, error) {
+func parseCreatureHealth(m *message, ignore bool, offset time.Duration) (data.CreatureHealth, error) {
 	id, err := m.getU32()
 	if err != nil {
 		return data.CreatureHealth{}, err
 	}
 	health, err := m.getByte()
-	return data.CreatureHealth{CreatureID: id, Health: health}, err
+	return data.CreatureHealth{TimeOffset: offset, CreatureID: id, Health: health}, err
 }
 
-func parseCreatureLight(m *message) (data.CreatureLight, error) {
+func parseCreatureLight(m *message, ignore bool, offset time.Duration) (data.CreatureLight, error) {
 	id, err := m.getU32()
 	if err != nil {
 		return data.CreatureLight{}, err
@@ -389,47 +399,47 @@ func parseCreatureLight(m *message) (data.CreatureLight, error) {
 		return data.CreatureLight{}, err
 	}
 	color, err := m.getByte()
-	return data.CreatureLight{CreatureID: id, Level: level, Color: color}, err
+	return data.CreatureLight{TimeOffset: offset, CreatureID: id, Level: level, Color: color}, err
 }
 
-func parseCreatureOutfit(m *message) (data.CreatureOutfit, error) {
+func parseCreatureOutfit(m *message, ignore bool, offset time.Duration) (data.CreatureOutfit, error) {
 	id, err := m.getU32()
 	if err != nil {
 		return data.CreatureOutfit{}, err
 	}
 	outfit, err := m.getOutfit()
-	return data.CreatureOutfit{CreatureID: id, Outfit: outfit}, err
+	return data.CreatureOutfit{TimeOffset: offset, CreatureID: id, Outfit: outfit}, err
 }
 
-func parseChangeSpeed(m *message) (data.ChangeSpeed, error) {
+func parseChangeSpeed(m *message, ignore bool, offset time.Duration) (data.ChangeSpeed, error) {
 	id, err := m.getU32()
 	if err != nil {
 		return data.ChangeSpeed{}, err
 	}
 	speed, err := m.getU16()
-	return data.ChangeSpeed{CreatureID: id, Speed: speed}, err
+	return data.ChangeSpeed{TimeOffset: offset, CreatureID: id, Speed: speed}, err
 }
 
-func parseCreatureSkull(m *message) (data.CreatureSkull, error) {
+func parseCreatureSkull(m *message, ignore bool, offset time.Duration) (data.CreatureSkull, error) {
 	id, err := m.getU32()
 	if err != nil {
 		return data.CreatureSkull{}, err
 	}
 	skull, err := m.getByte()
-	return data.CreatureSkull{CreatureID: id, Skull: skull}, err
+	return data.CreatureSkull{TimeOffset: offset, CreatureID: id, Skull: skull}, err
 }
 
-func parseCreatureShield(m *message) (data.CreatureShield, error) {
+func parseCreatureShield(m *message, ignore bool, offset time.Duration) (data.CreatureShield, error) {
 	id, err := m.getU32()
 	if err != nil {
 		return data.CreatureShield{}, err
 	}
 	shield, err := m.getByte()
-	return data.CreatureShield{CreatureID: id, Shield: shield}, err
+	return data.CreatureShield{TimeOffset: offset, CreatureID: id, Shield: shield}, err
 }
 
-func parseTextWindow(m *message) (data.TextWindow, error) {
-	op := data.TextWindow{}
+func parseTextWindow(m *message, ignore bool, offset time.Duration) (data.TextWindow, error) {
+	op := data.TextWindow{TimeOffset: offset}
 	var err error
 	op.WindowID, err = m.getU32()
 	if err != nil {
@@ -451,8 +461,8 @@ func parseTextWindow(m *message) (data.TextWindow, error) {
 	return op, err
 }
 
-func parseHouseWindow(m *message) (data.HouseWindow, error) {
-	op := data.HouseWindow{}
+func parseHouseWindow(m *message, ignore bool, offset time.Duration) (data.HouseWindow, error) {
+	op := data.HouseWindow{TimeOffset: offset}
 	var err error
 	op.Unknown, err = m.getByte()
 	if err != nil {
@@ -466,8 +476,8 @@ func parseHouseWindow(m *message) (data.HouseWindow, error) {
 	return op, err
 }
 
-func parsePlayerStats(m *message) (data.PlayerStats, error) {
-	op := data.PlayerStats{}
+func parsePlayerStats(m *message, ignore bool, offset time.Duration) (data.PlayerStats, error) {
+	op := data.PlayerStats{TimeOffset: offset}
 	var err error
 	op.HP, err = m.getU16()
 	if err != nil {
@@ -513,8 +523,8 @@ func parsePlayerStats(m *message) (data.PlayerStats, error) {
 	return op, err
 }
 
-func parsePlayerSkills(m *message) (data.PlayerSkills, error) {
-	op := data.PlayerSkills{}
+func parsePlayerSkills(m *message, ignore bool, offset time.Duration) (data.PlayerSkills, error) {
+	op := data.PlayerSkills{TimeOffset: offset}
 	for i := 0; i < 7; i++ {
 		level, err := m.getByte()
 		if err != nil {
@@ -529,13 +539,17 @@ func parsePlayerSkills(m *message) (data.PlayerSkills, error) {
 	return op, nil
 }
 
-func parsePlayerIcons(m *message) (data.PlayerIcons, error) {
+func parsePlayerIcons(m *message, ignore bool, offset time.Duration) (data.PlayerIcons, error) {
 	icons, err := m.getByte()
-	return data.PlayerIcons{Icons: icons}, err
+	return data.PlayerIcons{TimeOffset: offset, Icons: icons}, err
 }
 
-func parseCreatureSpeak(m *message) (data.CreatureSpeak, error) {
-	op := data.CreatureSpeak{}
+func parseCancelTarget(m *message, ignore bool, offset time.Duration) (data.CancelTarget, error) {
+	return data.CancelTarget{TimeOffset: offset}, nil
+}
+
+func parseCreatureSpeak(m *message, ignore bool, offset time.Duration) (data.CreatureSpeak, error) {
+	op := data.CreatureSpeak{TimeOffset: offset}
 	var err error
 	op.StatementID, err = m.getU32()
 	if err != nil {
@@ -567,12 +581,12 @@ func parseCreatureSpeak(m *message) (data.CreatureSpeak, error) {
 	return op, err
 }
 
-func parseChannelsDialog(m *message) (data.ChannelsDialog, error) {
+func parseChannelsDialog(m *message, ignore bool, offset time.Duration) (data.ChannelsDialog, error) {
 	size, err := m.getByte()
 	if err != nil {
 		return data.ChannelsDialog{}, err
 	}
-	op := data.ChannelsDialog{}
+	op := data.ChannelsDialog{TimeOffset: offset}
 	for i := 0; i < int(size); i++ {
 		id, err := m.getU16()
 		if err != nil {
@@ -587,64 +601,68 @@ func parseChannelsDialog(m *message) (data.ChannelsDialog, error) {
 	return op, nil
 }
 
-func parseChannel(m *message) (data.Channel, error) {
+func parseChannel(m *message, ignore bool, offset time.Duration) (data.Channel, error) {
 	id, err := m.getU16()
 	if err != nil {
 		return data.Channel{}, err
 	}
 	name, err := m.getString()
-	return data.Channel{ID: id, Name: name}, err
+	return data.Channel{TimeOffset: offset, ID: id, Name: name}, err
 }
 
-func parseOpenPrivateChannel(m *message) (data.OpenPrivateChannel, error) {
+func parseOpenPrivateChannel(m *message, ignore bool, offset time.Duration) (data.OpenPrivateChannel, error) {
 	name, err := m.getString()
-	return data.OpenPrivateChannel{Name: name}, err
+	return data.OpenPrivateChannel{TimeOffset: offset, Name: name}, err
 }
 
-func parseRuleViolationsChannel(m *message) (data.RuleViolationsChannel, error) {
+func parseRuleViolationsChannel(m *message, ignore bool, offset time.Duration) (data.RuleViolationsChannel, error) {
 	size, err := m.getU16()
-	return data.RuleViolationsChannel{Size: size}, err
+	return data.RuleViolationsChannel{TimeOffset: offset, Size: size}, err
 }
 
-func parseRemoveReport(m *message) (data.RemoveReport, error) {
+func parseRemoveReport(m *message, ignore bool, offset time.Duration) (data.RemoveReport, error) {
 	name, err := m.getString()
-	return data.RemoveReport{Name: name}, err
+	return data.RemoveReport{TimeOffset: offset, Name: name}, err
 }
 
-func parseRuleViolationCancel(m *message) (data.RuleViolationCancel, error) {
+func parseRuleViolationCancel(m *message, ignore bool, offset time.Duration) (data.RuleViolationCancel, error) {
 	name, err := m.getString()
-	return data.RuleViolationCancel{Name: name}, err
+	return data.RuleViolationCancel{TimeOffset: offset, Name: name}, err
 }
 
-func parseCreatePrivateChannel(m *message) (data.CreatePrivateChannel, error) {
+func parseLockRuleViolation(m *message, ignore bool, offset time.Duration) (data.LockRuleViolation, error) {
+	return data.LockRuleViolation{TimeOffset: offset}, nil
+}
+
+func parseCreatePrivateChannel(m *message, ignore bool, offset time.Duration) (data.CreatePrivateChannel, error) {
 	id, err := m.getU16()
 	if err != nil {
 		return data.CreatePrivateChannel{}, err
 	}
 	name, err := m.getString()
-	return data.CreatePrivateChannel{ID: id, Name: name}, err
+	return data.CreatePrivateChannel{TimeOffset: offset, ID: id, Name: name}, err
 }
 
-func parseClosePrivate(m *message) (data.ClosePrivate, error) {
+func parseClosePrivate(m *message, ignore bool, offset time.Duration) (data.ClosePrivate, error) {
 	id, err := m.getU16()
-	return data.ClosePrivate{ChannelID: id}, err
+	return data.ClosePrivate{TimeOffset: offset, ChannelID: id}, err
 }
 
-func parseTextMessage(m *message) (data.TextMessage, error) {
+func parseTextMessage(m *message, ignore bool, offset time.Duration) (data.TextMessage, error) {
 	t, err := m.getByte()
 	if err != nil {
 		return data.TextMessage{}, err
 	}
 	text, err := m.getString()
-	return data.TextMessage{Type: t, Text: text}, err
+	return data.TextMessage{TimeOffset: offset, Type: t, Text: text}, err
 }
 
-func parseCancelWalk(m *message) (data.CancelWalk, error) {
+func parseCancelWalk(m *message, ignore bool, offset time.Duration) (data.CancelWalk, error) {
 	dir, err := m.getByte()
-	return data.CancelWalk{Direction: data.Direction(dir)}, err
+	return data.CancelWalk{TimeOffset: offset, Direction: data.Direction(dir)}, err
 }
 
-func parseFloorChangeUp(m *message, s *parseState) (data.FloorChangeUp, error) {
+func parseFloorChangeUp(m *message, s *parseState, ignore bool, offset time.Duration) (data.FloorChangeUp, error) {
 	myPos := s.playerPos
 	myPos.Z--
 
@@ -669,10 +687,10 @@ func parseFloorChangeUp(m *message, s *parseState) (data.FloorChangeUp, error) {
 
 	s.playerPos = data.Location{X: myPos.X + 1, Y: myPos.Y + 1, Z: myPos.Z}
 	s.updateTiles(tiles)
-	return data.FloorChangeUp{Tiles: tiles}, nil
+	return data.FloorChangeUp{TimeOffset: offset, Tiles: tiles}, nil
 }
 
-func parseFloorChangeDown(m *message, s *parseState) (data.FloorChangeDown, error) {
+func parseFloorChangeDown(m *message, s *parseState, ignore bool, offset time.Duration) (data.FloorChangeDown, error) {
 	myPos := s.playerPos
 	myPos.Z++
 
@@ -696,10 +714,10 @@ func parseFloorChangeDown(m *message, s *parseState) (data.FloorChangeDown, erro
 
 	s.playerPos = data.Location{X: myPos.X - 1, Y: myPos.Y - 1, Z: myPos.Z}
 	s.updateTiles(tiles)
-	return data.FloorChangeDown{Tiles: tiles}, nil
+	return data.FloorChangeDown{TimeOffset: offset, Tiles: tiles}, nil
 }
 
-func parseOutfitWindow(m *message) (data.OutfitWindow, error) {
+func parseOutfitWindow(m *message, ignore bool, offset time.Duration) (data.OutfitWindow, error) {
 	outfit, err := m.getOutfit()
 	if err != nil {
 		return data.OutfitWindow{}, err
@@ -709,10 +727,10 @@ func parseOutfitWindow(m *message) (data.OutfitWindow, error) {
 		return data.OutfitWindow{}, err
 	}
 	end, err := m.getU16()
-	return data.OutfitWindow{Outfit: outfit, OutfitStart: start, OutfitEnd: end}, err
+	return data.OutfitWindow{TimeOffset: offset, Outfit: outfit, OutfitStart: start, OutfitEnd: end}, err
 }
 
-func parseVIP(m *message) (data.VIP, error) {
+func parseVIP(m *message, ignore bool, offset time.Duration) (data.VIP, error) {
 	id, err := m.getU32()
 	if err != nil {
 		return data.VIP{}, err
@@ -722,15 +740,15 @@ func parseVIP(m *message) (data.VIP, error) {
 		return data.VIP{}, err
 	}
 	online, err := m.getByte()
-	return data.VIP{ID: id, Name: name, Online: online}, err
+	return data.VIP{TimeOffset: offset, ID: id, Name: name, Online: online}, err
 }
 
-func parseVIPLogin(m *message) (data.VIPLogin, error) {
+func parseVIPLogin(m *message, ignore bool, offset time.Duration) (data.VIPLogin, error) {
 	id, err := m.getU32()
-	return data.VIPLogin{ID: id}, err
+	return data.VIPLogin{TimeOffset: offset, ID: id}, err
 }
 
-func parseVIPLogout(m *message) (data.VIPLogout, error) {
+func parseVIPLogout(m *message, ignore bool, offset time.Duration) (data.VIPLogout, error) {
 	id, err := m.getU32()
-	return data.VIPLogout{ID: id}, err
+	return data.VIPLogout{TimeOffset: offset, ID: id}, err
 }

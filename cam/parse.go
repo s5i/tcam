@@ -105,119 +105,119 @@ func parsePacket(state *parseState, buf []byte, timeOffset time.Duration) ([]dat
 		var op data.Operation
 		switch head {
 		case 0x0A:
-			op, err = parseLogin(m)
+			op, err = parseLogin(m, false, timeOffset)
 		case 0x14:
-			op, err = parseDisconnectClient(m)
+			op, err = parseDisconnectClient(m, false, timeOffset)
 		case 0x16:
-			op, err = parseWaitList(m)
+			op, err = parseWaitList(m, false, timeOffset)
 		case 0x1E:
-			op = data.Ping{}
+			op, err = parsePing(m, false, timeOffset)
 		case 0x64:
-			op, err = parseMapDescription(m, state)
+			op, err = parseMapDescription(m, state, false, timeOffset)
 		case 0x65:
-			op, err = parseMoveNorth(m, state)
+			op, err = parseMoveNorth(m, state, false, timeOffset)
 		case 0x66:
-			op, err = parseMoveEast(m, state)
+			op, err = parseMoveEast(m, state, false, timeOffset)
 		case 0x67:
-			op, err = parseMoveSouth(m, state)
+			op, err = parseMoveSouth(m, state, false, timeOffset)
 		case 0x68:
-			op, err = parseMoveWest(m, state)
+			op, err = parseMoveWest(m, state, false, timeOffset)
 		case 0x69:
-			op, err = parseUpdateTile(m, state)
+			op, err = parseUpdateTile(m, state, false, timeOffset)
 		case 0x6A:
-			op, err = parseAddTileItem(m, state)
+			op, err = parseAddTileItem(m, state, false, timeOffset)
 		case 0x6B:
-			op, err = parseUpdateTileItem(m, state)
+			op, err = parseUpdateTileItem(m, state, false, timeOffset)
 		case 0x6C:
-			op, err = parseRemoveTileItem(m, state)
+			op, err = parseRemoveTileItem(m, state, false, timeOffset)
 		case 0x6D:
-			op, err = parseMoveCreature(m, state)
+			op, err = parseMoveCreature(m, state, false, timeOffset)
 		case 0x6E:
-			op, err = parseContainer(m)
+			op, err = parseContainer(m, false, timeOffset)
 		case 0x6F:
-			op, err = parseCloseContainer(m)
+			op, err = parseCloseContainer(m, false, timeOffset)
 		case 0x70:
-			op, err = parseAddContainerItem(m)
+			op, err = parseAddContainerItem(m, false, timeOffset)
 		case 0x71:
-			op, err = parseUpdateContainerItem(m)
+			op, err = parseUpdateContainerItem(m, false, timeOffset)
 		case 0x72:
-			op, err = parseRemoveContainerItem(m)
+			op, err = parseRemoveContainerItem(m, false, timeOffset)
 		case 0x78, 0x79:
-			op, err = parseInventoryItem(m, head)
+			op, err = parseInventoryItem(m, head, false, timeOffset)
 		case 0x7D, 0x7E:
-			op, err = parseTradeItemRequest(m)
+			op, err = parseTradeItemRequest(m, false, timeOffset)
 		case 0x7F:
-			op = data.CloseTrade{}
+			op, err = parseCloseTrade(m, false, timeOffset)
 		case 0x82:
-			op, err = parseWorldLight(m)
+			op, err = parseWorldLight(m, false, timeOffset)
 		case 0x83:
-			op, err = parseMagicEffect(m)
+			op, err = parseMagicEffect(m, false, timeOffset)
 		case 0x84:
-			op, err = parseAnimatedText(m)
+			op, err = parseAnimatedText(m, false, timeOffset)
 		case 0x85:
-			op, err = parseDistanceShoot(m)
+			op, err = parseDistanceShoot(m, false, timeOffset)
 		case 0x86:
-			op, err = parseCreatureSquare(m)
+			op, err = parseCreatureSquare(m, false, timeOffset)
 		case 0x8C:
-			op, err = parseCreatureHealth(m)
+			op, err = parseCreatureHealth(m, false, timeOffset)
 		case 0x8D:
-			op, err = parseCreatureLight(m)
+			op, err = parseCreatureLight(m, false, timeOffset)
 		case 0x8E:
-			op, err = parseCreatureOutfit(m)
+			op, err = parseCreatureOutfit(m, false, timeOffset)
 		case 0x8F:
-			op, err = parseChangeSpeed(m)
+			op, err = parseChangeSpeed(m, false, timeOffset)
 		case 0x90:
-			op, err = parseCreatureSkull(m)
+			op, err = parseCreatureSkull(m, false, timeOffset)
 		case 0x91:
-			op, err = parseCreatureShield(m)
+			op, err = parseCreatureShield(m, false, timeOffset)
 		case 0x96:
-			op, err = parseTextWindow(m)
+			op, err = parseTextWindow(m, false, timeOffset)
 		case 0x97:
-			op, err = parseHouseWindow(m)
+			op, err = parseHouseWindow(m, false, timeOffset)
 		case 0xA0:
-			op, err = parsePlayerStats(m)
+			op, err = parsePlayerStats(m, false, timeOffset)
 		case 0xA1:
-			op, err = parsePlayerSkills(m)
+			op, err = parsePlayerSkills(m, false, timeOffset)
 		case 0xA2:
-			op, err = parsePlayerIcons(m)
+			op, err = parsePlayerIcons(m, false, timeOffset)
 		case 0xA3:
-			op = data.CancelTarget{}
+			op, err = parseCancelTarget(m, false, timeOffset)
 		case 0xAA:
-			op, err = parseCreatureSpeak(m)
+			op, err = parseCreatureSpeak(m, false, timeOffset)
 		case 0xAB:
-			op, err = parseChannelsDialog(m)
+			op, err = parseChannelsDialog(m, false, timeOffset)
 		case 0xAC:
-			op, err = parseChannel(m)
+			op, err = parseChannel(m, false, timeOffset)
 		case 0xAD:
-			op, err = parseOpenPrivateChannel(m)
+			op, err = parseOpenPrivateChannel(m, false, timeOffset)
 		case 0xAE:
-			op, err = parseRuleViolationsChannel(m)
+			op, err = parseRuleViolationsChannel(m, false, timeOffset)
 		case 0xAF:
-			op, err = parseRemoveReport(m)
+			op, err = parseRemoveReport(m, false, timeOffset)
 		case 0xB0:
-			op, err = parseRuleViolationCancel(m)
+			op, err = parseRuleViolationCancel(m, false, timeOffset)
 		case 0xB1:
-			op = data.LockRuleViolation{}
+			op, err = parseLockRuleViolation(m, false, timeOffset)
 		case 0xB2:
-			op, err = parseCreatePrivateChannel(m)
+			op, err = parseCreatePrivateChannel(m, false, timeOffset)
 		case 0xB3:
-			op, err = parseClosePrivate(m)
+			op, err = parseClosePrivate(m, false, timeOffset)
 		case 0xB4:
-			op, err = parseTextMessage(m)
+			op, err = parseTextMessage(m, false, timeOffset)
 		case 0xB5:
-			op, err = parseCancelWalk(m)
+			op, err = parseCancelWalk(m, false, timeOffset)
 		case 0xBE:
-			op, err = parseFloorChangeUp(m, state)
+			op, err = parseFloorChangeUp(m, state, false, timeOffset)
 		case 0xBF:
-			op, err = parseFloorChangeDown(m, state)
+			op, err = parseFloorChangeDown(m, state, false, timeOffset)
 		case 0xC8:
-			op, err = parseOutfitWindow(m)
+			op, err = parseOutfitWindow(m, false, timeOffset)
 		case 0xD2:
-			op, err = parseVIP(m)
+			op, err = parseVIP(m, false, timeOffset)
 		case 0xD3:
-			op, err = parseVIPLogin(m)
+			op, err = parseVIPLogin(m, false, timeOffset)
 		case 0xD4:
-			op, err = parseVIPLogout(m)
+			op, err = parseVIPLogout(m, false, timeOffset)
 		default:
 			return ops, fmt.Errorf("unknown packet head: 0x%02X", head)
 		}
@@ -225,188 +225,7 @@ func parsePacket(state *parseState, buf []byte, timeOffset time.Duration) ([]dat
 		if err != nil {
 			return ops, fmt.Errorf("parsing 0x%02X: %w", head, err)
 		}
-		op = setTimeOffset(op, timeOffset)
 		ops = append(ops, op)
 	}
 	return ops, nil
-}
-
-func setTimeOffset(op data.Operation, t time.Duration) data.Operation {
-	switch v := op.(type) {
-	case data.Login:
-		v.TimeOffset = t
-		return v
-	case data.DisconnectClient:
-		v.TimeOffset = t
-		return v
-	case data.WaitList:
-		v.TimeOffset = t
-		return v
-	case data.Ping:
-		v.TimeOffset = t
-		return v
-	case data.MapDescription:
-		v.TimeOffset = t
-		return v
-	case data.MoveNorth:
-		v.TimeOffset = t
-		return v
-	case data.MoveEast:
-		v.TimeOffset = t
-		return v
-	case data.MoveSouth:
-		v.TimeOffset = t
-		return v
-	case data.MoveWest:
-		v.TimeOffset = t
-		return v
-	case data.UpdateTile:
-		v.TimeOffset = t
-		return v
-	case data.AddTileItem:
-		v.TimeOffset = t
-		return v
-	case data.UpdateTileItem:
-		v.TimeOffset = t
-		return v
-	case data.RemoveTileItem:
-		v.TimeOffset = t
-		return v
-	case data.MoveCreature:
-		v.TimeOffset = t
-		return v
-	case data.Container:
-		v.TimeOffset = t
-		return v
-	case data.CloseContainer:
-		v.TimeOffset = t
-		return v
-	case data.AddContainerItem:
-		v.TimeOffset = t
-		return v
-	case data.UpdateContainerItem:
-		v.TimeOffset = t
-		return v
-	case data.RemoveContainerItem:
-		v.TimeOffset = t
-		return v
-	case data.InventorySetItem:
-		v.TimeOffset = t
-		return v
-	case data.InventoryClearItem:
-		v.TimeOffset = t
-		return v
-	case data.TradeItemRequest:
-		v.TimeOffset = t
-		return v
-	case data.CloseTrade:
-		v.TimeOffset = t
-		return v
-	case data.WorldLight:
-		v.TimeOffset = t
-		return v
-	case data.MagicEffect:
-		v.TimeOffset = t
-		return v
-	case data.AnimatedText:
-		v.TimeOffset = t
-		return v
-	case data.DistanceShoot:
-		v.TimeOffset = t
-		return v
-	case data.CreatureSquare:
-		v.TimeOffset = t
-		return v
-	case data.CreatureHealth:
-		v.TimeOffset = t
-		return v
-	case data.CreatureLight:
-		v.TimeOffset = t
-		return v
-	case data.CreatureOutfit:
-		v.TimeOffset = t
-		return v
-	case data.ChangeSpeed:
-		v.TimeOffset = t
-		return v
-	case data.CreatureSkull:
-		v.TimeOffset = t
-		return v
-	case data.CreatureShield:
-		v.TimeOffset = t
-		return v
-	case data.TextWindow:
-		v.TimeOffset = t
-		return v
-	case data.HouseWindow:
-		v.TimeOffset = t
-		return v
-	case data.PlayerStats:
-		v.TimeOffset = t
-		return v
-	case data.PlayerSkills:
-		v.TimeOffset = t
-		return v
-	case data.PlayerIcons:
-		v.TimeOffset = t
-		return v
-	case data.CancelTarget:
-		v.TimeOffset = t
-		return v
-	case data.CreatureSpeak:
-		v.TimeOffset = t
-		return v
-	case data.ChannelsDialog:
-		v.TimeOffset = t
-		return v
-	case data.Channel:
-		v.TimeOffset = t
-		return v
-	case data.OpenPrivateChannel:
-		v.TimeOffset = t
-		return v
-	case data.RuleViolationsChannel:
-		v.TimeOffset = t
-		return v
-	case data.RemoveReport:
-		v.TimeOffset = t
-		return v
-	case data.RuleViolationCancel:
-		v.TimeOffset = t
-		return v
-	case data.LockRuleViolation:
-		v.TimeOffset = t
-		return v
-	case data.CreatePrivateChannel:
-		v.TimeOffset = t
-		return v
-	case data.ClosePrivate:
-		v.TimeOffset = t
-		return v
-	case data.TextMessage:
-		v.TimeOffset = t
-		return v
-	case data.CancelWalk:
-		v.TimeOffset = t
-		return v
-	case data.FloorChangeUp:
-		v.TimeOffset = t
-		return v
-	case data.FloorChangeDown:
-		v.TimeOffset = t
-		return v
-	case data.OutfitWindow:
-		v.TimeOffset = t
-		return v
-	case data.VIP:
-		v.TimeOffset = t
-		return v
-	case data.VIPLogin:
-		v.TimeOffset = t
-		return v
-	case data.VIPLogout:
-		v.TimeOffset = t
-		return v
-	}
-	return op
 }

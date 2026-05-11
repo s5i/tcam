@@ -2,6 +2,12 @@ package data
 
 import "time"
 
+// Operation represents an abstract operation.
+// Type-switch into concrete operation types for details.
+type Operation interface {
+	isOperation()
+}
+
 // Login (0x0A).
 type Login struct {
 	TimeOffset  time.Duration
@@ -420,3 +426,64 @@ type VIPLogout struct {
 	TimeOffset time.Duration
 	ID         uint32
 }
+
+func (Login) isOperation()                 {}
+func (DisconnectClient) isOperation()      {}
+func (WaitList) isOperation()              {}
+func (Ping) isOperation()                  {}
+func (MapDescription) isOperation()        {}
+func (MoveNorth) isOperation()             {}
+func (MoveEast) isOperation()              {}
+func (MoveSouth) isOperation()             {}
+func (MoveWest) isOperation()              {}
+func (UpdateTile) isOperation()            {}
+func (AddTileItem) isOperation()           {}
+func (UpdateTileItem) isOperation()        {}
+func (RemoveTileItem) isOperation()        {}
+func (MoveCreature) isOperation()          {}
+func (Container) isOperation()             {}
+func (CloseContainer) isOperation()        {}
+func (AddContainerItem) isOperation()      {}
+func (UpdateContainerItem) isOperation()   {}
+func (RemoveContainerItem) isOperation()   {}
+func (InventorySetItem) isOperation()      {}
+func (InventoryClearItem) isOperation()    {}
+func (TradeItemRequest) isOperation()      {}
+func (CloseTrade) isOperation()            {}
+func (WorldLight) isOperation()            {}
+func (MagicEffect) isOperation()           {}
+func (AnimatedText) isOperation()          {}
+func (DistanceShoot) isOperation()         {}
+func (CreatureSquare) isOperation()        {}
+func (CreatureHealth) isOperation()        {}
+func (CreatureLight) isOperation()         {}
+func (CreatureOutfit) isOperation()        {}
+func (ChangeSpeed) isOperation()           {}
+func (CreatureSkull) isOperation()         {}
+func (CreatureShield) isOperation()        {}
+func (TextWindow) isOperation()            {}
+func (HouseWindow) isOperation()           {}
+func (PlayerStats) isOperation()           {}
+func (SkillValue) isOperation()            {}
+func (PlayerSkills) isOperation()          {}
+func (PlayerIcons) isOperation()           {}
+func (CancelTarget) isOperation()          {}
+func (CreatureSpeak) isOperation()         {}
+func (ChannelEntry) isOperation()          {}
+func (ChannelsDialog) isOperation()        {}
+func (Channel) isOperation()               {}
+func (OpenPrivateChannel) isOperation()    {}
+func (RuleViolationsChannel) isOperation() {}
+func (RemoveReport) isOperation()          {}
+func (RuleViolationCancel) isOperation()   {}
+func (LockRuleViolation) isOperation()     {}
+func (CreatePrivateChannel) isOperation()  {}
+func (ClosePrivate) isOperation()          {}
+func (TextMessage) isOperation()           {}
+func (CancelWalk) isOperation()            {}
+func (FloorChangeUp) isOperation()         {}
+func (FloorChangeDown) isOperation()       {}
+func (OutfitWindow) isOperation()          {}
+func (VIP) isOperation()                   {}
+func (VIPLogin) isOperation()              {}
+func (VIPLogout) isOperation()             {}

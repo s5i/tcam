@@ -3,6 +3,7 @@
 
 !.gitignore
 !*.go
+!*.sh
 !*/
 
 !/go.sum
