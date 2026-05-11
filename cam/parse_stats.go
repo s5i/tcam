@@ -35,8 +35,8 @@ func (s *ParseStats) Merge(from *ParseStats) {
 // Write outputs human-readable ParseStats.
 func (s *ParseStats) Write(w io.Writer) {
 	for _, op := range slices.SortedFunc(maps.Keys(s.Count), func(a, b data.OpType) int {
-		return int(s.Duration[b] - s.Duration[a])
+		return int(s.Duration[b]/time.Duration(s.Count[b]+1) - s.Duration[a]/time.Duration(s.Count[a]+1))
 	}) {
-		fmt.Fprintf(w, "%s -> %v elapsed, %d ops, %v / op\n", data.OpName[op], s.Duration[op].Truncate(time.Millisecond), s.Count[op], s.Duration[op]/time.Duration(s.Count[op]))
+		fmt.Fprintf(w, "%s -> %v / op (%d ops, %v elapsed)\n", data.OpName[op], s.Duration[op]/time.Duration(s.Count[op]), s.Count[op], s.Duration[op].Truncate(time.Microsecond))
 	}
 }

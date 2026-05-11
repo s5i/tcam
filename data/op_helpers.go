@@ -60,8 +60,11 @@ type Creature struct {
 
 // Thing represents either a Creature or an Item on a tile.
 type Thing struct {
-	Creature *Creature // non-nil if this thing is a creature
-	Item     *Item     // non-nil if this thing is an item
+	Creature    Creature
+	HasCreature bool
+
+	Item    Item
+	HasItem bool
 }
 
 // Tile represents a map tile at a specific location containing things.

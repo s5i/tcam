@@ -6,6 +6,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"runtime"
 	"strings"
 	"sync"
 	"time"
@@ -16,11 +17,12 @@ import (
 )
 
 // ParseStats prints aggregate parsing performance statistics for a directory.
-func ParseStats(ctx context.Context, dirPath string, w io.Writer) error {
+func ParseStats(ctx context.Context, dirPath string, w io.Writer, noFilter bool) error {
 	totalStats := cam.NewParseStats()
 	var totalMu sync.Mutex
 
 	eg, ctx := errgroup.WithContext(ctx)
+	eg.SetLimit(runtime.NumCPU())
 	if err := filepath.WalkDir(dirPath, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
 			return err
@@ -46,6 +48,9 @@ func ParseStats(ctx context.Context, dirPath string, w io.Writer) error {
 					Count:    map[data.OpType]int{},
 					Duration: map[data.OpType]time.Duration{},
 				},
+			}
+			if !noFilter {
+				opts.TFilter = map[data.OpType]bool{}
 			}
 			for _, err := range cam.Parse(f, opts) {
 				if err != nil {

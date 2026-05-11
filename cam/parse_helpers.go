@@ -129,7 +129,6 @@ func (m *message) remaining() int {
 type parseState struct {
 	stats     *ParseStats
 	playerPos data.Location
-	tiles     map[tileKey][]data.Thing
 }
 
 func (m *message) getMapDescription(ignore bool, x, y, z, width, height int) ([]data.Tile, error) {
@@ -151,15 +150,17 @@ func (m *message) getMapDescription(ignore bool, x, y, z, width, height int) ([]
 		if err != nil {
 			return nil, err
 		}
-		tiles = append(tiles, t...)
+		if !ignore {
+			tiles = append(tiles, t...)
+		}
 	}
 	return tiles, nil
 }
 
 func (m *message) parseFloorDescription(ignore bool, x, y, z, width, height, offset int, skip *int) ([]data.Tile, error) {
 	var tiles []data.Tile
-	for nx := 0; nx < width; nx++ {
-		for ny := 0; ny < height; ny++ {
+	for nx := range width {
+		for ny := range height {
 			if *skip == 0 {
 				tileOpt, err := m.peekU16()
 				if err != nil {
@@ -177,7 +178,10 @@ func (m *message) parseFloorDescription(ignore bool, x, y, z, width, height, off
 					if err != nil {
 						return nil, err
 					}
-					tiles = append(tiles, tile)
+					if !ignore {
+						tiles = append(tiles, tile)
+					}
+
 					v, err := m.getU16()
 					if err != nil {
 						return nil, err
@@ -206,7 +210,9 @@ func (m *message) parseTileDescription(ignore bool, loc data.Location) (data.Til
 		if err != nil {
 			return data.Tile{}, err
 		}
-		tile.Things = append(tile.Things, thing)
+		if !ignore {
+			tile.Things = append(tile.Things, thing)
+		}
 	}
 	return tile, nil
 }
@@ -218,7 +224,7 @@ func (m *message) getThing(ignore bool) (data.Thing, error) {
 	}
 
 	if thingID == 0x0061 || thingID == 0x0062 {
-		c := &data.Creature{}
+		c := data.Creature{}
 		if thingID == 0x0062 {
 			// Known creature.
 			c.ID, err = m.getU32()
@@ -279,12 +285,12 @@ func (m *message) getThing(ignore bool) (data.Thing, error) {
 		if err != nil {
 			return data.Thing{}, err
 		}
-		return data.Thing{Creature: c}, nil
+		return data.Thing{HasCreature: true, Creature: c}, nil
 	}
 
 	if thingID == 0x0063 {
 		// Creature turn.
-		c := &data.Creature{}
+		c := data.Creature{}
 		c.ID, err = m.getU32()
 		if err != nil {
 			return data.Thing{}, err
@@ -294,14 +300,14 @@ func (m *message) getThing(ignore bool) (data.Thing, error) {
 			return data.Thing{}, err
 		}
 		c.Direction = data.Direction(dir)
-		return data.Thing{Creature: c}, nil
+		return data.Thing{HasCreature: true, Creature: c}, nil
 	}
 
 	item, err := getItem(m, thingID)
 	if err != nil {
 		return data.Thing{}, err
 	}
-	return data.Thing{Item: &item}, nil
+	return data.Thing{HasItem: true, Item: item}, nil
 }
 
 func getItem(m *message, itemID uint16) (data.Item, error) {
@@ -326,47 +332,4 @@ func getItem(m *message, itemID uint16) (data.Item, error) {
 		}
 	}
 	return item, nil
-}
-
-type tileKey struct {
-	x, y, z int
-}
-
-func (s *parseState) updateTiles(tiles []data.Tile) {
-	for _, t := range tiles {
-		k := tileKey{t.Location.X, t.Location.Y, t.Location.Z}
-		s.tiles[k] = append([]data.Thing(nil), t.Things...)
-	}
-}
-
-func (s *parseState) getThing(loc data.Location, stack int) *data.Thing {
-	k := tileKey{loc.X, loc.Y, loc.Z}
-	things := s.tiles[k]
-	if stack < 0 || stack >= len(things) {
-		return nil
-	}
-	return &things[stack]
-}
-
-func (s *parseState) addThing(loc data.Location, thing data.Thing) {
-	k := tileKey{loc.X, loc.Y, loc.Z}
-	s.tiles[k] = append(s.tiles[k], thing)
-}
-
-func (s *parseState) removeThing(loc data.Location, stack int) {
-	k := tileKey{loc.X, loc.Y, loc.Z}
-	things := s.tiles[k]
-	if stack < 0 || stack >= len(things) {
-		return
-	}
-	s.tiles[k] = append(things[:stack], things[stack+1:]...)
-}
-
-func (s *parseState) replaceThing(loc data.Location, stack int, thing data.Thing) {
-	k := tileKey{loc.X, loc.Y, loc.Z}
-	things := s.tiles[k]
-	if stack < 0 || stack >= len(things) {
-		return
-	}
-	things[stack] = thing
 }

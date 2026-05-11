@@ -33,7 +33,6 @@ func Parse(r io.ReadSeeker, opts *ParseOpts) iter.Seq2[data.Operation, error] {
 		}
 
 		state := &parseState{
-			tiles: make(map[tileKey][]data.Thing),
 			stats: opts.Stats,
 		}
 

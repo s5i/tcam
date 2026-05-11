@@ -37,17 +37,19 @@ func main() {
 		},
 	}
 
+	var statsCmdNoFilter bool
 	statsCmd := &cobra.Command{
-		Use:  "parse-stats cam-directory",
+		Use:  "parse-stats [--nofilter] cam-directory",
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ctx := cmd.Context()
 
 			camDir := args[0]
 
-			return ParseStats(ctx, camDir, os.Stderr)
+			return ParseStats(ctx, camDir, os.Stderr, statsCmdNoFilter)
 		},
 	}
+	statsCmd.PersistentFlags().BoolVar(&statsCmdNoFilter, "nofilter", false, "When true, skip the optype filter optimization.")
 
 	rootCmd.AddCommand(dialoguesCmd)
 	rootCmd.AddCommand(statsCmd)

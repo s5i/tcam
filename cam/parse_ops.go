@@ -128,7 +128,7 @@ func parseLoginPlayerState(m *message, s *parseState, ignore bool, offset time.D
 		if _, err := m.getByte(); err != nil { // "loop" byte (unused)
 			return nil, err
 		}
-		for i := 0; i < 32; i++ {
+		for range 32 {
 			if _, err := m.getByte(); err != nil {
 				return nil, err
 			}
@@ -171,7 +171,6 @@ func parseMap(m *message, s *parseState, ignore bool, offset time.Duration) (dat
 	if err != nil {
 		return nil, err
 	}
-	s.updateTiles(tiles)
 	return data.Map{TimeOffset: offset, PlayerPos: loc, Tiles: tiles}, nil
 }
 
@@ -182,7 +181,6 @@ func parseMoveNorth(m *message, s *parseState, ignore bool, offset time.Duration
 	if err != nil {
 		return nil, err
 	}
-	s.updateTiles(tiles)
 	return data.MoveNorth{TimeOffset: offset, Tiles: tiles}, nil
 }
 
@@ -193,7 +191,6 @@ func parseMoveEast(m *message, s *parseState, ignore bool, offset time.Duration)
 	if err != nil {
 		return nil, err
 	}
-	s.updateTiles(tiles)
 	return data.MoveEast{TimeOffset: offset, Tiles: tiles}, nil
 }
 
@@ -204,7 +201,6 @@ func parseMoveSouth(m *message, s *parseState, ignore bool, offset time.Duration
 	if err != nil {
 		return nil, err
 	}
-	s.updateTiles(tiles)
 	return data.MoveSouth{TimeOffset: offset, Tiles: tiles}, nil
 }
 
@@ -215,7 +211,6 @@ func parseMoveWest(m *message, s *parseState, ignore bool, offset time.Duration)
 	if err != nil {
 		return nil, err
 	}
-	s.updateTiles(tiles)
 	return data.MoveWest{TimeOffset: offset, Tiles: tiles}, nil
 }
 
@@ -241,8 +236,7 @@ func parseTileUpdate(m *message, s *parseState, ignore bool, offset time.Duratio
 	if _, err := m.getU16(); err != nil {
 		return nil, err
 	}
-	s.updateTiles([]data.Tile{tile})
-	return data.TileUpdate{TimeOffset: offset, Location: loc, Tile: &tile}, nil
+	return data.TileUpdate{TimeOffset: offset, Location: loc, Tile: tile, HasTile: true}, nil
 }
 
 func parseTileItemAdd(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
@@ -254,7 +248,6 @@ func parseTileItemAdd(m *message, s *parseState, ignore bool, offset time.Durati
 	if err != nil {
 		return nil, err
 	}
-	s.addThing(loc, thing)
 	return data.TileItemAdd{TimeOffset: offset, Location: loc, Thing: thing}, nil
 }
 
@@ -271,7 +264,6 @@ func parseTileItemUpdate(m *message, s *parseState, ignore bool, offset time.Dur
 	if err != nil {
 		return nil, err
 	}
-	s.replaceThing(loc, int(stack), thing)
 	return data.TileItemUpdate{TimeOffset: offset, Location: loc, StackIndex: stack, Thing: thing}, nil
 }
 
@@ -283,9 +275,6 @@ func parseTileItemRemove(m *message, s *parseState, ignore bool, offset time.Dur
 	stack, err := m.getByte()
 	if err != nil {
 		return nil, err
-	}
-	if !loc.IsCreature() {
-		s.removeThing(loc, int(stack))
 	}
 	return data.TileItemRemove{TimeOffset: offset, Location: loc, StackIndex: stack}, nil
 }
@@ -304,16 +293,6 @@ func parseCreatureMove(m *message, s *parseState, ignore bool, offset time.Durat
 		return nil, err
 	}
 
-	if oldLoc.IsCreature() {
-		cID := oldLoc.CreatureID(oldStack)
-		s.addThing(newLoc, data.Thing{Creature: &data.Creature{ID: cID}})
-	} else {
-		thing := s.getThing(oldLoc, int(oldStack))
-		if thing != nil && thing.Creature != nil {
-			s.removeThing(oldLoc, int(oldStack))
-			s.addThing(newLoc, *thing)
-		}
-	}
 	return data.CreatureMove{TimeOffset: offset, OldLocation: oldLoc, OldStack: oldStack, NewLocation: newLoc}, nil
 }
 
@@ -775,8 +754,15 @@ func parseChannelList(m *message, s *parseState, ignore bool, offset time.Durati
 	if err != nil {
 		return nil, err
 	}
-	op := data.ChannelList{TimeOffset: offset}
-	for i := 0; i < int(size); i++ {
+	op := data.ChannelList{
+		TimeOffset: offset,
+	}
+
+	if !ignore {
+		op.Channels = make([]data.ChannelEntry, 0, size)
+	}
+
+	for range size {
 		id, err := m.getU16()
 		if err != nil {
 			return nil, err
@@ -786,7 +772,9 @@ func parseChannelList(m *message, s *parseState, ignore bool, offset time.Durati
 		if err != nil {
 			return nil, err
 		}
-		op.Channels = append(op.Channels, data.ChannelEntry{ID: id, Name: name})
+		if !ignore {
+			op.Channels = append(op.Channels, data.ChannelEntry{ID: id, Name: name})
+		}
 	}
 	return op, nil
 }
@@ -892,7 +880,10 @@ func parseMoveFloorUp(m *message, s *parseState, ignore bool, offset time.Durati
 			if err != nil {
 				return nil, err
 			}
-			tiles = append(tiles, t...)
+			if !ignore {
+				tiles = append(tiles, t...)
+			}
+
 		}
 	} else if myPos.Z > 7 {
 		skip := 0
@@ -900,11 +891,12 @@ func parseMoveFloorUp(m *message, s *parseState, ignore bool, offset time.Durati
 		if err != nil {
 			return nil, err
 		}
-		tiles = append(tiles, t...)
+		if !ignore {
+			tiles = append(tiles, t...)
+		}
 	}
 
 	s.playerPos = data.Location{X: myPos.X + 1, Y: myPos.Y + 1, Z: myPos.Z}
-	s.updateTiles(tiles)
 	return data.MoveFloorUp{TimeOffset: offset, Tiles: tiles}, nil
 }
 
@@ -931,7 +923,6 @@ func parseMoveFloorDown(m *message, s *parseState, ignore bool, offset time.Dura
 	}
 
 	s.playerPos = data.Location{X: myPos.X - 1, Y: myPos.Y - 1, Z: myPos.Z}
-	s.updateTiles(tiles)
 	return data.MoveFloorDown{TimeOffset: offset, Tiles: tiles}, nil
 }
 

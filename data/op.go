@@ -68,7 +68,8 @@ type MoveWest struct {
 type TileUpdate struct {
 	TimeOffset time.Duration
 	Location   Location
-	Tile       *Tile // nil if tile was cleared (thingId == 0xFF01)
+	Tile       Tile
+	HasTile    bool // If false, tile was cleared.
 }
 
 // TileItemAdd (0x6A).
