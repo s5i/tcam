@@ -63,6 +63,7 @@ func Creature(ctx context.Context, dirPath string, w io.Writer, name string) err
 					data.TMoveWest:      true,
 					data.TMoveFloorDown: true,
 					data.TMoveFloorUp:   true,
+					data.TTileItemAdd:   true,
 				},
 			}) {
 				if err != nil {
@@ -94,6 +95,9 @@ func Creature(ctx context.Context, dirPath string, w io.Writer, name string) err
 				case data.MoveFloorUp:
 					ts = msg.TimeOffset
 					tiles = msg.Tiles
+				case data.TileItemAdd:
+					ts = msg.TimeOffset
+					tiles = []data.Tile{{Location: msg.Location, Things: []data.Thing{msg.Thing}}}
 				}
 
 				for _, t := range tiles {
