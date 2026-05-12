@@ -50,6 +50,7 @@ func Creature(ctx context.Context, dirPath string, w io.Writer, name string) err
 			}
 			defer f.Close()
 
+			who := map[uint32]string{}
 			where := map[uint32]data.Location{}
 			when := map[uint32]time.Duration{}
 
@@ -105,10 +106,11 @@ func Creature(ctx context.Context, dirPath string, w io.Writer, name string) err
 							continue
 						}
 
-						if !strings.EqualFold(name, th.Creature.Name) {
+						if name != "*" && !strings.EqualFold(name, th.Creature.Name) {
 							continue
 						}
 
+						who[th.Creature.ID] = th.Creature.Name
 						where[th.Creature.ID] = t.Location
 						when[th.Creature.ID] = ts
 					}
@@ -126,7 +128,7 @@ func Creature(ctx context.Context, dirPath string, w io.Writer, name string) err
 				return int(when[a] - when[b])
 			})
 			for _, id := range order {
-				fmt.Fprintf(b, "* %v -> (%d, %d, %d)\n", when[id].Truncate(time.Second), where[id].X, where[id].Y, where[id].Z)
+				fmt.Fprintf(b, "* %s @ (%d, %d, %d) at %v\n", who[id], where[id].X, where[id].Y, where[id].Z, when[id].Truncate(time.Millisecond))
 			}
 
 			resultsMu.Lock()
@@ -152,7 +154,12 @@ func Creature(ctx context.Context, dirPath string, w io.Writer, name string) err
 		return strings.Compare(a.path, b.path)
 	})
 
-	fmt.Fprintf(w, "# Creature %s\n", name)
+	if name == "*" {
+		fmt.Fprintf(w, "# All creatures\n")
+	} else {
+		fmt.Fprintf(w, "# Creature %s\n", name)
+	}
+
 	for _, r := range results {
 		fmt.Fprintf(w, "\n%s", r.text)
 	}
