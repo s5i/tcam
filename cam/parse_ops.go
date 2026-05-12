@@ -181,7 +181,7 @@ func parseMoveNorth(m *message, s *parseState, ignore bool, offset time.Duration
 	if err != nil {
 		return nil, err
 	}
-	return data.MoveNorth{TimeOffset: offset, Tiles: tiles}, nil
+	return data.MoveNorth{TimeOffset: offset, PlayerPos: s.playerPos, Tiles: tiles}, nil
 }
 
 func parseMoveEast(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
@@ -191,7 +191,7 @@ func parseMoveEast(m *message, s *parseState, ignore bool, offset time.Duration)
 	if err != nil {
 		return nil, err
 	}
-	return data.MoveEast{TimeOffset: offset, Tiles: tiles}, nil
+	return data.MoveEast{TimeOffset: offset, PlayerPos: s.playerPos, Tiles: tiles}, nil
 }
 
 func parseMoveSouth(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
@@ -201,7 +201,7 @@ func parseMoveSouth(m *message, s *parseState, ignore bool, offset time.Duration
 	if err != nil {
 		return nil, err
 	}
-	return data.MoveSouth{TimeOffset: offset, Tiles: tiles}, nil
+	return data.MoveSouth{TimeOffset: offset, PlayerPos: s.playerPos, Tiles: tiles}, nil
 }
 
 func parseMoveWest(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
@@ -211,7 +211,7 @@ func parseMoveWest(m *message, s *parseState, ignore bool, offset time.Duration)
 	if err != nil {
 		return nil, err
 	}
-	return data.MoveWest{TimeOffset: offset, Tiles: tiles}, nil
+	return data.MoveWest{TimeOffset: offset, PlayerPos: s.playerPos, Tiles: tiles}, nil
 }
 
 func parseTileUpdate(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
@@ -897,7 +897,7 @@ func parseMoveFloorUp(m *message, s *parseState, ignore bool, offset time.Durati
 	}
 
 	s.playerPos = data.Location{X: myPos.X + 1, Y: myPos.Y + 1, Z: myPos.Z}
-	return data.MoveFloorUp{TimeOffset: offset, Tiles: tiles}, nil
+	return data.MoveFloorUp{TimeOffset: offset, PlayerPos: s.playerPos, Tiles: tiles}, nil
 }
 
 func parseMoveFloorDown(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
@@ -923,7 +923,7 @@ func parseMoveFloorDown(m *message, s *parseState, ignore bool, offset time.Dura
 	}
 
 	s.playerPos = data.Location{X: myPos.X - 1, Y: myPos.Y - 1, Z: myPos.Z}
-	return data.MoveFloorDown{TimeOffset: offset, Tiles: tiles}, nil
+	return data.MoveFloorDown{TimeOffset: offset, PlayerPos: s.playerPos, Tiles: tiles}, nil
 }
 
 func parsePromptChooseOutfit(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {

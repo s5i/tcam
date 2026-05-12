@@ -43,24 +43,28 @@ type Map struct {
 // MoveNorth (0x65).
 type MoveNorth struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Tiles      []Tile
 }
 
 // MoveEast (0x66).
 type MoveEast struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Tiles      []Tile
 }
 
 // MoveSouth (0x67).
 type MoveSouth struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Tiles      []Tile
 }
 
 // MoveWest (0x68).
 type MoveWest struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Tiles      []Tile
 }
 
@@ -398,12 +402,14 @@ type MoveCancel struct {
 // MoveFloorUp (0xBE).
 type MoveFloorUp struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Tiles      []Tile
 }
 
 // MoveFloorDown (0xBF).
 type MoveFloorDown struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Tiles      []Tile
 }
 
