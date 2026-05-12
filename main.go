@@ -84,6 +84,24 @@ func main() {
 		},
 	}
 
+	creatureCmd := &cobra.Command{
+		Use:  "creature --camdir=... [--out=f] name",
+		Args: cobra.ExactArgs(1),
+		RunE: func(cmd *cobra.Command, args []string) error {
+			ctx := cmd.Context()
+
+			name := args[0]
+
+			out, outClose, err := output()
+			if err != nil {
+				return err
+			}
+			defer outClose()
+
+			return Creature(ctx, camDir, out, name)
+		},
+	}
+
 	statsCmd := &cobra.Command{
 		Use:  "parse-stats --camdir=... [--out=f] [--nofilter]",
 		Args: cobra.ExactArgs(0),
@@ -100,6 +118,7 @@ func main() {
 	locationCmd.PersistentFlags().IntVar(&locationRadius, "radius", 7, "Max difference to be considered 'in location' for X and Y parameters.")
 	rootCmd.AddCommand(dialoguesCmd)
 	rootCmd.AddCommand(locationCmd)
+	rootCmd.AddCommand(creatureCmd)
 	rootCmd.AddCommand(statsCmd)
 
 	if rootCmd.Execute() != nil {
