@@ -50,6 +50,11 @@ func Creature(ctx context.Context, dirPath string, w io.Writer, name string) err
 			}
 			defer f.Close()
 
+			player, err := cam.PlayerName(f)
+			if err != nil {
+				return err
+			}
+
 			who := map[uint32]string{}
 			where := map[uint32]data.Location{}
 			when := map[uint32]time.Duration{}
@@ -126,7 +131,7 @@ func Creature(ctx context.Context, dirPath string, w io.Writer, name string) err
 			}
 
 			b := bytes.NewBuffer(nil)
-			fmt.Fprintf(b, "## %s\n\n", filepath.Base(path))
+			fmt.Fprintf(b, "## %s (%s)\n\n", filepath.Base(path), player)
 
 			order := slices.SortedFunc(maps.Keys(when), func(a, b uint32) int {
 				return int(when[a] - when[b])

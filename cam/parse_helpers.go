@@ -9,8 +9,6 @@ import (
 	"github.com/s5i/tcam/data"
 )
 
-const emptyString = ""
-
 type message struct {
 	r   io.ReadSeeker
 	len int64

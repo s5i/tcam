@@ -55,3 +55,58 @@ func Parse(r io.ReadSeeker, opts *ParseOpts) iter.Seq2[data.Operation, error] {
 		}
 	}
 }
+
+// PlayerName returns the CAM player name.
+func PlayerName(r io.ReadSeeker) (string, error) {
+	cursor, err := r.Seek(0, io.SeekCurrent)
+	if err != nil {
+		return "", err
+	}
+
+	if _, err := r.Seek(0, io.SeekStart); err != nil {
+		return "", err
+	}
+
+	name, ok := func() (string, bool) {
+		var id uint32
+		for op, err := range Parse(r, &ParseOpts{
+			TFilter: map[data.OpType]bool{
+				data.TMap:              true,
+				data.TLoginPlayerState: true,
+			},
+		}) {
+			if err != nil {
+				return "", false
+			}
+
+			switch msg := op.(type) {
+			case data.LoginPlayerState:
+				id = msg.PlayerID
+			case data.Map:
+				if id == 0 {
+					continue
+				}
+
+				for _, tile := range msg.Tiles {
+					for _, t := range tile.Things {
+						if !t.HasCreature || t.Creature.ID != id {
+							continue
+						}
+						return t.Creature.Name, true
+					}
+				}
+			}
+		}
+
+		return "", false
+	}()
+	if !ok {
+		return "", fmt.Errorf("name not found")
+	}
+
+	if _, err := r.Seek(cursor, io.SeekStart); err != nil {
+		return "", err
+	}
+
+	return name, nil
+}

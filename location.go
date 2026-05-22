@@ -56,6 +56,11 @@ func Location(ctx context.Context, dirPath string, w io.Writer, x, y, z, radius 
 			}
 			defer f.Close()
 
+			player, err := cam.PlayerName(f)
+			if err != nil {
+				return err
+			}
+
 			var seen []time.Duration
 			for op, err := range cam.Parse(f, &cam.ParseOpts{
 				TFilter: map[data.OpType]bool{
@@ -111,7 +116,7 @@ func Location(ctx context.Context, dirPath string, w io.Writer, x, y, z, radius 
 			}
 
 			b := bytes.NewBuffer(nil)
-			fmt.Fprintf(b, "## %s\n\n", filepath.Base(path))
+			fmt.Fprintf(b, "## %s (%s)\n\n", filepath.Base(path), player)
 
 			for _, ts := range seen {
 				fmt.Fprintf(b, "* %v\n", ts.Truncate(time.Second))

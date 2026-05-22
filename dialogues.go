@@ -49,6 +49,11 @@ func Dialogues(ctx context.Context, dirPath string, w io.Writer, target string, 
 			}
 			defer f.Close()
 
+			player, err := cam.PlayerName(f)
+			if err != nil {
+				return err
+			}
+
 			var messages []data.CreatureMessage
 			for op, err := range cam.Parse(f, &cam.ParseOpts{
 				TFilter: map[data.OpType]bool{
@@ -93,7 +98,7 @@ func Dialogues(ctx context.Context, dirPath string, w io.Writer, target string, 
 			}
 
 			b := bytes.NewBuffer(nil)
-			fmt.Fprintf(b, "## %s\n", filepath.Base(path))
+			fmt.Fprintf(b, "## %s (%s)\n", filepath.Base(path), player)
 
 			var hasPrev bool
 			var lastMsg time.Duration
