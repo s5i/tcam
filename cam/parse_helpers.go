@@ -7,6 +7,7 @@ import (
 	"io"
 
 	"github.com/s5i/tcam/data"
+	"golang.org/x/text/encoding/charmap"
 )
 
 type message struct {
@@ -54,7 +55,12 @@ func (m *message) getString(ret *string, ignore bool) error {
 	if _, err := io.ReadFull(m.r, buf); err != nil {
 		return err
 	}
-	*ret = string(buf)
+	utf, err := decoder.Bytes(buf)
+	if err != nil {
+		return err
+	}
+
+	*ret = string(utf)
 	return nil
 }
 
@@ -331,3 +337,5 @@ func getItem(m *message, itemID uint16) (data.Item, error) {
 	}
 	return item, nil
 }
+
+var decoder = charmap.ISO8859_1.NewDecoder()
