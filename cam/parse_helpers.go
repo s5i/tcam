@@ -338,4 +338,4 @@ func getItem(m *message, itemID uint16) (data.Item, error) {
 	return item, nil
 }
 
-var decoder = charmap.ISO8859_1.NewDecoder()
+var decoder = charmap.Windows1252.NewDecoder()

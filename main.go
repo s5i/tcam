@@ -55,22 +55,6 @@ func main() {
 		},
 	}
 
-	dialogueTreeCmd := &cobra.Command{
-		Use:  "dialogue-tree --camdir=... [--out=f]",
-		Args: cobra.ExactArgs(0),
-		RunE: func(cmd *cobra.Command, args []string) error {
-			ctx := cmd.Context()
-
-			out, outClose, err := output()
-			if err != nil {
-				return err
-			}
-			defer outClose()
-
-			return DialogueTree(ctx, camDir, out)
-		},
-	}
-
 	locationCmd := &cobra.Command{
 		Use:  "location --camdir=... [--out=f] [--radius=n] x y z",
 		Args: cobra.ExactArgs(3),
@@ -133,7 +117,6 @@ func main() {
 	statsCmd.PersistentFlags().BoolVar(&statsCmdNoFilter, "nofilter", false, "When true, skip the optype filter optimization.")
 	locationCmd.PersistentFlags().IntVar(&locationRadius, "radius", 7, "Max difference to be considered 'in location' for X and Y parameters.")
 	rootCmd.AddCommand(dialoguesCmd)
-	rootCmd.AddCommand(dialogueTreeCmd)
 	rootCmd.AddCommand(locationCmd)
 	rootCmd.AddCommand(creatureCmd)
 	rootCmd.AddCommand(statsCmd)
