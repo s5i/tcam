@@ -63,6 +63,7 @@ const (
 	TVIPState              OpType = 0xD2
 	TVIPLogin              OpType = 0xD3
 	TVIPLogout             OpType = 0xD4
+	TCamMetadata           OpType = 0xFF
 )
 
 var OpName = map[OpType]string{
@@ -125,4 +126,5 @@ var OpName = map[OpType]string{
 	TVIPState:              "VIPState",
 	TVIPLogin:              "VIPLogin",
 	TVIPLogout:             "VIPLogout",
+	TCamMetadata:           "CamMetadata",
 }

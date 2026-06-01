@@ -11,6 +11,7 @@ type Operation interface {
 // LoginPlayerState (0x0A).
 type LoginPlayerState struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	PlayerID    uint32
 	AccessLevel byte
 }
@@ -18,12 +19,14 @@ type LoginPlayerState struct {
 // LoginError (0x14).
 type LoginError struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Message    string
 }
 
 // LoginWaitList (0x16).
 type LoginWaitList struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Message    string
 	Time       byte
 }
@@ -31,6 +34,7 @@ type LoginWaitList struct {
 // Ping (0x1E).
 type Ping struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 }
 
 // Map (0x64).
@@ -71,6 +75,7 @@ type MoveWest struct {
 // TileUpdate (0x69).
 type TileUpdate struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Location   Location
 	Tile       Tile
 	HasTile    bool // If false, tile was cleared.
@@ -79,6 +84,7 @@ type TileUpdate struct {
 // TileItemAdd (0x6A).
 type TileItemAdd struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Location   Location
 	Thing      Thing
 }
@@ -86,6 +92,7 @@ type TileItemAdd struct {
 // TileItemUpdate (0x6B).
 type TileItemUpdate struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Location   Location
 	StackIndex byte
 	Thing      Thing
@@ -94,6 +101,7 @@ type TileItemUpdate struct {
 // TileItemRemove (0x6C).
 type TileItemRemove struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Location   Location
 	StackIndex byte
 }
@@ -101,6 +109,7 @@ type TileItemRemove struct {
 // CreatureMove (0x6D).
 type CreatureMove struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	OldLocation Location
 	OldStack    byte
 	NewLocation Location
@@ -109,6 +118,7 @@ type CreatureMove struct {
 // ContainerOpen (0x6E).
 type ContainerOpen struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	ContainerID byte
 	ItemID      uint16
 	Name        string
@@ -120,12 +130,14 @@ type ContainerOpen struct {
 // ContainerClose (0x6F).
 type ContainerClose struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	ContainerID byte
 }
 
 // ContainerItemAdd (0x70).
 type ContainerItemAdd struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	ContainerID byte
 	Thing       Thing
 }
@@ -133,6 +145,7 @@ type ContainerItemAdd struct {
 // ContainerItemUpdate (0x71).
 type ContainerItemUpdate struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	ContainerID byte
 	Slot        byte
 	Thing       Thing
@@ -141,6 +154,7 @@ type ContainerItemUpdate struct {
 // ContainerItemRemove (0x72).
 type ContainerItemRemove struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	ContainerID byte
 	Slot        byte
 }
@@ -148,6 +162,7 @@ type ContainerItemRemove struct {
 // InventoryItemSet (0x78).
 type InventoryItemSet struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Slot       byte
 	Item       Item
 }
@@ -155,12 +170,14 @@ type InventoryItemSet struct {
 // InventoryItemClear (0x79).
 type InventoryItemClear struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Slot       byte
 }
 
 // TradeOwn (0x7D).
 type TradeOwn struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Name       string
 	Items      []Thing
 }
@@ -168,6 +185,7 @@ type TradeOwn struct {
 // TradeCounter (0x7E).
 type TradeCounter struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Name       string
 	Items      []Thing
 }
@@ -175,11 +193,13 @@ type TradeCounter struct {
 // TradeClose (0x7F).
 type TradeClose struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 }
 
 // EffectLight (0x82).
 type EffectLight struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Level      byte
 	Color      byte
 }
@@ -187,6 +207,7 @@ type EffectLight struct {
 // EffectGraphical (0x83).
 type EffectGraphical struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Location   Location
 	Effect     byte
 }
@@ -194,6 +215,7 @@ type EffectGraphical struct {
 // EffectText (0x84).
 type EffectText struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Location   Location
 	Color      byte
 	Text       string
@@ -202,6 +224,7 @@ type EffectText struct {
 // EffectMissile (0x85).
 type EffectMissile struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	From       Location
 	To         Location
 	Effect     byte
@@ -210,6 +233,7 @@ type EffectMissile struct {
 // CreatureSquare (0x86).
 type CreatureSquare struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	CreatureID uint32
 	Color      byte
 }
@@ -217,6 +241,7 @@ type CreatureSquare struct {
 // CreatureHealth (0x8C).
 type CreatureHealth struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	CreatureID uint32
 	Health     byte
 }
@@ -224,6 +249,7 @@ type CreatureHealth struct {
 // CreatureLight (0x8D).
 type CreatureLight struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	CreatureID uint32
 	Level      byte
 	Color      byte
@@ -232,6 +258,7 @@ type CreatureLight struct {
 // CreatureOutfit (0x8E).
 type CreatureOutfit struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	CreatureID uint32
 	Outfit     Outfit
 }
@@ -239,6 +266,7 @@ type CreatureOutfit struct {
 // CreatureSpeed (0x8F).
 type CreatureSpeed struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	CreatureID uint32
 	Speed      uint16
 }
@@ -246,6 +274,7 @@ type CreatureSpeed struct {
 // CreatureSkull (0x90).
 type CreatureSkull struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	CreatureID uint32
 	Skull      byte
 }
@@ -253,6 +282,7 @@ type CreatureSkull struct {
 // CreatureParty (0x91).
 type CreatureParty struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	CreatureID uint32
 	Shield     byte
 }
@@ -260,6 +290,7 @@ type CreatureParty struct {
 // PromptTextUpdate (0x96).
 type PromptTextUpdate struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	WindowID   uint32
 	ItemID     uint16
 	MaxLen     uint16
@@ -270,6 +301,7 @@ type PromptTextUpdate struct {
 // PromptHouseList (0x97).
 type PromptHouseList struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Unknown    byte
 	ID         uint32
 	Text       string
@@ -278,6 +310,7 @@ type PromptHouseList struct {
 // PlayerStats (0xA0).
 type PlayerStats struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	HP          uint16
 	MaxHP       uint16
 	Capacity    uint16
@@ -300,23 +333,27 @@ type SkillValue struct {
 // PlayerSkills (0xA1).
 type PlayerSkills struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Skills     [7]SkillValue
 }
 
 // PlayerIcons (0xA2).
 type PlayerIcons struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Icons      byte
 }
 
 // TargetClear (0xA3).
 type TargetClear struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 }
 
 // CreatureMessage (0xAA).
 type CreatureMessage struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	StatementID uint32
 	Name        string
 	Type        byte
@@ -334,12 +371,14 @@ type ChannelEntry struct {
 // ChannelList (0xAB).
 type ChannelList struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Channels   []ChannelEntry
 }
 
 // ChannelOpen (0xAC).
 type ChannelOpen struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	ID         uint16
 	Name       string
 }
@@ -347,35 +386,41 @@ type ChannelOpen struct {
 // PrivateChannelOpen (0xAD).
 type PrivateChannelOpen struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Name       string
 }
 
 // RuleViolationsChannel (0xAE).
 type RuleViolationsChannel struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Size       uint16
 }
 
 // RuleViolationsRemove (0xAF).
 type RuleViolationsRemove struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Name       string
 }
 
 // RuleViolationCancel (0xB0).
 type RuleViolationCancel struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Name       string
 }
 
 // RuleViolationsLock (0xB1).
 type RuleViolationsLock struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 }
 
 // PrivateChannelCreate (0xB2).
 type PrivateChannelCreate struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	ID         uint16
 	Name       string
 }
@@ -383,12 +428,14 @@ type PrivateChannelCreate struct {
 // PrivateChannelClose (0xB3).
 type PrivateChannelClose struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	ChannelID  uint16
 }
 
 // Message (0xB4).
 type Message struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Type       byte
 	Text       string
 }
@@ -396,6 +443,7 @@ type Message struct {
 // MoveCancel (0xB5).
 type MoveCancel struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	Direction  Direction
 }
 
@@ -416,6 +464,7 @@ type MoveFloorDown struct {
 // PromptChooseOutfit (0xC8).
 type PromptChooseOutfit struct {
 	TimeOffset  time.Duration
+	PlayerPos   Location
 	Outfit      Outfit
 	OutfitStart uint16
 	OutfitEnd   uint16
@@ -424,6 +473,7 @@ type PromptChooseOutfit struct {
 // VIPState (0xD2).
 type VIPState struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	ID         uint32
 	Name       string
 	Online     byte
@@ -432,13 +482,21 @@ type VIPState struct {
 // VIPLogin (0xD3).
 type VIPLogin struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	ID         uint32
 }
 
 // VIPLogout (0xD4).
 type VIPLogout struct {
 	TimeOffset time.Duration
+	PlayerPos  Location
 	ID         uint32
+}
+
+// CamMetadata (0xFF).
+// Fake operation returned at the end of Parse.
+type CamMetadata struct {
+	Duration time.Duration
 }
 
 func (LoginPlayerState) isOperation()      {}
@@ -502,3 +560,4 @@ func (PromptChooseOutfit) isOperation()    {}
 func (VIPState) isOperation()              {}
 func (VIPLogin) isOperation()              {}
 func (VIPLogout) isOperation()             {}
+func (CamMetadata) isOperation()           {}

@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"iter"
+	"time"
 
 	"github.com/s5i/tcam/data"
 )
@@ -36,11 +37,14 @@ func Parse(r io.ReadSeeker, opts *ParseOpts) iter.Seq2[data.Operation, error] {
 			stats: opts.Stats,
 		}
 
+		var finalTimeOffset time.Duration
 		for packet, err := range Read(r) {
 			if err != nil {
 				yieldErr(err)
 				return
 			}
+
+			finalTimeOffset = packet.TimeOffset
 
 			ops, err := parsePacket(state, packet.Data, packet.TimeOffset, opts)
 			if err != nil {
@@ -51,6 +55,14 @@ func Parse(r io.ReadSeeker, opts *ParseOpts) iter.Seq2[data.Operation, error] {
 				if !yieldVal(op) {
 					return
 				}
+			}
+		}
+
+		if opts.TFilter == nil || opts.TFilter[data.TCamMetadata] {
+			if !yieldVal(data.CamMetadata{
+				Duration: finalTimeOffset,
+			}) {
+				return
 			}
 		}
 	}

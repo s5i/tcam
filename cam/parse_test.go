@@ -20,7 +20,16 @@ func TestParse(t *testing.T) {
 		if err != nil {
 			t.Fatalf("Parse() error: %v", err)
 		}
-		fmt.Fprintf(w, "%v - %s\n", time.Duration(reflect.ValueOf(op).FieldByName("TimeOffset").Int()).Truncate(time.Second), reflect.TypeOf(op).Name())
+		switch op := op.(type) {
+		case data.CamMetadata:
+		default:
+			t := time.Duration(reflect.ValueOf(op).FieldByName("TimeOffset").Int()).Truncate(time.Second)
+			x := reflect.ValueOf(op).FieldByName("PlayerPos").FieldByName("X").Int()
+			y := reflect.ValueOf(op).FieldByName("PlayerPos").FieldByName("Y").Int()
+			z := reflect.ValueOf(op).FieldByName("PlayerPos").FieldByName("Z").Int()
+			n := reflect.TypeOf(op).Name()
+			fmt.Fprintf(w, "%v - (%d,%d,%d) - %s\n", t, x, y, z, n)
+		}
 	}
 
 	out := w.Bytes()
