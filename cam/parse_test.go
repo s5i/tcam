@@ -46,6 +46,32 @@ func TestParse(t *testing.T) {
 	}
 }
 
+func TestParse_CamMetadata(t *testing.T) {
+	r := bytes.NewReader(input)
+
+	var meta data.CamMetadata
+	for op, err := range Parse(r, &ParseOpts{
+		TFilter: map[data.OpType]bool{
+			data.TCamMetadata: true,
+		},
+	}) {
+		if err != nil {
+			t.Fatalf("Parse() error: %v", err)
+		}
+		if m, ok := op.(data.CamMetadata); ok {
+			meta = m
+		}
+	}
+
+	if got, want := meta.Duration, 1635234*time.Millisecond; got != want {
+		t.Fatalf("CamMetadata.Duration = %v, want %v", got, want)
+	}
+
+	if got, want := meta.PlayerName, "Shy Teddy"; got != want {
+		t.Fatalf("CamMetadata.PlayerName = %q, want %q", got, want)
+	}
+}
+
 func BenchmarkParse(b *testing.B) {
 	for b.Loop() {
 		r := bytes.NewReader(input)

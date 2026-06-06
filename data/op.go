@@ -496,7 +496,8 @@ type VIPLogout struct {
 // CamMetadata (0xFF).
 // Fake operation returned at the end of Parse.
 type CamMetadata struct {
-	Duration time.Duration
+	Duration   time.Duration
+	PlayerName string
 }
 
 func (LoginPlayerState) isOperation()      {}

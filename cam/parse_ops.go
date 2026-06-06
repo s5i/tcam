@@ -108,6 +108,10 @@ var parseFunc = map[data.OpType]func(*message, *parseState, bool, time.Duration)
 }
 
 func parseLoginPlayerState(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
+	if s.playerName == "" {
+		ignore = false
+	}
+
 	op := data.LoginPlayerState{TimeOffset: offset, PlayerPos: s.playerPos}
 	var err error
 	op.PlayerID, err = m.getU32()
@@ -134,6 +138,7 @@ func parseLoginPlayerState(m *message, s *parseState, ignore bool, offset time.D
 			}
 		}
 	}
+	s.playerID = op.PlayerID
 	return op, nil
 }
 
@@ -162,6 +167,10 @@ func parsePing(m *message, s *parseState, ignore bool, offset time.Duration) (da
 }
 
 func parseMap(m *message, s *parseState, ignore bool, offset time.Duration) (data.Operation, error) {
+	if s.playerName == "" {
+		ignore = false
+	}
+
 	loc, err := m.getLocation()
 	if err != nil {
 		return nil, err
@@ -171,6 +180,7 @@ func parseMap(m *message, s *parseState, ignore bool, offset time.Duration) (dat
 	if err != nil {
 		return nil, err
 	}
+	s.resolvePlayerName(tiles)
 	return data.Map{TimeOffset: offset, PlayerPos: loc, Tiles: tiles}, nil
 }
 

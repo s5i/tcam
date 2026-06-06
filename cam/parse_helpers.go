@@ -131,8 +131,25 @@ func (m *message) remaining() int {
 }
 
 type parseState struct {
-	stats     *ParseStats
-	playerPos data.Location
+	stats      *ParseStats
+	playerPos  data.Location
+	playerID   uint32
+	playerName string
+}
+
+func (s *parseState) resolvePlayerName(tiles []data.Tile) {
+	if s.playerName != "" || s.playerID == 0 {
+		return
+	}
+
+	for _, tile := range tiles {
+		for _, t := range tile.Things {
+			if t.HasCreature && t.Creature.ID == s.playerID {
+				s.playerName = t.Creature.Name
+				return
+			}
+		}
+	}
 }
 
 func (m *message) getMapDescription(ignore bool, x, y, z, width, height int) ([]data.Tile, error) {
