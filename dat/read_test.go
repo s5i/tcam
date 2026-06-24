@@ -91,8 +91,8 @@ func TestRead_TibiaRelic(t *testing.T) {
 	if file.Signature != 0x439D5A33 {
 		t.Fatalf("Signature = 0x%X, want 0x439D5A33", file.Signature)
 	}
-	if file.ItemCount != 5160 {
-		t.Fatalf("ItemCount = %d, want 5160", file.ItemCount)
+	if file.ItemCount != 5161 {
+		t.Fatalf("ItemCount = %d, want 5161", file.ItemCount)
 	}
 	if file.OutfitCount != 254 {
 		t.Fatalf("OutfitCount = %d, want 254", file.OutfitCount)
