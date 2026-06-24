@@ -4,13 +4,21 @@ import (
 	"encoding/binary"
 	"errors"
 	"io"
+
+	"github.com/s5i/tcam/dat"
 )
 
-type MergeOpts struct{}
+type MergeOpts struct {
+	// Dat holds item metadata from a Tibia client .dat file.
+	Dat *dat.File
+}
 
 // Merge merges multiple CAM files into a single file.
 // Still needs work -- we're seeing crashes on the end of the second cam.
 func Merge(w io.WriteSeeker, opts *MergeOpts, r ...io.ReadSeeker) error {
+	if opts == nil || opts.Dat == nil {
+		return errMissingDat
+	}
 	if len(r) == 0 {
 		return errors.New("no CAM files provided")
 	}

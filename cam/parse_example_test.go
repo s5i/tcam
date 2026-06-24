@@ -16,6 +16,7 @@ func ExampleParse_dialogues() {
 
 	var messages []data.CreatureMessage
 	for op, err := range Parse(r, &ParseOpts{
+		DATFile: testDat,
 		TFilter: map[data.OpType]bool{
 			data.TCreatureMessage: true,
 		},
@@ -81,6 +82,7 @@ func ExampleParse_location() {
 
 	var seen []time.Duration
 	for op, err := range Parse(r, &ParseOpts{
+		DATFile: testDat,
 		TFilter: map[data.OpType]bool{
 			data.TMoveNorth:     true,
 			data.TMoveSouth:     true,
@@ -143,6 +145,7 @@ func ExampleParse_creature() {
 	name := "Muzir"
 
 	for op, err := range Parse(r, &ParseOpts{
+		DATFile: testDat,
 		TFilter: map[data.OpType]bool{
 			data.TMap:           true,
 			data.TMoveNorth:     true,

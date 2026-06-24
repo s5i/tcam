@@ -7,11 +7,17 @@ import (
 	"iter"
 	"time"
 
+	"github.com/s5i/tcam/dat"
 	"github.com/s5i/tcam/data"
 )
 
+var errMissingDat = errors.New("opts.Dat is required")
+
 // ParseOpts controls the behavior of Parse.
 type ParseOpts struct {
+	// DATFile holds item metadata from a Tibia client .dat file.
+	DATFile *dat.File
+
 	// If set, only yield the specified operation types.
 	TFilter map[data.OpType]bool
 
@@ -22,8 +28,9 @@ type ParseOpts struct {
 // Parse returns an iterator over the provided io.ReadSeeker that returns subsequent data.Operations.
 func Parse(r io.ReadSeeker, opts *ParseOpts) iter.Seq2[data.Operation, error] {
 	return func(yield func(data.Operation, error) bool) {
-		if opts == nil {
-			opts = &ParseOpts{}
+		if opts == nil || opts.DATFile == nil {
+			yield(nil, errMissingDat)
+			return
 		}
 
 		yieldVal := func(p data.Operation) bool { return yield(p, nil) }

@@ -8,7 +8,7 @@ import (
 )
 
 func parsePacket(state *parseState, buf []byte, timeOffset time.Duration, opts *ParseOpts) ([]data.Operation, error) {
-	m := newMessage(buf)
+	m := newMessage(buf, opts.DATFile)
 	var ops []data.Operation
 
 	for m.remaining() > 0 {

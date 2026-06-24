@@ -16,7 +16,7 @@ func TestParse(t *testing.T) {
 	r := bytes.NewReader(input)
 	w := bytes.NewBuffer(nil)
 
-	for op, err := range Parse(r, nil) {
+	for op, err := range Parse(r, testParseOpts()) {
 		if err != nil {
 			t.Fatalf("Parse() error: %v", err)
 		}
@@ -51,6 +51,7 @@ func TestParse_CamMetadata(t *testing.T) {
 
 	var meta data.CamMetadata
 	for op, err := range Parse(r, &ParseOpts{
+		DATFile: testDat,
 		TFilter: map[data.OpType]bool{
 			data.TCamMetadata: true,
 		},
@@ -72,10 +73,21 @@ func TestParse_CamMetadata(t *testing.T) {
 	}
 }
 
+func TestParse_MissingDat(t *testing.T) {
+	r := bytes.NewReader(input)
+
+	for _, err := range Parse(r, nil) {
+		if err == nil {
+			t.Fatal("Parse() error = nil, want error")
+		}
+		return
+	}
+}
+
 func BenchmarkParse(b *testing.B) {
 	for b.Loop() {
 		r := bytes.NewReader(input)
-		for _, err := range Parse(r, nil) {
+		for _, err := range Parse(r, testParseOpts()) {
 			if err != nil {
 				b.Fatalf("Parse() error: %v", err)
 			}
@@ -88,6 +100,7 @@ func BenchmarkParseIgnore(b *testing.B) {
 		r := bytes.NewReader(input)
 		for _, err := range Parse(r, &ParseOpts{
 			TFilter: map[data.OpType]bool{},
+			DATFile: testDat,
 		}) {
 			if err != nil {
 				b.Fatalf("Parse() error: %v", err)

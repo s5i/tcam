@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 
+	"github.com/s5i/tcam/dat"
 	"github.com/s5i/tcam/data"
 	"golang.org/x/text/encoding/charmap"
 )
@@ -13,12 +14,14 @@ import (
 type message struct {
 	r   io.ReadSeeker
 	len int64
+	dat *dat.File
 }
 
-func newMessage(buf []byte) *message {
+func newMessage(buf []byte, dat *dat.File) *message {
 	return &message{
 		r:   bytes.NewReader(buf),
 		len: int64(len(buf)),
+		dat: dat,
 	}
 }
 
@@ -341,12 +344,12 @@ func getItem(m *message, itemID uint16) (data.Item, error) {
 	}
 
 	item := data.Item{ID: itemID}
-	if data.IsStackable[int(itemID)] {
+	if m.dat.IsStackable(int(itemID)) {
 		item.Count, err = m.getByte()
 		if err != nil {
 			return data.Item{}, err
 		}
-	} else if data.IsFluid[int(itemID)] || data.IsFluidContainer[int(itemID)] {
+	} else if m.dat.IsFluid(int(itemID)) || m.dat.IsFluidContainer(int(itemID)) {
 		item.SubType, err = m.getByte()
 		if err != nil {
 			return data.Item{}, err
