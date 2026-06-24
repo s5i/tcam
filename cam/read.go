@@ -12,7 +12,7 @@ import (
 
 // Read returns an iterator over the provided io.ReadSeeker that returns subsequent data.RawPackets.
 func Read(r io.ReadSeeker) iter.Seq2[data.RawPacket, error] {
-	return func(yield func(data.RawPacket, error) bool) {
+		return func(yield func(data.RawPacket, error) bool) {
 		yieldVal := func(p data.RawPacket) bool { return yield(p, nil) }
 		yieldErr := func(err error) {
 			if !errors.Is(err, io.EOF) {
@@ -20,8 +20,13 @@ func Read(r io.ReadSeeker) iter.Seq2[data.RawPacket, error] {
 			}
 		}
 
-		// Skip header (4 bytes) + checksum (8 bytes).
-		if _, err := r.Seek(4+8, io.SeekCurrent); err != nil {
+		var headerSize uint32
+		if err := binary.Read(r, binary.LittleEndian, &headerSize); err != nil {
+			yieldErr(err)
+			return
+		}
+		dataOffset := int64(headerSize) + 4
+		if _, err := r.Seek(dataOffset, io.SeekStart); err != nil {
 			yieldErr(err)
 			return
 		}

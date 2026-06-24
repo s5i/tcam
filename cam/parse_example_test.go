@@ -10,13 +10,13 @@ import (
 )
 
 func ExampleParse_dialogues() {
-	r := bytes.NewReader(input)
+	r := bytes.NewReader(tibiantisCam)
 	target := "Muzir"
 	ctxSize := time.Minute
 
 	var messages []data.CreatureMessage
 	for op, err := range Parse(r, &ParseOpts{
-		DATFile: testDat,
+		DATFile: tibiantisDAT,
 		TFilter: map[data.OpType]bool{
 			data.TCreatureMessage: true,
 		},
@@ -68,7 +68,7 @@ func ExampleParse_dialogues() {
 }
 
 func ExampleParse_location() {
-	r := bytes.NewReader(input)
+	r := bytes.NewReader(tibiantisCam)
 	x, y, z := 33175, 32524, 7
 	radius := 7
 	ctxSize := time.Minute
@@ -82,7 +82,7 @@ func ExampleParse_location() {
 
 	var seen []time.Duration
 	for op, err := range Parse(r, &ParseOpts{
-		DATFile: testDat,
+		DATFile: tibiantisDAT,
 		TFilter: map[data.OpType]bool{
 			data.TMoveNorth:     true,
 			data.TMoveSouth:     true,
@@ -141,11 +141,11 @@ func ExampleParse_location() {
 }
 
 func ExampleParse_creature() {
-	r := bytes.NewReader(input)
+	r := bytes.NewReader(tibiantisCam)
 	name := "Muzir"
 
 	for op, err := range Parse(r, &ParseOpts{
-		DATFile: testDat,
+		DATFile: tibiantisDAT,
 		TFilter: map[data.OpType]bool{
 			data.TMap:           true,
 			data.TMoveNorth:     true,

@@ -10,48 +10,90 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/s5i/tcam/data"
+	"github.com/s5i/tcam/dat"
 )
 
-func TestParse(t *testing.T) {
-	r := bytes.NewReader(input)
-	w := bytes.NewBuffer(nil)
+type camFixture struct {
+	name        string
+	cam         []byte
+	dat         *dat.File
+	readGolden  []byte
+	parseGolden []byte
+}
 
-	for op, err := range Parse(r, testParseOpts()) {
-		if err != nil {
-			t.Fatalf("Parse() error: %v", err)
-		}
-		switch op := op.(type) {
-		case data.CamMetadata:
-		default:
-			t := time.Duration(reflect.ValueOf(op).FieldByName("TimeOffset").Int()).Truncate(time.Second)
-			x := reflect.ValueOf(op).FieldByName("PlayerPos").FieldByName("X").Int()
-			y := reflect.ValueOf(op).FieldByName("PlayerPos").FieldByName("Y").Int()
-			z := reflect.ValueOf(op).FieldByName("PlayerPos").FieldByName("Z").Int()
-			n := reflect.TypeOf(op).Name()
-			fmt.Fprintf(w, "%v - (%d,%d,%d) - %s\n", t, x, y, z, n)
-		}
-	}
+func TestRead(t *testing.T) {
+	for _, fx := range camFixtures() {
+		t.Run(fx.name, func(t *testing.T) {
+			r := bytes.NewReader(fx.cam)
+			w := bytes.NewBuffer(nil)
 
-	out := w.Bytes()
-	if diff := cmp.Diff(string(parseGolden), string(out)); diff != "" {
-		if *updateGolden {
-			goldenF := "testdata/1.parse.golden.txt"
-			if err := os.WriteFile(goldenF, out, 0644); err != nil {
-				t.Fatalf("os.WriteFile(%q) error when updating golden: %v", goldenF, err)
+			for packet, err := range Read(r) {
+				if err != nil {
+					t.Fatalf("Read() error: %v", err)
+				}
+				fmt.Fprintf(w, "o:%d t:%d l:%d\n", packet.FileOffset, packet.TimeOffset/time.Second, len(packet.Data))
 			}
-			t.Logf("Updated %q.", goldenF)
-			return
-		}
-		t.Errorf("Output diff; -want +got:\n%v", diff)
+
+			out := w.Bytes()
+			if diff := cmp.Diff(string(fx.readGolden), string(out)); diff != "" {
+				if *updateGolden {
+					goldenF := fmt.Sprintf("testdata/%s.read.golden.txt", fx.name)
+					if err := os.WriteFile(goldenF, out, 0644); err != nil {
+						t.Fatalf("os.WriteFile(%q) error when updating golden: %v", goldenF, err)
+					}
+					t.Logf("Updated %q.", goldenF)
+					return
+				}
+				t.Errorf("Output diff; -want +got:\n%v", diff)
+			}
+		})
+	}
+}
+
+func TestParse(t *testing.T) {
+	for _, fx := range camFixtures() {
+		t.Run(fx.name, func(t *testing.T) {
+			r := bytes.NewReader(fx.cam)
+			w := bytes.NewBuffer(nil)
+
+			for op, err := range Parse(r, &ParseOpts{DATFile: fx.dat}) {
+				if err != nil {
+					t.Fatalf("Parse() error: %v", err)
+				}
+				switch op := op.(type) {
+				case data.CamMetadata:
+				default:
+					t := time.Duration(reflect.ValueOf(op).FieldByName("TimeOffset").Int()).Truncate(time.Second)
+					x := reflect.ValueOf(op).FieldByName("PlayerPos").FieldByName("X").Int()
+					y := reflect.ValueOf(op).FieldByName("PlayerPos").FieldByName("Y").Int()
+					z := reflect.ValueOf(op).FieldByName("PlayerPos").FieldByName("Z").Int()
+					n := reflect.TypeOf(op).Name()
+					fmt.Fprintf(w, "%v - (%d,%d,%d) - %s\n", t, x, y, z, n)
+				}
+			}
+
+			out := w.Bytes()
+			if diff := cmp.Diff(string(fx.parseGolden), string(out)); diff != "" {
+				if *updateGolden {
+					goldenF := fmt.Sprintf("testdata/%s.parse.golden.txt", fx.name)
+					if err := os.WriteFile(goldenF, out, 0644); err != nil {
+						t.Fatalf("os.WriteFile(%q) error when updating golden: %v", goldenF, err)
+					}
+					t.Logf("Updated %q.", goldenF)
+					return
+				}
+				t.Errorf("Output diff; -want +got:\n%v", diff)
+			}
+		})
 	}
 }
 
 func TestParse_CamMetadata(t *testing.T) {
-	r := bytes.NewReader(input)
+	r := bytes.NewReader(tibiantisCam)
 
 	var meta data.CamMetadata
 	for op, err := range Parse(r, &ParseOpts{
-		DATFile: testDat,
+		DATFile: tibiantisDAT,
 		TFilter: map[data.OpType]bool{
 			data.TCamMetadata: true,
 		},
@@ -74,7 +116,7 @@ func TestParse_CamMetadata(t *testing.T) {
 }
 
 func TestParse_MissingDat(t *testing.T) {
-	r := bytes.NewReader(input)
+	r := bytes.NewReader(tibiantisCam)
 
 	for _, err := range Parse(r, nil) {
 		if err == nil {
@@ -86,7 +128,7 @@ func TestParse_MissingDat(t *testing.T) {
 
 func BenchmarkParse(b *testing.B) {
 	for b.Loop() {
-		r := bytes.NewReader(input)
+		r := bytes.NewReader(tibiantisCam)
 		for _, err := range Parse(r, testParseOpts()) {
 			if err != nil {
 				b.Fatalf("Parse() error: %v", err)
@@ -97,13 +139,24 @@ func BenchmarkParse(b *testing.B) {
 
 func BenchmarkParseIgnore(b *testing.B) {
 	for b.Loop() {
-		r := bytes.NewReader(input)
+		r := bytes.NewReader(tibiantisCam)
 		for _, err := range Parse(r, &ParseOpts{
 			TFilter: map[data.OpType]bool{},
-			DATFile: testDat,
+			DATFile: tibiantisDAT,
 		}) {
 			if err != nil {
 				b.Fatalf("Parse() error: %v", err)
+			}
+		}
+	}
+}
+
+func BenchmarkRead(b *testing.B) {
+	for b.Loop() {
+		r := bytes.NewReader(tibiantisCam)
+		for _, err := range Read(r) {
+			if err != nil {
+				b.Fatalf("Read() error: %v", err)
 			}
 		}
 	}

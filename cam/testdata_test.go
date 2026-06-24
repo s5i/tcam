@@ -12,32 +12,64 @@ import (
 var (
 	updateGolden = flag.Bool("cam_update_golden", false, "Whether to update the golden files.")
 
-	//go:embed testdata/1.cam
-	input []byte
-	//go:embed testdata/1.read.golden.txt
-	golden []byte
+	//go:embed testdata/tibiantis.cam
+	tibiantisCam []byte
+	//go:embed testdata/tibiantis.read.golden.txt
+	tibiantisReadGolden []byte
+	//go:embed testdata/tibiantis.parse.golden.txt
+	tibiantisParseGolden []byte
 
-	//go:embed testdata/1.parse.golden.txt
-	parseGolden []byte
+	//go:embed testdata/relic.cam
+	relicCam []byte
+	//go:embed testdata/relic.read.golden.txt
+	relicReadGolden []byte
+	//go:embed testdata/relic.parse.golden.txt
+	relicParseGolden []byte
 
 	//go:embed testdata/Tibiantis.dat
 	tibiantisDat []byte
+	//go:embed testdata/TibiaRelic.dat
+	tibiaRelicDat []byte
 
-	testDat *dat.File
+	tibiantisDAT *dat.File
+	tibiaRelicDAT *dat.File
 )
 
 func init() {
 	var err error
-	testDat, err = dat.Read(bytes.NewReader(tibiantisDat))
+	tibiantisDAT, err = dat.Read(bytes.NewReader(tibiantisDat))
+	if err != nil {
+		panic(err)
+	}
+	tibiaRelicDAT, err = dat.Read(bytes.NewReader(tibiaRelicDat))
 	if err != nil {
 		panic(err)
 	}
 }
 
 func testParseOpts() *ParseOpts {
-	return &ParseOpts{DATFile: testDat}
+	return &ParseOpts{DATFile: tibiantisDAT}
 }
 
 func testMergeOpts() *MergeOpts {
-	return &MergeOpts{Dat: testDat}
+	return &MergeOpts{Dat: tibiantisDAT}
+}
+
+func camFixtures() []camFixture {
+	return []camFixture{
+		{
+			name:        "tibiantis",
+			cam:         tibiantisCam,
+			dat:         tibiantisDAT,
+			readGolden:  tibiantisReadGolden,
+			parseGolden: tibiantisParseGolden,
+		},
+		{
+			name:        "relic",
+			cam:         relicCam,
+			dat:         tibiaRelicDAT,
+			readGolden:  relicReadGolden,
+			parseGolden: relicParseGolden,
+		},
+	}
 }
