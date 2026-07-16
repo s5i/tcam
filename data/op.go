@@ -498,6 +498,8 @@ type VIPLogout struct {
 type CamMetadata struct {
 	Duration   time.Duration
 	PlayerName string
+	ServerName string
+	LastVisit  time.Time
 }
 
 func (LoginPlayerState) isOperation()      {}

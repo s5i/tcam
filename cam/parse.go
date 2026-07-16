@@ -69,6 +69,8 @@ func Parse(r io.ReadSeeker, opts *ParseOpts) iter.Seq2[data.Operation, error] {
 			if !yieldVal(data.CamMetadata{
 				Duration:   finalTimeOffset,
 				PlayerName: state.playerName,
+				ServerName: state.serverName,
+				LastVisit:  state.lastVisit,
 			}) {
 				return
 			}

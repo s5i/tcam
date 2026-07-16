@@ -865,8 +865,15 @@ func parseMessage(m *message, s *parseState, ignore bool, offset time.Duration) 
 		return nil, err
 	}
 	var text string
-	if err := m.getString(&text, ignore); err != nil {
+	if err := m.getString(&text, ignore && s.seenMessage); err != nil {
 		return nil, err
+	}
+	if !s.seenMessage {
+		s.seenMessage = true
+		if serverName, lastVisit, ok := parseLastVisitMessage(text); ok {
+			s.serverName = serverName
+			s.lastVisit = lastVisit
+		}
 	}
 	return data.Message{TimeOffset: offset, PlayerPos: s.playerPos, Type: t, Text: text}, nil
 }

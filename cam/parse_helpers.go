@@ -5,6 +5,8 @@ import (
 	"encoding/binary"
 	"fmt"
 	"io"
+	"strings"
+	"time"
 
 	"github.com/s5i/tcam/dat"
 	"github.com/s5i/tcam/data"
@@ -134,10 +136,32 @@ func (m *message) remaining() int {
 }
 
 type parseState struct {
-	stats      *ParseStats
-	playerPos  data.Location
-	playerID   uint32
-	playerName string
+	stats        *ParseStats
+	playerPos    data.Location
+	playerID     uint32
+	playerName   string
+	serverName   string
+	lastVisit    time.Time
+	seenMessage  bool
+}
+
+const lastVisitPrefix = "Your last visit in "
+
+func parseLastVisitMessage(text string) (serverName string, lastVisit time.Time, ok bool) {
+	if !strings.HasPrefix(text, lastVisitPrefix) {
+		return "", time.Time{}, false
+	}
+	rest := text[len(lastVisitPrefix):]
+	colon := strings.LastIndex(rest, ": ")
+	if colon < 0 {
+		return "", time.Time{}, false
+	}
+	ts := strings.TrimSuffix(rest[colon+2:], ".")
+	lastVisit, err := time.Parse("02. Jan 2006 15:04:05 MST", ts)
+	if err != nil {
+		return "", time.Time{}, false
+	}
+	return rest[:colon], lastVisit, true
 }
 
 func (s *parseState) resolvePlayerName(tiles []data.Tile) {

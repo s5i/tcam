@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/google/go-cmp/cmp"
-	"github.com/s5i/tcam/data"
 	"github.com/s5i/tcam/dat"
+	"github.com/s5i/tcam/data"
 )
 
 type camFixture struct {
@@ -89,29 +89,70 @@ func TestParse(t *testing.T) {
 }
 
 func TestParse_CamMetadata(t *testing.T) {
-	r := bytes.NewReader(tibiantisCam)
-
-	var meta data.CamMetadata
-	for op, err := range Parse(r, &ParseOpts{
-		DATFile: tibiantisDAT,
-		TFilter: map[data.OpType]bool{
-			data.TCamMetadata: true,
+	tests := []struct {
+		name       string
+		cam        []byte
+		dat        *dat.File
+		duration   time.Duration
+		playerName string
+		serverName string
+		lastVisit  time.Time
+	}{
+		{
+			name:       "tibiantis",
+			cam:        tibiantisCam,
+			dat:        tibiantisDAT,
+			duration:   1635234 * time.Millisecond,
+			playerName: "Shy Teddy",
+			serverName: "Tibiantis",
+			lastVisit:  time.Date(2025, 11, 28, 14, 37, 22, 0, time.FixedZone("CET", 3600)),
 		},
-	}) {
-		if err != nil {
-			t.Fatalf("Parse() error: %v", err)
-		}
-		if m, ok := op.(data.CamMetadata); ok {
-			meta = m
-		}
+		{
+			name:       "relic",
+			cam:        relicCam,
+			dat:        tibiaRelicDAT,
+			duration:   1658906 * time.Millisecond,
+			playerName: "Golden",
+			serverName: "Tibia Relic",
+			lastVisit:  time.Date(2026, 4, 17, 11, 58, 40, 0, time.UTC),
+		},
 	}
 
-	if got, want := meta.Duration, 1635234*time.Millisecond; got != want {
-		t.Fatalf("CamMetadata.Duration = %v, want %v", got, want)
-	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := bytes.NewReader(tt.cam)
 
-	if got, want := meta.PlayerName, "Shy Teddy"; got != want {
-		t.Fatalf("CamMetadata.PlayerName = %q, want %q", got, want)
+			var meta data.CamMetadata
+			for op, err := range Parse(r, &ParseOpts{
+				DATFile: tt.dat,
+				TFilter: map[data.OpType]bool{
+					data.TCamMetadata: true,
+				},
+			}) {
+				if err != nil {
+					t.Fatalf("Parse() error: %v", err)
+				}
+				if m, ok := op.(data.CamMetadata); ok {
+					meta = m
+				}
+			}
+
+			if got, want := meta.Duration, tt.duration; got != want {
+				t.Fatalf("CamMetadata.Duration = %v, want %v", got, want)
+			}
+
+			if got, want := meta.PlayerName, tt.playerName; got != want {
+				t.Fatalf("CamMetadata.PlayerName = %q, want %q", got, want)
+			}
+
+			if got, want := meta.ServerName, tt.serverName; got != want {
+				t.Fatalf("CamMetadata.ServerName = %q, want %q", got, want)
+			}
+
+			if got, want := meta.LastVisit, tt.lastVisit; !got.Equal(want) {
+				t.Fatalf("CamMetadata.LastVisit = %v, want %v", got, want)
+			}
+		})
 	}
 }
 
